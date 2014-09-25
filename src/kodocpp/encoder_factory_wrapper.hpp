@@ -24,12 +24,21 @@ namespace kodo
         //example new constructor
         //kodo::factory f = kodo::factory(kodo::full_rlnc,
         //kodo::binary8, 32, 1024, false);
-        void encoder_factory_semi_constructor(uint32_t max_symbols,
-                                              uint32_t max_symbol_size,
-                                              bool trace_enabled)
-        {
+        //void encoder_factory_semi_constructor(size_t algorithm,
+        //                                          size_t field_type,
+        //                                    uint32_t max_symbols,
+        //                                    uint32_t max_symbol_size,
+        //                                    bool trace_enabled)
+    //{
+    //      if(algorithm == kodo_binary)
+    //      {
+    //          if(!trace_enabled)
+    //          {
 
-        }
+    //          }
+    //      }
+
+    //  }
         virtual void* build()
         {
             auto encoder = m_factory.build();
