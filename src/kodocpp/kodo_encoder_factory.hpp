@@ -23,8 +23,13 @@ namespace kodo
                     if(field_type == kodo_binary)
                     {
                         m_encoder_factory =
-                            new kodo::<kodo::full_rlnc_encoder<
-                                fiffi:binary>>encoder_factory_wrapper();
+                            new kodo::kodo::full_rlnc_encoder<
+                                fifi:binary>encoder_factory_wrapper();
+                    }
+                    else if(field_type == kodo_binary8)
+                    {
+                        m_encoder_factory = new kodo::full_rlnc_encoder<
+                            fifi::binary8>encoder_factory_wrapper()
                     }
                 }
             }
