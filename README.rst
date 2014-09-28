@@ -15,7 +15,4 @@ The bindings provide access to basic functionality provided by Kodo,
 such as encoding and decoding of data. The examples folder provides sample 
 applications showing the usage of the high-level C++ API.
 
-.. image:: http://buildbot.steinwurf.dk/svgstatus?project=kodo-c-bindings
-    :target: http://buildbot.steinwurf.dk/stats?projects=kodo-c-bindings
-
 **THE C++ BINDINGS ARE STILL IN DEVELOPMENT**
