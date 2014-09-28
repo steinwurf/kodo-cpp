@@ -10,11 +10,11 @@
 namespace kodo
 {
     /// Base class for both encoder and decoder implementations.
-    class coder
+    class coder_interface
     {
     public:
 
-        virtual ~coder() {}
+        virtual ~coder_interface() {}
 
         virtual uint32_t block_size() const = 0;
         virtual uint32_t payload_size() const = 0;

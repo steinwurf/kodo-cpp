@@ -10,11 +10,11 @@
 namespace kodo
 {
     /// Base class for an encoder implementation
-    class encoder : public coder
+    class encoder_interface : public coder_interface
     {
     public:
 
-        virtual ~encoder() {}
+        virtual ~encoder_interface() {}
 
         virtual uint32_t encode(uint8_t* data) = 0;
 

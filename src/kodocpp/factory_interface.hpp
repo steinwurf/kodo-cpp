@@ -7,7 +7,7 @@
 
 namespace kodo
 {
-    class factory
+    class factory_interface
     {
     public:
         virtual void* build() = 0;
@@ -20,8 +20,6 @@ namespace kodo
         virtual uint32_t max_block_size() const = 0;
         virtual uint32_t max_payload_size() const = 0;
 
-        virtual ~factory(){}
+        virtual ~factory_interface(){}
     };
 }
-
-

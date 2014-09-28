@@ -10,11 +10,11 @@
 namespace kodo
 {
     /// Base class for decoder implementation
-    class decoder : public coder
+    class decoder_interface : public coder_interface
     {
     public:
 
-        virtual ~decoder() {}
+        virtual ~decoder_interface() {}
 
         virtual uint32_t recode(uint8_t* data) = 0;
         virtual void decode(uint8_t* data) = 0;
