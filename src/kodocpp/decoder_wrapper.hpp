@@ -20,7 +20,7 @@
 #include <kodo/trace.hpp>
 
 #include "coder_wrapper.hpp"
-#include "decoder.hpp"
+#include "decoder_interface.hpp"
 
 namespace kodo
 {

@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "coder.hpp"
+#include "coder_interface.hpp"
 
 namespace kodo
 {

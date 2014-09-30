@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "factory.hpp"
+#include "factory_interface.hpp"
 
 namespace kodo
 {
@@ -20,7 +20,7 @@ namespace kodo
     const size_t kodo_sliding_window = 2;
 
     template<class KodoStack>
-    class factory_wrapper : public factory
+    class factory_wrapper : public factory_interface
     {
     public:
         factory_wrapper(uint32_t max_symbols,

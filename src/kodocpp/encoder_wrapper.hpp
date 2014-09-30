@@ -22,7 +22,7 @@
 #include <kodo/has_feedback_size.hpp>
 #include <kodo/feedback_size.hpp>
 
-#include "encoder.hpp"
+#include "encoder_interface.hpp"
 #include "coder_wrapper.hpp"
 
 namespace kodo
