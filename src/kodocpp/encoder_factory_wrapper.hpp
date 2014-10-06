@@ -45,7 +45,7 @@ namespace kodo
         {
             return m_encoder_factory->max_payload_size();
         }
-        //implement missing methods
+
         encoder_wrapper* build()
         {
             return new encoder_wrapper(m_encoder_factory.build());

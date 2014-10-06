@@ -5,17 +5,12 @@
 
 #pragma once
 
-#include <kodo/rlnc/full_rlnc_codes.hpp>
-#include <kodo/rlnc/on_the_fly_codes.hpp>
-
-#include <kodo/rlnc/sliding_window_encoder.hpp>
-#include <kodo/rlnc/sliding_window_decoder.hpp>
-
+#include "factory_interface.hpp"
 
 
 namespace kodo
 {
-    class encoder_factory
+    class encoder_factory : public factory_interface
     {
     public:
         encoder_factory(size_t encoder_type, size_t field_type,
@@ -28,14 +23,28 @@ namespace kodo
                 {
                     if(field_type == kodo_binary)
                     {
-//                        m_encoder<fifi::binary, kodo::enable_trace>
+                        m_wrapper = new encoder_factory_wrapper<
+                            kodo::full_rlnc_encoder<
+                                fifi:binary,
+                                kodo::enable_trace>(
+                                    max_symbols,
+                                    max_symbol_size);
+                    }
+                    else
+                    {
+                        m_wrapper = new encoder_factory_wrapper<
+                            kodo::full_rlnc_encoder<
+                                fifi:binary,
+                                kodo::enable_trace>(
+                                    max_symbols,
+                                    max_symbol_size);
                     }
                 }
             }
 
         }
     private:
-        encoder_interface m_encoder;
+        factory_interface* m_wrapper
     }
 
 }
