@@ -56,7 +56,7 @@ namespace kodo
         }
 
     private:
-        encoder_interface* m_wrapper:
+        encoder_wrapper* m_wrapper:
     }
 
 }
