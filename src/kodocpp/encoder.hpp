@@ -4,11 +4,13 @@
 // http://www.steinwurf.com/licensing
 
 #pragma once
+
+#include "encoder_interface.hpp"
 #include "encoder_wrapper.hpp"
 
 namespace kodo
 {
-    class encoder
+    class encoder : public encoder_interface
     {
     public:
         encoder(encoder_interface* wrapper) : m_wrapper(wrapper)

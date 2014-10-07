@@ -10,7 +10,7 @@ namespace kodo
 {
 
     template<class KodoStack>
-    class encoder_wrapper
+    class encoder_wrapper : public encoder_interface
     {
     public:
         encoder_wrapper(KodoStack* stack) : m_encoder(stack)
