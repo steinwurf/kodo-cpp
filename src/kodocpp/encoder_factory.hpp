@@ -23,7 +23,7 @@ namespace kodo
                 {
                     if(field_type == kodo_binary)
                     {
-                        m_wrapper = new encoder_factory_wrapper<
+                        m_factory_interface = new encoder_factory_wrapper<
                             kodo::full_rlnc_encoder<
                                 fifi:binary,
                                 kodo::enable_trace>(
@@ -32,7 +32,7 @@ namespace kodo
                     }
                     else
                     {
-                        m_wrapper = new encoder_factory_wrapper<
+                        m_factory_interface = new encoder_factory_wrapper<
                             kodo::full_rlnc_encoder<
                                 fifi:binary,
                                 kodo::enable_trace>(
@@ -44,7 +44,7 @@ namespace kodo
 
         }
     private:
-        factory_interface* m_wrapper
+        factory_interface* m_factory_interface
     }
 
 }
