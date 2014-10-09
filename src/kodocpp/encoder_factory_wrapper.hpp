@@ -4,11 +4,11 @@
 // http://www.steinwurf.com/licensing
 
 #pragma once
-
+#include "encoder_factory_interface.hpp"
 namespace kodo
 {
     template<class KodoStack>
-    class encoder_factory_wrapper : public factory_interface
+    class encoder_factory_wrapper : public encoder_factory_interface
     {
     public:
         encoder_factory_wrapper(uint32_t max_symbols, uint32_t max_symbol_size)
