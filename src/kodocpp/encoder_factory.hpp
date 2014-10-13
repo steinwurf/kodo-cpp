@@ -87,6 +87,52 @@ namespace kodo
                                     max_symbols,
                                     max_symbol_size);
                     }
+                    else if(field_type == kodo_binary8)
+                    {
+                        m_factory_interface = new encoder_factory_wrapper<
+                            kodo::sliding_window<
+                                fifi:binary8,
+                                kodo::enable_trace>(
+                                    max_symbols,
+                                    max_symbol_size);
+                    }
+                    if(field_type == kodo_binary16)
+                    {
+                        m_factory_interface = new encoder_factory_wrapper<
+                            kodo::sliding_window<
+                                fifi:binary16,
+                                kodo::enable_trace>(
+                                    max_symbols,
+                                    max_symbol_size);
+                    }
+                }
+                else
+                {
+                    if(field_type == kodo_binary)
+                    {
+                        m_factory_interface = new encoder_factory_wrapper<
+                            kodo::sliding_window<
+                                fifi:binary>(
+                                    max_symbols,
+                                    max_symbol_size);
+                    }
+                    else if(field_type == kodo_binary8)
+                    {
+                        m_factory_interface = new encoder_factory_wrapper<
+                            kodo::sliding_window<
+                                fifi:binary8>(
+                                    max_symbols,
+                                    max_symbol_size);
+                    }
+                    if(field_type == kodo_binary16)
+                    {
+                        m_factory_interface = new encoder_factory_wrapper<
+                            kodo::sliding_window<
+                                fifi:binary16>(
+                                    max_symbols,
+                                    max_symbol_size);
+                    }
+
                 }
             }
 
