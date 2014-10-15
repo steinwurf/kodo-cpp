@@ -115,7 +115,6 @@ namespace kodo
                 }
                 assert(m_encoder_factory);
             }
-        }
             else if(algorithm == kodo_sliding_window)
             {
                 if(!trace_enabled)
@@ -167,12 +166,12 @@ namespace kodo
             }
         }
 
-        encoder_factory* getEncoderFactory()
+        encoder_factory* encoder_factory()
         {
             return m_encoder_factory;
         }
 
     private:
         encoder_factory* m_encoder_factory;
-    }
+    };
 }

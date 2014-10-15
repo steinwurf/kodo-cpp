@@ -13,4 +13,4 @@ public:
 
 private:
     encoder_interface m_wrapper;
-}
+};
