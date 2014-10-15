@@ -12,5 +12,5 @@ public:
     }
 
 private:
-    encoder_interface m_wrapper;
+    encoder_interface* m_wrapper;
 };
