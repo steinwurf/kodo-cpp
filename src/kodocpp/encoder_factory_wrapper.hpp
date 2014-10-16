@@ -1,57 +1,54 @@
+
 // Copyright Steinwurf ApS 2011-2013.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
 #pragma once
-#include "encoder_factory_interface.hpp"
+
+#include "factory_wrapper.hpp"
+#include "encoder_wrapper.hpp"
+
 namespace kodo
 {
     template<class KodoStack>
-    class encoder_factory_wrapper : public encoder_factory_interface
+    class encoder_factory_wrapper : public factory_wrapper<KodoStack>
     {
     public:
-        encoder_factory_wrapper(uint32_t max_symbols, uint32_t max_symbol_size)
-        {
-            m_encoder_factory = new KodoStack::factory(
-                max_symbols,
-                max_symbol_size);
-        }
 
-        void set_symbols(uint32_t symbols)
-        {
-            m_encoder_factory->set_symbols(symbols);
-        }
+        encoder_factory_wrapper(uint32_t max_symbols,
+                                uint32_t max_symbol_size) :
+            factory_wrapper<KodoStack>(max_symbols, max_symbol_size)
+        { }
 
-        void set_symbol_size(uint32_t symbol_size)
-        {
-            m_encoder_factory->set_symbol_size(symbol_size);
-        }
+        //example new constructor
+        //kodo::factory f = kodo::factory(kodo::full_rlnc,
+        //kodo::binary8, 32, 1024, false);
+        //void encoder_factory_semi_constructor(size_t algorithm,
+        //                                          size_t field_type,
+        //                                    uint32_t max_symbols,
+        //                                    uint32_t max_symbol_size,
+        //                                    bool trace_enabled)
+    //{
+    //      if(algorithm == kodo_binary)
+    //      {
+    //          if(!trace_enabled)
+    //          {
 
-        uint32_t max_symbols() const
-        {
-            return m_encoder_factory->max_symbols();
-        }
+    //          }
+    //      }
 
-        uint32_t max_symbol_size() const
+    //  }
+        virtual void* build()
         {
-            return m_encoder_factory->max_symbol_size();
-        }
-        uint32_t max_block_size() const
-        {
-            return m_encoder_factory->max_block_size();
-        }
-        uint32_t max_payload_size() const
-        {
-            return m_encoder_factory->max_payload_size();
-        }
+            auto encoder = m_factory.build();
+            auto wrapper = new encoder_wrapper<KodoStack>(encoder);
 
-        encoder_wrapper* build()
-        {
-            return new encoder_wrapper(m_encoder_factory.build());
+            return wrapper;
         }
 
     private:
-        KodoStack::factory* m_encoder_factory;
-    }
+
+        using factory_wrapper<KodoStack>::m_factory;
+    };
 }

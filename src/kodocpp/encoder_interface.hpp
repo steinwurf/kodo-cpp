@@ -4,21 +4,25 @@
 // http://www.steinwurf.com/licensing
 
 #pragma once
+
 #include "coder_interface.hpp"
 
 namespace kodo
 {
-    class encoder_interface
+    /// Base class for an encoder implementation
+    class encoder_interface : public coder_interface
     {
     public:
-        virtual ~encoder_interface(){}
+
+        virtual ~encoder_interface() {}
 
         virtual uint32_t encode(uint8_t* data) = 0;
 
-        virtual void set_symbols(const uint8_t* data, uint32_t size) = 0;
+        virtual void set_symbols(
+            const uint8_t* data, uint32_t size) = 0;
 
         virtual void set_symbol(
-            uint32_t index, uint8_t* data, uint32_t size) = 0;
+            uint32_t index, const uint8_t* data, uint32_t size) = 0;
 
         virtual bool has_systematic_encoder() const = 0;
         virtual bool is_systematic_on() const = 0;
