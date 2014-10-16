@@ -24,20 +24,20 @@ namespace kodo
                 {
                     if(field_type == kodo::field_type.binary)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::full_rlnc_decoder<
                                 fifi::binary>decoder_factory_wrapper();
 
                     }
                     else if(field_type == kodo::field_type.binary8)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::full_rlnc_decoder<
                                 fifi::binar8y>decoder_factory_wrapper();
                     }
                     else if(field_type == kodo::field_type.binary16)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::full_rlnc_decoder<
                                 fifi::binary16>decoder_factory_wrapper();
                     }
@@ -45,7 +45,7 @@ namespace kodo
                 else{
                     if(field_type == kodo::field_type.binary)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::full_rlnc_decoder<
                                 fifi::binary, kodo::enable_trace>
                             decoder_factory_wrapper();
@@ -53,14 +53,14 @@ namespace kodo
                     }
                     else if(field_type == kodo::field_type.binary8)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::full_rlnc_decoder<
                                 fifi::binar8y, kodo::enable_trace>
                             decoder_factory_wrapper();
                     }
                     else if(field_type == kodo::field_type.binary16)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::full_rlnc_decoder<
                                 fifi::binary16, kodo::enable_trace>
                             decoder_factory_wrapper();
@@ -73,20 +73,20 @@ namespace kodo
                 {
                     if(field_type == kodo::field_type.binary)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::on_the_fly_decoder<
                                 fifi::binary>decoder_factory_wrapper();
 
                     }
                     else if(field_type == kodo::field_type.binary8)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::on_the_fly_decoder<
                                 fifi::binar8y>decoder_factory_wrapper();
                     }
                     else if(field_type == kodo::field_type.binary16)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::on_the_fly_decoder<
                                 fifi::binary16>decoder_factory_wrapper();
                     }
@@ -94,7 +94,7 @@ namespace kodo
                 else{
                     if(field_type == kodo::field_type.binary)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::on_the_fly_decoder<
                                 fifi::binary, kodo::enable_trace>
                             decoder_factory_wrapper();
@@ -102,14 +102,14 @@ namespace kodo
                     }
                     else if(field_type == kodo::field_type.binary8)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::on_the_fly_decoder<
                                 fifi::binar8y, kodo::enable_trace>
                             decoder_factory_wrapper();
                     }
                     else if(field_type == kodo::field_type.binary16)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::on_the_fly_decoder<
                                 fifi::binary16, kodo::enable_trace>
                             decoder_factory_wrapper();
@@ -122,20 +122,20 @@ namespace kodo
                 {
                     if(field_type == kodo::field_type.binary)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::sliding_window_decoder<
                                 fifi::binary>decoder_factory_wrapper();
 
                     }
                     else if(field_type == kodo::field_type.binary8)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::sliding_window_decoder<
                                 fifi::binar8y>decoder_factory_wrapper();
                     }
                     else if(field_type == kodo::field_type.binary16)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::sliding_window_decoder<
                                 fifi::binary16>decoder_factory_wrapper();
                     }
@@ -143,7 +143,7 @@ namespace kodo
                 else{
                     if(field_type == kodo::field_type.binary)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::sliding_window_decoder<
                                 fifi::binary, kodo::enable_trace>
                             decoder_factory_wrapper();
@@ -151,14 +151,14 @@ namespace kodo
                     }
                     else if(field_type == kodo::field_type.binary8)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::sliding_window_decoder<
                                 fifi::binar8y, kodo::enable_trace>
                             decoder_factory_wrapper();
                     }
                     else if(field_type == kodo::field_type.binary16)
                     {
-                        m_decoder_factory =
+                        m_factory_wrapper =
                             new kodo::sliding_window_decoder<
                                 fifi::binary16, kodo::enable_trace>
                             decoder_factory_wrapper();
@@ -168,14 +168,9 @@ namespace kodo
             assert(m_encoder_factory);
         }
 
-        decoder_factory* decoder_factory()
-        {
-            return m_decoder_factory
-        }
-
         decoder build()
         {
-            return decoder(new decoder_wrapper(m_decoder_factory).build());
+            return decoder(new decoder_wrapper(m_factory_wrapper).build());
         }
 
 
@@ -210,7 +205,7 @@ namespace kodo
         }
 
     private:
-        decoder_factory* m_decoder_factory;
+        factory_wrapper* m_factory_wrapper;
     }
 
 }
