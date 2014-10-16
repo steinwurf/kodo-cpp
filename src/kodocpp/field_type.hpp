@@ -7,5 +7,5 @@
 
 namespace kodo
 {
-    enum field_type{kodo_binary, kodo_binary8, kodo_binary16}
+    enum field_type{binary, binary8, binary16}
 }
