@@ -32,6 +32,7 @@ namespace kodo
         uint32_t symbols_uncoded() const = 0;
         uint32_t symbols_seen() const = 0;
         void write_feedback(uint8_t* feedback) = 0;
+
     private:
         decoder_wrapper* m_wrapper;
     }
