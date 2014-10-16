@@ -3,14 +3,12 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-class encoder
+class factory
 {
 public:
-    encoder(encoder_interface* wrapper) : m_wrapper(wrapper)
+    factory(size_t coder_type, bool encoder,
+            bool trace_enabled, size_t field_type)
     {
-
+        assert(0);
     }
-
-private:
-    encoder_interface* m_wrapper;
 };
