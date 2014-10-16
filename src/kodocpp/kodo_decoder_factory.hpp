@@ -67,7 +67,101 @@ namespace kodo
             }
             else if(algorithm == kodo_on_the_fly)
             {
+                if(!trace_enabled)
+                {
+                    if(field_type == kodo_binary)
+                    {
+                        m_decoder_factory =
+                            new kodo::on_the_fly_decoder<
+                                fifi::binary>decoder_factory_wrapper();
 
+                    }
+                    else if(field_type == kodo_binary8)
+                    {
+                        m_decoder_factory =
+                            new kodo::on_the_fly_decoder<
+                                fifi::binar8y>decoder_factory_wrapper();
+                    }
+                    else if(field_type == kodo_binary16)
+                    {
+                        m_decoder_factory =
+                            new kodo::on_the_fly_decoder<
+                                fifi::binary16>decoder_factory_wrapper();
+                    }
+                }
+                else{
+                    if(field_type == kodo_binary)
+                    {
+                        m_decoder_factory =
+                            new kodo::on_the_fly_decoder<
+                                fifi::binary, kodo::enable_trace>
+                            decoder_factory_wrapper();
+
+                    }
+                    else if(field_type == kodo_binary8)
+                    {
+                        m_decoder_factory =
+                            new kodo::on_the_fly_decoder<
+                                fifi::binar8y, kodo::enable_trace>
+                            decoder_factory_wrapper();
+                    }
+                    else if(field_type == kodo_binary16)
+                    {
+                        m_decoder_factory =
+                            new kodo::on_the_fly_decoder<
+                                fifi::binary16, kodo::enable_trace>
+                            decoder_factory_wrapper();
+                    }
+                }
+            }
+            else if(algorithm == kodo_sliding_window)
+            {
+                if(!trace_enabled)
+                {
+                    if(field_type == kodo_binary)
+                    {
+                        m_decoder_factory =
+                            new kodo::sliding_window_decoder<
+                                fifi::binary>decoder_factory_wrapper();
+
+                    }
+                    else if(field_type == kodo_binary8)
+                    {
+                        m_decoder_factory =
+                            new kodo::sliding_window_decoder<
+                                fifi::binar8y>decoder_factory_wrapper();
+                    }
+                    else if(field_type == kodo_binary16)
+                    {
+                        m_decoder_factory =
+                            new kodo::sliding_window_decoder<
+                                fifi::binary16>decoder_factory_wrapper();
+                    }
+                }
+                else{
+                    if(field_type == kodo_binary)
+                    {
+                        m_decoder_factory =
+                            new kodo::sliding_window_decoder<
+                                fifi::binary, kodo::enable_trace>
+                            decoder_factory_wrapper();
+
+                    }
+                    else if(field_type == kodo_binary8)
+                    {
+                        m_decoder_factory =
+                            new kodo::sliding_window_decoder<
+                                fifi::binar8y, kodo::enable_trace>
+                            decoder_factory_wrapper();
+                    }
+                    else if(field_type == kodo_binary16)
+                    {
+                        m_decoder_factory =
+                            new kodo::sliding_window_decoder<
+                                fifi::binary16, kodo::enable_trace>
+                            decoder_factory_wrapper();
+                    }
+                }
             }
             assert(m_encoder_factory);
         }

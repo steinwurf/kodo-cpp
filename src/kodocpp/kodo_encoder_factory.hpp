@@ -122,19 +122,19 @@ namespace kodo
                     if(field_type == kodo_binary)
                     {
                         m_encoder_factory =
-                            new kodo::sliding_window<
+                            new kodo::sliding_window_encoder<
                                 fifi::binary>encoder_factory_wrapper();
                     }
                     else if(field_type == kodo_binary8)
                     {
                         m_encoder_factory =
-                            new kodo::sliding_window<
+                            new kodo::sliding_window_encoder<
                                 fifi::binary8>encoder_factory_wrapper()
                     }
                     else if(field_type == kodo_binary16)
                     {
                         m_encoder_factory =
-                            new kodo::sliding_window<
+                            new kodo::sliding_window_encoder<
                                 fifi::binary16>encoder_factory_wrapper()
                     }
                 }
@@ -143,21 +143,21 @@ namespace kodo
                     if(field_type == kodo_binary)
                     {
                         m_encoder_factory =
-                            new kodo::kodo::sliding_window<
+                            new kodo::kodo::sliding_window_encoder<
                                 fifi::binary, kodo::enable_trace>
                             encoder_factory_wrapper();
                     }
                     else if(field_type == kodo_binary8)
                     {
                         m_encoder_factory =
-                            new kodo::sliding_window<
+                            new kodo::sliding_window_encoder<
                             fifi::binary8, kodo::enable_trace>
                             encoder_factory_wrapper()
                     }
                     else if(field_type == kodo_binary16)
                     {
                         m_encoder_factory =
-                            new kodo::sliding_window<
+                            new kodo::sliding_window_encoder<
                                 fifi::binary16, kodo::enable_trace>
                             encoder_factory_wrapper()
                     }
