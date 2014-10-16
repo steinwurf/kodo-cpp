@@ -5,9 +5,11 @@
 
 #pragma once
 
+#include "factory_interface.hpp"
+
 namespace kodo
 {
-    class encoder_factory
+    class encoder_factory : public factory_interface
     {
     public:
         encoder_factory(kodo::algorithm algorithm,
@@ -168,6 +170,41 @@ namespace kodo
         encoder_factory* encoder_factory()
         {
             return m_encoder_factory;
+        }
+
+        encoder build()
+        {
+            return encoder(new encoder_wrapper(m_encoder_factory).build())
+        }
+
+        void set_symbols(uint32_t symbols)
+        {
+            m_factory_wrapper.set_symbols(symbols)
+        }
+
+        void set_symbol_size(uint32_t symbol_size)
+        {
+            m_factory_wrapper.set_symbol_size(symbol_size)
+        }
+
+        uint32_t max_symbols() const
+        {
+            return m_factory_wrapper.max_symbols();
+        }
+
+        uint32_t max_symbol_size() const
+        {
+            return m_factory_wrapper.max_symbol_size();
+        }
+
+        uint32_t max_block_size() const
+        {
+            return m_factory_wrapper.max_block_size();
+        }
+
+        uint32_t max_payload_size() const
+        {
+            return m_factory_wrapper.max_payload_size();
         }
 
     private:

@@ -10,7 +10,7 @@ namespace kodo
     class factory_interface
     {
     public:
-        virtual void* build() = 0;
+//        virtual void* build() = 0;
 
         virtual void set_symbols(uint32_t symbols) = 0;
         virtual void set_symbol_size(uint32_t symbol_size) = 0;

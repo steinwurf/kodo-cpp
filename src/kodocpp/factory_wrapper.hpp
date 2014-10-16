@@ -9,16 +9,6 @@
 
 namespace kodo
 {
-    //Binaries available through FIFI
-    const size_t kodo_binary = typedef(fifi::binary).hash_code();
-    const size_t kodo_binary8 = typedef(fifi::binary8).hash_code();
-    const size_t kodo_binary16 = typedef(fifi::binary16).hash_code();
-
-    //Algorithms available through the API
-    const size_t kodo_full_rlnc = 0;
-    const size_t kodo_on_the_fly = 1;
-    const size_t kodo_sliding_window = 2;
-
     template<class KodoStack>
     class factory_wrapper : public factory_interface
     {
