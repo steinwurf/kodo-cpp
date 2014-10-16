@@ -4,24 +4,37 @@
 // http://www.steinwurf.com/licensing
 
 #include <iostream>
-//#include <kodocpp/>
+
+#include "kodocpp/kodocpp.hpp"
+
 namespace kodo
 {
     int main(void)
     {
         //Remember to seed random
 
-        uint32_t symbols = 42;
-        uint32_t symbol_size = 160;
+        uint32_t max_symbols = 42;
+        uint32_t max_symbol_size = 160;
 
-        typedef kodo::full_rlnc_encoder<fifi:binary8> rlnc_encoder;
+        bool enabled_trace = true;
 
-        kodo::encoder_factory_wrapper* encoder_factory
-            = new kodo::encoder_factory<rlnc_encoder>();
+        encoder_factory encoder_factory = encoder_factory(
+            kodo::algorithm.kodo_full_rlnc,
+            kodo::field_type.binary,
+            max_symbols,
+            max_symbol_size,
+            enabled_trace);
 
-        kodo::encoder_wrapper* encoder_wrapper = encoder_factory.build();
+        encoder encoder = encoder_factory.build();
 
-        kodo::encoder encoder = new kodo::encoder(encoder_wrapper);
+        decoder_factory decoder_factory = decoder_factory(
+            kodo::algorithm.kodo_full_rlnc,
+            kodo::field_type.binary,
+            max_symbols,
+            max_symbol_size,
+            enable_trace);
+
+        decoder decoder = decoder_factory.build();
 
         // Allocate some data to encode. In this case we make a buffer
         // with the same size as the encoder's block size (the max.
@@ -29,12 +42,10 @@ namespace kodo
         ////Change to the encoder :)
         std::vector<uint8_t> data_in(200);
 
-
         for(auto &e: data_in)
         {
             e = rand() % 256;
         }
-
         return 0;
     }
 }
