@@ -6,7 +6,7 @@
 class encoder_factory : public factory
 {
 public:
-    encoder_factory(size_t encoder_type) : factory(encoder_type)
+    encoder(size_t encoder_type) : factory(encoder_type)
     {
 
     }
@@ -15,4 +15,4 @@ public:
     {
         return encoder(new encoder_wrapper(m_wrapper.build()));
     }
-};
+}
