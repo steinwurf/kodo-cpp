@@ -3,16 +3,20 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-class encoder_factory : public factory
+#prgama once
+namespace kodo
 {
-public:
-    encoder_factory(size_t encoder_type) : factory(encoder_type)
+    class encoder_factory : public factory
     {
+    public:
+        encoder_factory(size_t encoder_type) : factory(encoder_type)
+        {
 
     }
 
-    encoder build()
-    {
-        return encoder(new encoder_wrapper(m_wrapper.build()));
-    }
-};
+        encoder build()
+        {
+            return encoder(new encoder_wrapper(m_wrapper.build()));
+        }
+    };
+}

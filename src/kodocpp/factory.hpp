@@ -3,12 +3,15 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-class factory
+namespace kodo
 {
-public:
-    factory(size_t coder_type, bool encoder,
-            bool trace_enabled, size_t field_type)
+    class factory
     {
-        assert(0);
-    }
-};
+    public:
+        factory(size_t coder_type, bool encoder,
+                bool trace_enabled, size_t field_type)
+        {
+            assert(0);
+        }
+    };
+}

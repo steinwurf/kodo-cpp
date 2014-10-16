@@ -3,14 +3,18 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-class encoder
+namespace kodo
 {
-public:
-    encoder(encoder_interface* wrapper) : m_wrapper(wrapper)
+
+    class encoder
     {
+    public:
+        encoder(encoder_interface* wrapper) : m_wrapper(wrapper)
+        {
 
-    }
+        }
 
-private:
+    private:
     encoder_interface* m_wrapper;
-};
+    };
+}
