@@ -4,57 +4,33 @@
 // http://www.steinwurf.com/licensing
 
 #pragma once
-
-#include <cassert>
-
-#include <sak/storage.hpp>
-
-#include <kodo/read_feedback.hpp>
-
-#include <kodo/has_systematic_encoder.hpp>
-#include <kodo/is_systematic_on.hpp>
-#include <kodo/set_systematic_on.hpp>
-#include <kodo/set_systematic_off.hpp>
-
-#include <kodo/trace_decode_symbol.hpp>
-#include <kodo/trace.hpp>
-
-#include <kodo/has_feedback_size.hpp>
-#include <kodo/feedback_size.hpp>
-
 #include "encoder_interface.hpp"
-#include "coder_wrapper.hpp"
 
 namespace kodo
 {
+
     template<class KodoStack>
-    class encoder_wrapper : public coder_wrapper<KodoStack, encoder>
+    class encoder_wrapper : public encoder_interface
     {
     public:
-
-        encoder_wrapper(const typename KodoStack::pointer& coder) :
-            coder_wrapper<KodoStack, encoder>(coder),
-            m_encoder(coder)
+        encoder_wrapper(KodoStack* stack) : m_encoder(stack)
         {
-            assert(m_encoder);
+
         }
 
-        virtual uint32_t encode(uint8_t* payload)
+        virtual uint32_t encode(uint8_t* data)
         {
-            return m_encoder->encode(payload);
+            return m_encoder->encode(data);
         }
 
         virtual void set_symbols(const uint8_t* data, uint32_t size)
         {
-            auto storage = sak::const_storage(data, size);
-            m_encoder->set_symbols(storage);
+            m_encoder->set_symbols(data, size);
         }
 
-        virtual void set_symbol(
-            uint32_t index, const uint8_t* data, uint32_t size)
+        virtual void set_symbol(uint32_t index, uint8_t* data, uint32_t size)
         {
-            auto storage = sak::const_storage(data, size);
-            m_encoder->set_symbol(index, storage);
+            m_encoder->set_symbol(index, data, size);
         }
 
         virtual bool has_systematic_encoder() const
@@ -71,7 +47,6 @@ namespace kodo
         {
             kodo::set_systematic_on(m_encoder);
         }
-
         virtual void set_systematic_off()
         {
             kodo::set_systematic_off(m_encoder);
@@ -84,5 +59,5 @@ namespace kodo
 
     private:
         typename KodoStack::pointer m_encoder;
-    };
+    }
 }

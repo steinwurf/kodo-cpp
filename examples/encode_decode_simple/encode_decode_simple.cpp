@@ -17,7 +17,11 @@ namespace kodo
         typedef kodo::full_rlnc_encoder<fifi:binary8> rlnc_encoder;
 
         kodo::encoder_factory_wrapper* encoder_factory
-            = new kodo::encoder_factory<rlnc_encoder>()
+            = new kodo::encoder_factory<rlnc_encoder>();
+
+        kodo::encoder_wrapper* encoder_wrapper = encoder_factory.build();
+
+        kodo::encoder encoder = new kodo::encoder(encoder_wrapper);
 
         // Allocate some data to encode. In this case we make a buffer
         // with the same size as the encoder's block size (the max.
