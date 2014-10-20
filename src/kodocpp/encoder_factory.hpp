@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "factory_interface.hpp"
+#include "internal/factory_interface.hpp"
 
 namespace kodo
 {
@@ -13,194 +13,24 @@ namespace kodo
     {
     public:
         encoder_factory(kodo::algorithm algorithm,
-                             kodo::fieldtype field_type,
-                             uint32_t max_symbols,
-                             uint32_t max_symbol_size,
-                             bool trace_enabled)
-        {
-            if(algorithm == kodo_full_rlnc)
-            {
-                if(!trace_enabled)
-                {
-                    if(field_type == kodo::field_type.binary)
-                    {
-                        m_factory_wrapper =
-                            new kodo::full_rlnc_encoder<
-                                fifi::binary>encoder_factory_wrapper();
-                    }
-                    else if(field_type == kodo::field_type.binary8)
-                    {
-                        m_factory_wrapper =
-                            new kodo::full_rlnc_encoder<
-                                fifi::binary8>encoder_factory_wrapper()
-                    }
-                    else if(field_type == kodo::field_type.binary16)
-                    {
-                        m_factory_wrapper =
-                            new kodo::full_rlnc_encoder<
-                                fifi::binary16>encoder_factory_wrapper()
-                    }
-                }
-                else
-                {
-                    if(field_type == kodo::field_type.binary)
-                    {
-                        m_factory_wrapper =
-                            new kodo::kodo::full_rlnc_encoder<
-                                fifi::binary, kodo::enable_trace>
-                            encoder_factory_wrapper();
-                    }
-                    else if(field_type == kodo::field_type.binary8)
-                    {
-                        m_factory_wrapper =
-                            new kodo::full_rlnc_encoder<
-                            fifi::binary8, kodo::enable_trace>
-                            encoder_factory_wrapper()
-                    }
-                    else if(field_type == kodo::field_type.binary16)
-                    {
-                        m_factory_wrapper =
-                            new kodo::full_rlnc_encoder<
-                                fifi::binary16, kodo::enable_trace>
-                            encoder_factory_wrapper()
-                    }
-                }
-                assert(m_factory_wrapper);
-            }
-            else if(algorithm == kodo_on_the_fly)
-            {
-                if(!trace_enabled)
-                {
-                    if(field_type == kodo::field_type.binary)
-                    {
-                        m_factory_wrapper =
-                            new kodo::on_the_fly_encoder<
-                                fifi::binary>encoder_factory_wrapper();
-                    }
-                    else if(field_type == kodo::field_type.binary8)
-                    {
-                        m_factory_wrapper =
-                            new kodo::on_the_fly_encoder<
-                                fifi::binary8>encoder_factory_wrapper()
-                    }
-                    else if(field_type == kodo::field_type.binary16)
-                    {
-                        m_factory_wrapper =
-                            new kodo::on_the_fly_encoder<
-                                fifi::binary16>encoder_factory_wrapper()
-                    }
-                }
-                else
-                {
-                    if(field_type == kodo::field_type.binary)
-                    {
-                        m_factory_wrapper =
-                            new kodo::kodo::on_the_fly_encoder<
-                                fifi::binary, kodo::enable_trace>
-                            encoder_factory_wrapper();
-                    }
-                    else if(field_type == kodo::field_type.binary8)
-                    {
-                        m_factory_wrapper =
-                            new kodo::on_the_fly_encoder<
-                            fifi::binary8, kodo::enable_trace>
-                            encoder_factory_wrapper()
-                    }
-                    else if(field_type == kodo::field_type.binary16)
-                    {
-                        m_factory_wrapper =
-                            new kodo::on_the_fly_encoder<
-                                fifi::binary16, kodo::enable_trace>
-                            encoder_factory_wrapper()
-                    }
-                }
-                assert(m_factory_wrapper);
-            }
-            else if(algorithm == kodo_sliding_window)
-            {
-                if(!trace_enabled)
-                {
-                    if(field_type == kodo::field_type.binary)
-                    {
-                        m_factory_wrapper =
-                            new kodo::sliding_window_encoder<
-                                fifi::binary>encoder_factory_wrapper();
-                    }
-                    else if(field_type == kodo::field_type.binary8)
-                    {
-                        m_factory_wrapper =
-                            new kodo::sliding_window_encoder<
-                                fifi::binary8>encoder_factory_wrapper()
-                    }
-                    else if(field_type == kodo::field_type.binary16)
-                    {
-                        m_factory_wrapper =
-                            new kodo::sliding_window_encoder<
-                                fifi::binary16>encoder_factory_wrapper()
-                    }
-                }
-                else
-                {
-                    if(field_type == kodo::field_type.binary)
-                    {
-                        m_factory_wrapper =
-                            new kodo::kodo::sliding_window_encoder<
-                                fifi::binary, kodo::enable_trace>
-                            encoder_factory_wrapper();
-                    }
-                    else if(field_type == kodo::field_type.binary8)
-                    {
-                        m_factory_wrapper =
-                            new kodo::sliding_window_encoder<
-                            fifi::binary8, kodo::enable_trace>
-                            encoder_factory_wrapper()
-                    }
-                    else if(field_type == kodo::field_type.binary16)
-                    {
-                        m_factory_wrapper =
-                            new kodo::sliding_window_encoder<
-                                fifi::binary16, kodo::enable_trace>
-                            encoder_factory_wrapper()
-                    }
-                }
-                assert(m_factory_wrapper);
-            }
-        }
+                        kodo::fieldtype field_type,
+                        uint32_t max_symbols,
+                        uint32_t max_symbol_size,
+                        bool trace_enabled);
 
-        encoder build()
-        {
-            return encoder(new encoder_wrapper(m_factory_wrapper).build())
-        }
+        encoder build();
 
-        void set_symbols(uint32_t symbols)
-        {
-            m_factory_wrapper.set_symbols(symbols)
-        }
+        void set_symbols(uint32_t symbols);
 
-        void set_symbol_size(uint32_t symbol_size)
-        {
-            m_factory_wrapper.set_symbol_size(symbol_size)
-        }
+        void set_symbol_size(uint32_t symbol_size);
 
-        uint32_t max_symbols() const
-        {
-            return m_factory_wrapper.max_symbols();
-        }
+        uint32_t max_symbols() const;
 
-        uint32_t max_symbol_size() const
-        {
-            return m_factory_wrapper.max_symbol_size();
-        }
+        uint32_t max_symbol_size() const;
 
-        uint32_t max_block_size() const
-        {
-            return m_factory_wrapper.max_block_size();
-        }
+        uint32_t max_block_size() const;
 
-        uint32_t max_payload_size() const
-        {
-            return m_factory_wrapper.max_payload_size();
-        }
+        uint32_t max_payload_size() const;
 
     private:
         factory_wrapper* m_factory_wrapper;
