@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "factory_interface.hpp"
+#include "internal/factory_interface.hpp"
 
 namespace kodo
 {
