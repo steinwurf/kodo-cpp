@@ -3,6 +3,7 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#include "decoder_factory.hpp"
 namespace kodo{
      decoder_factory::decoder_factory(kodo::algorithm algorithm,
                      kodo::fieldtype field_type,
