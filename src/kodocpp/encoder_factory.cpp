@@ -90,37 +90,37 @@ namespace kodo
         assert(m_factory_wrapper);
     }
 
-    encoder_factory::encoder build()
+    encoder encoder_factory::build()
     {
         return encoder(new encoder_wrapper(m_factory_wrapper).build());
     }
 
-    encoder_factory::void set_symbols(uint32_t symbols)
+    void encoder_factory::set_symbols(uint32_t symbols)
     {
         m_factory_wrapper.set_symbols(symbols);
     }
 
-    encoder_factory::void set_symbol_size(uint32_t symbol_size)
+    void encoder_factory::set_symbol_size(uint32_t symbol_size)
     {
         m_factory_wrapper.set_symbol_size(symbol_size);
     }
 
-    encoder_factory::uint32_t max_symbols() const
+    uint32_t encoder_factory::max_symbols() const
     {
         return m_factory_wrapper.max_symbols();
     }
 
-    encoder_factory::uint32_t max_symbol_size() const
+    uint32_t encoder_factory::max_symbol_size() const
     {
         return m_factory_wrapper.max_symbol_size();
     }
 
-    encoder_factory::uint32_t max_block_size() const
+    uint32_t encoder_factory::max_block_size() const
     {
         return m_factory_wrapper.max_block_size();
     }
 
-    encoder_factory::uint32_t max_payload_size() const
+    uint32_t encoder_factory::max_payload_size() const
     {
         return m_factory_wrapper.max_payload_size();
     }

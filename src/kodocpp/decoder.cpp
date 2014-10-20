@@ -3,24 +3,26 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#include "decoder.hpp"
+
 namespace kodo
 {
-    uint32_t recode(uint8_t* data)
+    uint32_t decoder::recode(uint8_t* data)
     {
         return m_wrapper.recode(data);
     }
 
-    void decode(uint8_t data)
+    void decoder::decode(uint8_t data)
     {
         return m_wrapper.decode(data);
     }
 
-    bool is_complete()
+    bool decoder::is_complete()
     {
         return m_wrapper.is_complete();
     }
 
-    void copy_symbols(uint8_t data, uint32_t size)
+    void decoder::copy_symbols(uint8_t data, uint32_t size)
     {
         return m_wrappercopy_symbols(index, data, size);
     }
