@@ -45,17 +45,62 @@ namespace kodo
                                      uint32_t max_symbol_size,
                                      bool trace_enabled)
     {
+
         if(algorithm == kodo::algorithms.full_rlnc)
         {
             if(!trace_enabled)
             {
-                m_factory_wrapper = pick_field<
-                    full_rlnc_encoder, trace_disabled>(field_type);
+                if(field_type == kodo::field_type.binary)
+                {
+                    return new kodo::full_rlnc_encoder<
+                        fifi::binary,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary4)
+                {
+                    return new kodo::full_rlnc_encoder<
+                        fifi::binary4,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary8)
+                {
+                    return new kodo::full_rlnc_encoder<
+                        fifi::binary8,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary16)
+                {
+                    return new kodo::full_rlnc_encoder<
+                        fifi::binary16,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
             }
             else
             {
-                m_factory_wrapper = pick_field<
-                    full_rlnc_encoder, trace_enabled>(field_type);
+                if(field_type == kodo::field_type.binary)
+                {
+                    return new kodo::full_rlnc_encoder<
+                        fifi::binary,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary4)
+                {
+                    return new kodo::full_rlnc_encoder<
+                        fifi::binary4,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary8)
+                {
+                    return new kodo::full_rlnc_encoder<
+                        fifi::binary8,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary16)
+                {
+                    return new kodo::full_rlnc_encoder<
+                        fifi::binary16,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
             }
             assert(m_factory_wrapper);
         }
@@ -63,13 +108,57 @@ namespace kodo
         {
             if(!trace_enabled)
             {
-                m_factory_wrapper = pick_field<
-                    on_the_fly_encoder, trace_disabled>(field_type);
+                if(field_type == kodo::field_type.binary)
+                {
+                    return new kodo::on_the_fly_encoder<
+                        fifi::binary,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary4)
+                {
+                    return new kodo::on_the_fly_encoder<
+                        fifi::binary4,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary8)
+                {
+                    return new kodo::on_the_fly_encoder<
+                        fifi::binary8,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary16)
+                {
+                    return new kodo::on_the_fly_encoder<
+                        fifi::binary16,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
             }
             else
             {
-                m_factory_wrapper = pick_field<
-                    on_the_fly_encoder, trace_enabled>(field_type);
+                if(field_type == kodo::field_type.binary)
+                {
+                    return new kodo::on_the_fly_encoder<
+                        fifi::binary,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary4)
+                {
+                    return new kodo::on_the_fly_encoder<
+                        fifi::binary4,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary8)
+                {
+                    return new kodo::on_the_fly_encoder<
+                        fifi::binary8,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary16)
+                {
+                    return new kodo::on_the_fly_encoder<
+                        fifi::binary16,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
             }
             assert(m_factory_wrapper);
         }
@@ -77,13 +166,57 @@ namespace kodo
         {
             if(!trace_enabled)
             {
-                m_factory_wrapper = pick_field<
-                    sliding_window_encoder, trace_disabled>(field_type);
+                if(field_type == kodo::field_type.binary)
+                {
+                    return new kodo::sliding_window_encoder<
+                        fifi::binary,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary4)
+                {
+                    return new kodo::sliding_window_encoder<
+                        fifi::binary4,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary8)
+                {
+                    return new kodo::sliding_window_encoder<
+                        fifi::binary8,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary16)
+                {
+                    return new kodo::sliding_window_encoder<
+                        fifi::binary16,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
             }
             else
             {
-                m_factory_wrapper = pick_field<
-                    sliding_window_encoder, trace_enabled>(field_type);
+                if(field_type == kodo::field_type.binary)
+                {
+                    return new kodo::sliding_window_encoder<
+                        fifi::binary,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary4)
+                {
+                    return new kodo::sliding_window_encoder<
+                        fifi::binary4,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary8)
+                {
+                    return new kodo::sliding_window_encoder<
+                        fifi::binary8,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
+                else if(field_type == kodo::field_type.binary16)
+                {
+                    return new kodo::sliding_window_encoder<
+                        fifi::binary16,
+                        kodo::trace_enabled>encoder_factory_wrapper();
+                }
             }
             assert(m_factory_wrapper);
         }
