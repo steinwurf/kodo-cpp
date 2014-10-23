@@ -10,13 +10,13 @@ namespace kodo
 
     void encoder::set_symbols(const uint8_t* data, uint32_t size)
     {
-        m_wrapper(data, size);
+        m_wrapper->set_symbols(data, size);
     }
 
     void encoder::set_symbol(
         uint32_t index, const uint8_t* data, uint32_t size)
     {
-        m_wrapper(index, data, size);
+        m_wrapper->set_symbol(index, data, size);
     }
 
     bool encoder::has_systematic_encoder() const
