@@ -17,7 +17,9 @@ namespace kodo
         }
 
         uint32_t recode(uint8_t* data);
+
         void decode(uint8_t* data);
+
         bool is_complete() const;
 
         void copy_symbols(uint8_t* data, uint32_t size) const;
@@ -35,6 +37,6 @@ namespace kodo
         void write_feedback(uint8_t* feedback);
 
     private:
-        decoder_interface m_wrapper;
+        decoder_interface* m_wrapper;
     };
 }
