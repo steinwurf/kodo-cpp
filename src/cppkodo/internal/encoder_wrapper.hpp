@@ -29,12 +29,12 @@
 namespace kodo
 {
     template<class KodoStack>
-    class encoder_wrapper : public coder_wrapper<KodoStack, encoder>
+    class encoder_wrapper : public coder_wrapper<KodoStack, encoder_interface>
     {
     public:
 
         encoder_wrapper(const typename KodoStack::pointer& coder) :
-            coder_wrapper<KodoStack, encoder>(coder),
+            coder_wrapper<KodoStack, encoder_interface>(coder),
             m_encoder(coder)
         {
             assert(m_encoder);

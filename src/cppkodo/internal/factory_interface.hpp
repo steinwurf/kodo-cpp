@@ -6,8 +6,11 @@
 #pragma once
 
 #include <cstdint>
-#include "../algorithms.hpp"
-#include "../field_types.hpp"
+
+#include <kodo/rlnc/full_rlnc_codes.hpp>
+
+#include "../algorithm.hpp"
+#include "../field_type.hpp"
 
 namespace kodo
 {
