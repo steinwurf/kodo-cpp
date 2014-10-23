@@ -7,5 +7,5 @@
 
 namespace kodo
 {
-    enum algorithm{full_rlnc, on_the_fly, sliding_window};
+    enum algorithms{full_rlnc, on_the_fly, sliding_window};
 }

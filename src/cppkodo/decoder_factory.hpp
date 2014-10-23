@@ -34,7 +34,7 @@ namespace kodo
         uint32_t max_payload_size() const;
 
     private:
-        factory_wrapper* m_factory_wrapper;
-    }
+        factory_interface* m_factory_wrapper;
+    };
 
 }

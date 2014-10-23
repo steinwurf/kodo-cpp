@@ -12,7 +12,7 @@ namespace kodo
         return m_wrapper->recode(data);
     }
 
-    void decoder::decode(uint8_t data)
+    void decoder::decode(uint8_t* data)
     {
         m_wrapper->decode(data);
     }
@@ -22,9 +22,9 @@ namespace kodo
         return m_wrapper->is_complete();
     }
 
-    void decoder::copy_symbols(uint8_t data, uint32_t size) const
+    void decoder::copy_symbols(uint8_t* data, uint32_t size) const
     {
-        m_wrapper->copy_symbols(index, data, size);
+        m_wrapper->copy_symbols(data, size);
     }
 
     void decoder::copy_symbol(uint32_t index, uint8_t* data, uint32_t size) const
