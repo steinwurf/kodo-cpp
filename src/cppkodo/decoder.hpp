@@ -3,7 +3,7 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include "internal/decoder_wrapper.hpp"
+#include "internal/decoder_interface.hpp"
 #include "coder.hpp"
 
 namespace kodo
@@ -15,8 +15,6 @@ namespace kodo
         {
 
         }
-
-        ~decoder_interface() {}
 
         uint32_t recode(uint8_t* data);
         void decode(uint8_t* data);
@@ -37,6 +35,6 @@ namespace kodo
         void write_feedback(uint8_t* feedback);
 
     private:
-        decoder_wrapper* m_wrapper;
-    }
+        decoder_interface m_wrapper;
+    };
 }

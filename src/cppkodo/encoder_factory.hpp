@@ -6,14 +6,15 @@
 #pragma once
 
 #include "internal/factory_interface.hpp"
+#include "encoder.hpp"
 
 namespace kodo
 {
     class encoder_factory : public factory_interface
     {
     public:
-        encoder_factory(kodo::algorithm algorithm,
-                        kodo::fieldtype field_type,
+        encoder_factory(kodo::algorithms algorithm,
+                        kodo::fieldtypes field_type,
                         uint32_t max_symbols,
                         uint32_t max_symbol_size,
                         bool trace_enabled);

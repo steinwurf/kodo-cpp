@@ -25,12 +25,12 @@ namespace kodo
         bool symbol_pivot(uint32_t) const;
 
         bool has_trace() const;
-        void trace(kodo_filter_function_t);
+        void trace(std::function<bool(std::string)>);
 
         bool has_feedback_size() const;
         uint32_t feedback_size() const;
 
     private:
         coder_interface* m_wrapper;
-    }
+    };
 }

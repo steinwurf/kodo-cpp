@@ -4,55 +4,56 @@
 // http://www.steinwurf.com/licensing
 
 #include "coder.hpp"
+
 namespace kodo
 {
-    uint32_t block_size() const
+    uint32_t coder::block_size() const
     {
-        return m_wrapper.block_size();
+        return m_wrapper->block_size();
     }
 
-    uint32_t payload_size() const
+    uint32_t coder::payload_size() const
     {
-        return m_wrapper.payload_size();
+        return m_wrapper->payload_size();
     }
 
-    uint32_t rank() const
+    uint32_t coder::rank() const
     {
-        return m_wrapper.rank();
+        return m_wrapper->rank();
     }
 
-    uint32_t symbol_size() const
+    uint32_t coder::symbol_size() const
     {
-        return m_wrapper.symbol_size();
+        return m_wrapper->symbol_size();
     }
 
-    uint32_t symbols() const
+    uint32_t coder::symbols() const
     {
-        return m_wrapper.symbols();
+        return m_wrapper->symbols();
     }
 
-    bool symbol_pivot(uint32_t index) const
+    bool coder::symbol_pivot(uint32_t index) const
     {
-        return m_wrapper.symbol_pivot(index);
+        return m_wrapper->symbol_pivot(index);
     }
 
-    bool has_trace() const
+    bool coder::has_trace() const
     {
-        return m_wrapper.has_trace();
+        return m_wrapper->has_trace();
     }
 
-    void trace(std::function<bool(std::string)> filter)
+    void coder::trace(std::function<bool(std::string)> filter)
     {
-        m_wrapper.trace(filter);
+        m_wrapper->trace(filter);
     }
 
-    bool has_feedback_size() const
+    bool coder::has_feedback_size() const
     {
-        return m_wrapper.has_feedback_size();
+        return m_wrapper->has_feedback_size();
     }
 
-    uint32_t feedback_size() const
+    uint32_t coder::feedback_size() const
     {
-        return m_wrapper.feedback_size();
+        return m_wrapper->feedback_size();
     }
 }

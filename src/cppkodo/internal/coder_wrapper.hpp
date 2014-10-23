@@ -8,8 +8,12 @@
 #include <cassert>
 
 #include <sak/storage.hpp>
+
 #include <kodo/is_partial_complete.hpp>
 #include <kodo/has_partial_decoding_tracker.hpp>
+
+#include <kodo/has_feedback_size.hpp>
+#include <kodo/feedback_size.hpp>
 
 #include <kodo/trace_decode_symbol.hpp>
 #include <kodo/symbol_decoding_status_tracker.hpp>
@@ -63,7 +67,7 @@ namespace kodo
             return kodo::has_trace<KodoStack>::value;
         }
 
-        virtual void trace(kodo_filter_function_t filter_function)
+        virtual void trace(std::function<bool(std::string)> filter_function)
         {
             if (filter_function)
             {

@@ -22,6 +22,8 @@
 #include "coder_wrapper.hpp"
 #include "decoder_interface.hpp"
 
+#include "../decoder.hpp"
+
 namespace kodo
 {
     template<class KodoStack>
