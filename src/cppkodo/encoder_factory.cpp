@@ -8,37 +8,6 @@
 
 namespace kodo
 {
-
-    // Help fuction for creating factories
-    template<template <class, bool> KodoStack, class trace>
-    KodoStack pick_field(kodo::fieldtype field_type)
-    {
-        if(field_type == kodo::field_type.binary)
-        {
-            return new KodoStack<
-                fifi::binary,
-                trace>encoder_factory_wrapper();
-        }
-        else if(field_type == kodo::field_type.binary8)
-        {
-            return new KodoStack<
-                fifi::binary4,
-                trace>encoder_factory_wrapper();
-        }
-        else if(field_type == kodo::field_type.binary8)
-        {
-            return new KodoStack<
-                fifi::binary8,
-                trace>encoder_factory_wrapper();
-        }
-        else if(field_type == kodo::field_type.binary16)
-        {
-            return new KodoStack<
-                fifi::binary16,
-                trace>encoder_factory_wrapper();
-        }
-    }
-
     encoder_factory::encoder_factory(kodo::algorithms algorithm,
                                      kodo::fieldtypes field_type,
                                      uint32_t max_symbols,
@@ -46,7 +15,7 @@ namespace kodo
                                      bool trace_enabled)
     {
 
-        if(algorithm == kodo::algorithms.full_rlnc)
+        if(algorithm == algorithms.full_rlnc)
         {
             if(!trace_enabled)
             {

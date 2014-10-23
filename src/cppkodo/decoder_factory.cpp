@@ -7,13 +7,13 @@
 
 namespace kodo
 {
-    decoder_factory::decoder_factory(kodo::algorithm algorithm,
-                     kodo::fieldtype field_type,
+    decoder_factory::decoder_factory(kodo::algorithms algorithm,
+                     kodo::fieldtypes field_type,
                      uint32_t max_symbols,
                      uint32_t max_symbol_size,
                      bool trace_enabled)
      {
-        if(algorithm == kodo::algorithms.full_rlnc)
+        if(algorithm == algorithms.full_rlnc)
         {
             if(!trace_enabled)
             {
