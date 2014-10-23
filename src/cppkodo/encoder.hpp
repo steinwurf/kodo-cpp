@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "internal/encoder_wrapper.hpp"
+#include "internal/encoder_interface.hpp"
 #include "coder.hpp"
 
 namespace kodo
@@ -37,6 +37,6 @@ namespace kodo
         void read_feedback(uint8_t* feedback);
 
     private:
-    encoder_interface* m_wrapper;
+        encoder_interface* m_wrapper;
     };
 }

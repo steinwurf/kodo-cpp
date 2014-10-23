@@ -6,7 +6,8 @@
 #pragma once
 
 #include "internal/factory_interface.hpp"
-#include "decoder.hpp"
+#include "internal/decoder_factory_wrapper.hpp"
+//#include "decoder.hpp"
 
 namespace kodo
 {

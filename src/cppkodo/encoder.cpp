@@ -26,7 +26,7 @@ namespace kodo
 
     bool encoder::is_systematic_on() const
     {
-        return m_wraper->is_systematic_on();
+        return m_wrapper->is_systematic_on();
     }
 
     void encoder::set_systematic_on()

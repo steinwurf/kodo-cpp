@@ -8,6 +8,9 @@
 #include <cstdint>
 
 #include <kodo/rlnc/full_rlnc_codes.hpp>
+#include <kodo/rlnc/on_the_fly_codes.hpp>
+#include <kodo/rlnc/sliding_window_encoder.hpp>
+#include <kodo/rlnc/sliding_window_decoder.hpp>
 
 #include "../algorithm.hpp"
 #include "../field_type.hpp"
