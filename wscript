@@ -41,7 +41,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='kodo',
         git_repository='github.com/steinwurf/kodo.git',
-        major_version=17))
+        major_version=18))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='sak',
@@ -130,16 +130,16 @@ def build(bld):
 #                 'sak_includes', 'platform_includes'])
 
 #        if 'BUILD_CKODO_SHARED_LIBRARY' in bld.env:
-
-#           bld.shlib(
-#               source='src/ckodo/ckodo.cpp',
-#               target='ckodo',
-#               name='ckodo_shared',
-#               install_path=None,
-#               export_includes='src',
-#               use=['kodo_includes', 'boost_includes', 'fifi_includes',
-#                     'sak_includes', 'platform_includes'])
-
+'''
+           bld.shlib(
+               source='src/kodocpp/.cpp',
+               target='ckodo',
+               name='ckodo_shared',
+               install_path=None,
+               export_includes='src',
+               use=['kodo_includes', 'boost_includes', 'fifi_includes',
+                     'sak_includes', 'platform_includes'])
+'''
 #        bld.recurse('test')
 #        bld.recurse('examples/encode_decode_on_the_fly')
 #        bld.recurse('examples/encode_decode_simple')

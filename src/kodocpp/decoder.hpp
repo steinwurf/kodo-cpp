@@ -4,13 +4,14 @@
 // http://www.steinwurf.com/licensing
 
 #include "internal/decoder_wrapper.hpp"
+#include "coder.hpp"
 
 namespace kodo
 {
-    class decoder
+    class decoder : public coder
     {
     public:
-        decoder(decoder_interface* wrapper) : m_wrapper(wrapper)
+        decoder(decoder_interface* wrapper) : coder(wrapper), m_wrapper(wrapper)
         {
 
         }
