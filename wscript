@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-APPNAME = 'ckodo'
-VERSION = '1.7.0'
+APPNAME = 'kodo-cpp'
+VERSION = '0.1.0'
 
 
 def recurse_helper(ctx, name):
@@ -19,18 +19,23 @@ def options(opt):
     import waflib.extras.wurf_dependency_resolve as resolve
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+        name='waf-tools',
+        git_repository='github.com/steinwurf/waf-tools.git',
+        major_version=2))
+
+    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='boost',
-        git_repository='github.com/steinwurf/external-boost-light.git',
+        git_repository='github.com/steinwurf/boost.git',
         major_version=1))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='fifi',
         git_repository='github.com/steinwurf/fifi.git',
-        major_version=11))
+        major_version=13))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='gtest',
-        git_repository='github.com/steinwurf/external-gtest.git',
+        git_repository='github.com/steinwurf/gtest.git',
         major_version=2))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
@@ -41,12 +46,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='sak',
         git_repository='github.com/steinwurf/sak.git',
-        major_version=10))
-
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
-        name='waf-tools',
-        git_repository='github.com/steinwurf/external-waf-tools.git',
-        major_version=2))
+        major_version=12))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='platform',
@@ -65,12 +65,6 @@ def options(opt):
 
 
 def configure(conf):
-
-    # Only build the shared library with the compatibility toolchains
-    if conf.has_tool_option('cxx_mkspec'):
-        mkspec = conf.get_tool_option('cxx_mkspec')
-        if mkspec in ['cxx_crosslinux_gxx46_x86', 'cxx_crosslinux_gxx46_x64']:
-            conf.env.BUILD_CKODO_SHARED_LIBRARY = True
 
     if conf.is_toplevel():
 
@@ -107,14 +101,17 @@ def build(bld):
         recurse_helper(bld, 'platform')
         recurse_helper(bld, 'cpuid')
 
-    bld.recurse('src/cppkodo')
+        # Only build test when executed from the
+        # top-level wscript i.e. not when included as a dependency
+        # in a recurse call
 
-    # bld.recurse('examples/encode_decode_simple')
+        bld.recurse('test')
+        bld.recurse('examples/encode_decode_simple')
+        # bld.recurse('examples/encode_decode_on_the_fly')
+        # bld.recurse('examples/sample_makefile')
+        # bld.recurse('examples/sliding_window')
+        # bld.recurse('examples/switch_systematic_on_off')
+        # bld.recurse('examples/udp_sender_receiver')
+        # bld.recurse('examples/use_trace_layers')
 
-    # bld.recurse('test')
-    # bld.recurse('examples/encode_decode_on_the_fly')
-    # bld.recurse('examples/sample_makefile')
-    # bld.recurse('examples/sliding_window')
-    # bld.recurse('examples/switch_systematic_on_off')
-    # bld.recurse('examples/udp_sender_receiver')
-    # bld.recurse('examples/use_trace_layers')
+    bld.recurse('src/kodocpp')
