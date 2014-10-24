@@ -101,13 +101,12 @@ def build(bld):
         recurse_helper(bld, 'platform')
         recurse_helper(bld, 'cpuid')
 
-    bld.recurse('src/kodocpp')
         # Only build test when executed from the
         # top-level wscript i.e. not when included as a dependency
         # in a recurse call
 
-#        bld.recurse('test')
-#        bld.recurse('examples/encode_decode_simple')
+        bld.recurse('test')
+        bld.recurse('examples/encode_decode_simple')
         # bld.recurse('examples/encode_decode_on_the_fly')
         # bld.recurse('examples/sample_makefile')
         # bld.recurse('examples/sliding_window')
