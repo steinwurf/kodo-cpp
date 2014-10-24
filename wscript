@@ -107,7 +107,7 @@ def build(bld):
         recurse_helper(bld, 'platform')
         recurse_helper(bld, 'cpuid')
 
-    bld.recurse('src/cppkodo')
+    bld.recurse('src/kodocpp')
 
     # bld.recurse('examples/encode_decode_simple')
 
