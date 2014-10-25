@@ -20,11 +20,13 @@ namespace kodocpp
     {
     public:
 
-        encoder_factory(code_type code_type,
-                        finite_field field_type,
+        encoder_factory(code_type code,
+                        finite_field field,
                         uint32_t max_symbols,
                         uint32_t max_symbol_size,
                         bool trace_enabled = false);
+
+        ~encoder_factory();
 
         encoder build();
 

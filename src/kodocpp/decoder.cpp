@@ -3,6 +3,8 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#include <cassert>
+
 #include "internal/decoder_interface.hpp"
 
 #include "decoder.hpp"
@@ -11,7 +13,14 @@ namespace kodocpp
 {
     decoder::decoder(decoder_interface* wrapper) :
         m_wrapper(wrapper)
-    { }
+    {
+        assert(m_wrapper);
+    }
+
+    decoder::~decoder()
+    {
+        delete m_wrapper;
+    }
 
     uint32_t decoder::block_size() const
     {

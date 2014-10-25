@@ -21,6 +21,7 @@ namespace kodocpp
     public:
 
         encoder(encoder_interface* wrapper);
+        ~encoder();
 
         // Coder methods
         uint32_t block_size() const;
