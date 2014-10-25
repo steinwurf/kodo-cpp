@@ -114,6 +114,12 @@ def build(bld):
         # bld.recurse('examples/udp_sender_receiver')
         # bld.recurse('examples/use_trace_layers')
 
+    cxxflags=[]
+    CXX = bld.env.get_flat("CXX")
+    # Matches both /usr/bin/g++ and /user/bin/clang++
+    if 'g++' in CXX or 'clang' in CXX:
+        cxxflags=['-fPIC']
+
     # Build the shared library in the build root folder (we also place the
     # generated program binaries in this folder so that they can find the
     # shared library)
@@ -122,6 +128,7 @@ def build(bld):
         source=bld.path.ant_glob('src/**/*.cpp'),
         target='kodocpp',
         name='kodocpp',
+        cxxflags=cxxflags,
         defines=['BUILD_KODOCPP_DLL'],
         install_path=None,
         export_includes='src',
