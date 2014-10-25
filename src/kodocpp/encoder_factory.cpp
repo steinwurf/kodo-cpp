@@ -80,7 +80,6 @@ namespace kodocpp
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
             }
-            assert(m_factory_wrapper);
         }
         else if (code == code_type::on_the_fly)
         {
@@ -138,7 +137,6 @@ namespace kodocpp
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
             }
-            assert(m_factory_wrapper);
         }
         else if (code == code_type::sliding_window)
         {
@@ -196,9 +194,13 @@ namespace kodocpp
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
             }
-            assert(m_factory_wrapper);
         }
         assert(m_factory_wrapper);
+    }
+
+    encoder_factory::~encoder_factory()
+    {
+        delete m_factory_wrapper;
     }
 
     encoder encoder_factory::build()

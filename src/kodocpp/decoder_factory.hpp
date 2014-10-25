@@ -26,6 +26,8 @@ namespace kodocpp
                         uint32_t max_symbol_size,
                         bool trace_enabled = false);
 
+        ~decoder_factory();
+
         decoder build();
 
         void set_symbols(uint32_t symbols);
