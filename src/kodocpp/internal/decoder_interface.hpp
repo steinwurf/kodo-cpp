@@ -7,7 +7,7 @@
 
 #include "coder_interface.hpp"
 
-namespace kodo
+namespace kodocpp
 {
     /// Base class for decoder implementation
     class decoder_interface : public coder_interface
@@ -33,6 +33,5 @@ namespace kodo
         virtual uint32_t symbols_uncoded() const = 0;
         virtual uint32_t symbols_seen() const = 0;
         virtual void write_feedback(uint8_t* feedback) = 0;
-
     };
 }

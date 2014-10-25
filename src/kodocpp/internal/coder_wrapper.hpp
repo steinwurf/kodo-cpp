@@ -19,14 +19,18 @@
 #include <kodo/symbol_decoding_status_tracker.hpp>
 #include <kodo/trace.hpp>
 
-namespace kodo
+namespace kodocpp
 {
     template<class KodoStack, class Base>
     class coder_wrapper : public Base
     {
     public:
 
-        coder_wrapper(const typename KodoStack::pointer& coder) :
+        using coder_type = typename KodoStack::factory::pointer;
+
+    public:
+
+        coder_wrapper(const coder_type& coder) :
             m_coder(coder)
         {
             assert(m_coder);
@@ -93,7 +97,8 @@ namespace kodo
             return kodo::feedback_size(m_coder);
         }
 
-    private:
-        typename KodoStack::pointer m_coder;
+    protected:
+
+        coder_type m_coder;
     };
 }

@@ -3,11 +3,12 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#include <cstdlib>
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 #include <kodocpp/kodocpp.hpp>
-
 
 /// @example encode_decode_simple.cpp
 ///
@@ -21,26 +22,26 @@ int main(void)
     uint32_t max_symbols = 42;
     uint32_t max_symbol_size = 160;
 
-    bool enabled_trace = true;
+    bool trace_enabled = true;
 
     //Initilization of encoder and decoder
-    encoder_factory encoder_factory = encoder_factory(
-        kodo::algorithms.full_rlnc,
-        kodo::field_types.binary8,
+    kodocpp::encoder_factory encoder_factory(
+        kodocpp::code_type::full_rlnc,
+        kodocpp::finite_field::binary8,
         max_symbols,
         max_symbol_size,
-        enabled_trace);
+        trace_enabled);
 
-    encoder encoder = encoder_factory.build();
+    kodocpp::encoder encoder = encoder_factory.build();
 
-    decoder_factory decoder_factory = decoder_factory(
-        kodo::algorithm.kodo_full_rlnc,
-        kodo::field_type.binary8,
+    kodocpp::decoder_factory decoder_factory(
+        kodocpp::code_type::full_rlnc,
+        kodocpp::finite_field::binary8,
         max_symbols,
         max_symbol_size,
-        enable_trace);
+        trace_enabled);
 
-    decoder decoder = decoder_factory.build();
+    kodocpp::decoder decoder = decoder_factory.build();
 
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network
@@ -56,9 +57,9 @@ int main(void)
 
     // Assign the data buffer to the encoder so that we may start
     // to produce encoded symbols from it
-    encoder.set_symbols(sak::storage(data_in));
+    encoder.set_symbols(data_in.data(), encoder.block_size());
 
-    while(!decoder.is_complete())
+    while (!decoder.is_complete())
     {
         // Encode the packet into the payload buffer
         encoder.encode(payload.data());
@@ -69,9 +70,9 @@ int main(void)
 
      // The decoder is complete, now copy the symbols from the decoder
     std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.copy_symbols(sak::storage(data_out));
+    decoder.copy_symbols(data_out.data(), decoder.block_size());
 
-    // Check we properly decoded the data
+    // Check if we properly decoded the data
     if (std::equal(data_out.begin(), data_out.end(), data_in.begin()))
     {
         std::cout << "Data decoded correctly" << std::endl;
@@ -81,5 +82,6 @@ int main(void)
         std::cout << "Unexpected failure to decode, "
                   << "please file a bug report :)" << std::endl;
     }
+
     return 0;
 }

@@ -5,7 +5,12 @@
 
 #pragma once
 
-namespace kodo
+namespace kodocpp
 {
-    enum fieldtype{binary, binary4, binary8, binary16};
+    enum code_type
+    {
+        full_rlnc,
+        on_the_fly,
+        sliding_window
+    };
 }

@@ -5,26 +5,43 @@
 
 #pragma once
 
-#include "internal/encoder_interface.hpp"
-#include "coder.hpp"
+#include <cstdint>
 
-namespace kodo
+#include <functional>
+#include <string>
+
+#include "api_config.hpp"
+
+namespace kodocpp
 {
+    class encoder_interface;
 
-    class encoder : public coder
+    class KODOCPP_API encoder
     {
     public:
-        encoder(encoder_interface* wrapper) : coder(wrapper), m_wrapper(wrapper)
-        {
 
-        }
+        encoder(encoder_interface* wrapper);
 
+        // Coder methods
+        uint32_t block_size() const;
+        uint32_t payload_size() const;
+        uint32_t rank() const;
+        uint32_t symbol_size() const;
+        uint32_t symbols() const;
+        bool symbol_pivot(uint32_t) const;
+
+        bool has_trace() const;
+        void trace(std::function<bool (std::string)>);
+
+        bool has_feedback_size() const;
+        uint32_t feedback_size() const;
+
+        // Enoder methods
         uint32_t encode(uint8_t* payload);
 
         void set_symbols(const uint8_t* data, uint32_t size);
 
-        void set_symbol(
-            uint32_t index, const uint8_t* data, uint32_t size);
+        void set_symbol(uint32_t index, const uint8_t* data, uint32_t size);
 
         bool has_systematic_encoder() const;
 
@@ -37,6 +54,7 @@ namespace kodo
         void read_feedback(uint8_t* feedback);
 
     private:
+
         encoder_interface* m_wrapper;
     };
 }

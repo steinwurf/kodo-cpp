@@ -6,23 +6,27 @@
 #pragma once
 
 #include "factory_wrapper.hpp"
+#include "encoder_factory_interface.hpp"
 #include "encoder_wrapper.hpp"
 
-namespace kodo
+namespace kodocpp
 {
     template<class KodoStack>
-    class encoder_factory_wrapper : public factory_wrapper<KodoStack>
+    class encoder_factory_wrapper : public
+        factory_wrapper<KodoStack, encoder_factory_interface>
     {
+    public:
+
+        using Super = factory_wrapper<KodoStack, encoder_factory_interface>;
+
     public:
 
         encoder_factory_wrapper(uint32_t max_symbols,
                                 uint32_t max_symbol_size) :
-            factory_wrapper<KodoStack>(max_symbols, max_symbol_size)
-        {
+            Super(max_symbols, max_symbol_size)
+        { }
 
-        }
-
-        virtual void* build()
+        virtual encoder_interface* build()
         {
             auto encoder = m_factory.build();
             auto wrapper = new encoder_wrapper<KodoStack>(encoder);
@@ -31,6 +35,7 @@ namespace kodo
         }
 
     private:
-        using factory_wrapper<KodoStack>::m_factory;
+
+        using Super::m_factory;
     };
 }

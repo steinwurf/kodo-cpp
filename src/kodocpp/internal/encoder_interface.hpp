@@ -7,7 +7,7 @@
 
 #include "coder_interface.hpp"
 
-namespace kodo
+namespace kodocpp
 {
     /// Base class for an encoder implementation
     class encoder_interface : public coder_interface

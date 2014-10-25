@@ -5,15 +5,15 @@
 
 #pragma once
 
-#include "encoder_interface.hpp"
+#include "decoder_interface.hpp"
 #include "factory_interface.hpp"
 
 namespace kodocpp
 {
-    class encoder_factory_interface : public factory_interface
+    class decoder_factory_interface : public factory_interface
     {
     public:
 
-        virtual encoder_interface* build() = 0;
+        virtual decoder_interface* build() = 0;
     };
 }

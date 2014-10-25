@@ -3,10 +3,66 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#include "internal/decoder_interface.hpp"
+
 #include "decoder.hpp"
 
-namespace kodo
+namespace kodocpp
 {
+    decoder::decoder(decoder_interface* wrapper) :
+        m_wrapper(wrapper)
+    { }
+
+    uint32_t decoder::block_size() const
+    {
+        return m_wrapper->block_size();
+    }
+
+    uint32_t decoder::payload_size() const
+    {
+        return m_wrapper->payload_size();
+    }
+
+    uint32_t decoder::rank() const
+    {
+        return m_wrapper->rank();
+    }
+
+    uint32_t decoder::symbol_size() const
+    {
+        return m_wrapper->symbol_size();
+    }
+
+    uint32_t decoder::symbols() const
+    {
+        return m_wrapper->symbols();
+    }
+
+    bool decoder::symbol_pivot(uint32_t index) const
+    {
+        return m_wrapper->symbol_pivot(index);
+    }
+
+    bool decoder::has_trace() const
+    {
+        return m_wrapper->has_trace();
+    }
+
+    void decoder::trace(std::function<bool(std::string)> filter)
+    {
+        m_wrapper->trace(filter);
+    }
+
+    bool decoder::has_feedback_size() const
+    {
+        return m_wrapper->has_feedback_size();
+    }
+
+    uint32_t decoder::feedback_size() const
+    {
+        return m_wrapper->feedback_size();
+    }
+
     uint32_t decoder::recode(uint8_t* data)
     {
         return m_wrapper->recode(data);

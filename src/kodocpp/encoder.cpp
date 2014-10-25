@@ -1,8 +1,68 @@
+// Copyright Steinwurf ApS 2011-2013.
+// Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
+// See accompanying file LICENSE.rst or
+// http://www.steinwurf.com/licensing
+
+#include "internal/encoder_interface.hpp"
 
 #include "encoder.hpp"
 
-namespace kodo
+namespace kodocpp
 {
+    encoder::encoder(encoder_interface* wrapper) :
+        m_wrapper(wrapper)
+    { }
+
+    uint32_t encoder::block_size() const
+    {
+        return m_wrapper->block_size();
+    }
+
+    uint32_t encoder::payload_size() const
+    {
+        return m_wrapper->payload_size();
+    }
+
+    uint32_t encoder::rank() const
+    {
+        return m_wrapper->rank();
+    }
+
+    uint32_t encoder::symbol_size() const
+    {
+        return m_wrapper->symbol_size();
+    }
+
+    uint32_t encoder::symbols() const
+    {
+        return m_wrapper->symbols();
+    }
+
+    bool encoder::symbol_pivot(uint32_t index) const
+    {
+        return m_wrapper->symbol_pivot(index);
+    }
+
+    bool encoder::has_trace() const
+    {
+        return m_wrapper->has_trace();
+    }
+
+    void encoder::trace(std::function<bool(std::string)> filter)
+    {
+        m_wrapper->trace(filter);
+    }
+
+    bool encoder::has_feedback_size() const
+    {
+        return m_wrapper->has_feedback_size();
+    }
+
+    uint32_t encoder::feedback_size() const
+    {
+        return m_wrapper->feedback_size();
+    }
+
     uint32_t encoder::encode(uint8_t* payload)
     {
         return m_wrapper->encode(payload);

@@ -9,7 +9,7 @@
 #include <functional>
 #include <string>
 
-namespace kodo
+namespace kodocpp
 {
     /// Base class for both encoder and decoder implementations.
     class coder_interface

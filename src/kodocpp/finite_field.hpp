@@ -5,15 +5,15 @@
 
 #pragma once
 
-#include "encoder_interface.hpp"
-#include "factory_interface.hpp"
-
 namespace kodocpp
 {
-    class encoder_factory_interface : public factory_interface
+    /// Enum specifying the different kinds of finite fields.
+    enum finite_field
     {
-    public:
-
-        virtual encoder_interface* build() = 0;
+        binary,
+        binary4,
+        binary8,
+        binary16,
+        prime2325
     };
 }

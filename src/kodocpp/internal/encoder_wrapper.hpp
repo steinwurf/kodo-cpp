@@ -26,36 +26,42 @@
 #include "coder_wrapper.hpp"
 
 #include "../encoder.hpp"
-namespace kodo
+
+namespace kodocpp
 {
     template<class KodoStack>
     class encoder_wrapper : public coder_wrapper<KodoStack, encoder_interface>
     {
     public:
 
-        encoder_wrapper(const typename KodoStack::pointer& coder) :
-            coder_wrapper<KodoStack, encoder_interface>(coder),
-            m_encoder(coder)
+        using Super = coder_wrapper<KodoStack, encoder_interface>;
+
+        using coder_type = typename Super::coder_type;
+
+    public:
+
+        encoder_wrapper(const coder_type& coder) :
+            Super(coder)
         {
-            assert(m_encoder);
+            assert(m_coder);
         }
 
         virtual uint32_t encode(uint8_t* payload)
         {
-            return m_encoder->encode(payload);
+            return m_coder->encode(payload);
         }
 
         virtual void set_symbols(const uint8_t* data, uint32_t size)
         {
             auto storage = sak::const_storage(data, size);
-            m_encoder->set_symbols(storage);
+            m_coder->set_symbols(storage);
         }
 
         virtual void set_symbol(
             uint32_t index, const uint8_t* data, uint32_t size)
         {
             auto storage = sak::const_storage(data, size);
-            m_encoder->set_symbol(index, storage);
+            m_coder->set_symbol(index, storage);
         }
 
         virtual bool has_systematic_encoder() const
@@ -65,25 +71,26 @@ namespace kodo
 
         virtual bool is_systematic_on() const
         {
-            return kodo::is_systematic_on(m_encoder);
+            return kodo::is_systematic_on(m_coder);
         }
 
         virtual void set_systematic_on()
         {
-            kodo::set_systematic_on(m_encoder);
+            kodo::set_systematic_on(m_coder);
         }
 
         virtual void set_systematic_off()
         {
-            kodo::set_systematic_off(m_encoder);
+            kodo::set_systematic_off(m_coder);
         }
 
         virtual void read_feedback(uint8_t* feedback)
         {
-            kodo::read_feedback(m_encoder, feedback);
+            kodo::read_feedback(m_coder, feedback);
         }
 
-    private:
-        typename KodoStack::pointer m_encoder;
+    protected:
+
+        using Super::m_coder;
     };
 }

@@ -3,19 +3,40 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include "internal/decoder_interface.hpp"
-#include "coder.hpp"
+#pragma once
 
-namespace kodo
+#include <cstdint>
+
+#include <functional>
+#include <string>
+
+#include "api_config.hpp"
+
+namespace kodocpp
 {
-    class decoder : public coder
+    class decoder_interface;
+
+    class KODOCPP_API decoder
     {
     public:
-        decoder(decoder_interface* wrapper) : coder(wrapper), m_wrapper(wrapper)
-        {
 
-        }
+        decoder(decoder_interface* wrapper);
 
+        // Coder methods
+        uint32_t block_size() const;
+        uint32_t payload_size() const;
+        uint32_t rank() const;
+        uint32_t symbol_size() const;
+        uint32_t symbols() const;
+        bool symbol_pivot(uint32_t) const;
+
+        bool has_trace() const;
+        void trace(std::function<bool (std::string)>);
+
+        bool has_feedback_size() const;
+        uint32_t feedback_size() const;
+
+        // Decoder methods
         uint32_t recode(uint8_t* data);
 
         void decode(uint8_t* data);
@@ -24,8 +45,7 @@ namespace kodo
 
         void copy_symbols(uint8_t* data, uint32_t size) const;
 
-        void copy_symbol(uint32_t index, uint8_t* data,
-                                 uint32_t size) const;
+        void copy_symbol(uint32_t index, uint8_t* data, uint32_t size) const;
 
         bool has_partial_decoding_tracker() const;
 
@@ -37,6 +57,7 @@ namespace kodo
         void write_feedback(uint8_t* feedback);
 
     private:
+
         decoder_interface* m_wrapper;
     };
 }

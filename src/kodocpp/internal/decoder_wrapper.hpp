@@ -22,55 +22,59 @@
 #include "coder_wrapper.hpp"
 #include "decoder_interface.hpp"
 
-#include "../decoder.hpp"
 
-namespace kodo
+namespace kodocpp
 {
     template<class KodoStack>
-    class decoder_wrapper : public coder_wrapper<KodoStack, decoder>
+    class decoder_wrapper : public coder_wrapper<KodoStack, decoder_interface>
     {
     public:
 
-        decoder_wrapper(const typename KodoStack::pointer& coder) :
-            coder_wrapper<KodoStack, decoder>(coder),
-            m_decoder(coder)
+        using Super = coder_wrapper<KodoStack, decoder_interface>;
+
+        using coder_type = typename Super::coder_type;
+
+    public:
+
+        decoder_wrapper(const coder_type& coder) :
+            Super(coder)
         {
-            assert(m_decoder);
+            assert(m_coder);
         }
 
         virtual uint32_t recode(uint8_t *payload)
         {
             assert(payload);
-            assert(m_decoder);
+            assert(m_coder);
 
-            return m_decoder->recode(payload);
+            return m_coder->recode(payload);
         }
 
         virtual void decode(uint8_t *payload)
         {
             assert(payload);
-            assert(m_decoder);
+            assert(m_coder);
 
-            m_decoder->decode(payload);
+            m_coder->decode(payload);
         }
 
         virtual bool is_complete() const
         {
-            assert(m_decoder);
-            return m_decoder->is_complete();
+            assert(m_coder);
+            return m_coder->is_complete();
         }
 
         virtual void copy_symbols(uint8_t* data, uint32_t size) const
         {
             auto storage = sak::mutable_storage(data, size);
-            m_decoder->copy_symbols(storage);
+            m_coder->copy_symbols(storage);
         }
 
         virtual void copy_symbol(uint32_t index, uint8_t* data,
                                  uint32_t size) const
         {
             auto storage = sak::mutable_storage(data, size);
-            m_decoder->copy_symbol(index, storage);
+            m_coder->copy_symbol(index, storage);
         }
 
         virtual bool has_partial_decoding_tracker() const
@@ -80,32 +84,31 @@ namespace kodo
 
         virtual bool is_partial_complete() const
         {
-            return kodo::is_partial_complete(m_decoder);
+            return kodo::is_partial_complete(m_coder);
         }
 
         virtual bool is_symbol_uncoded(uint32_t index) const
         {
-            return m_decoder->is_symbol_uncoded(index);
+            return m_coder->is_symbol_uncoded(index);
         }
 
         virtual uint32_t symbols_uncoded() const
         {
-            return m_decoder->symbols_uncoded();
+            return m_coder->symbols_uncoded();
         }
 
         virtual uint32_t symbols_seen() const
         {
-            return m_decoder->symbols_seen();
+            return m_coder->symbols_seen();
         }
 
         virtual void write_feedback(uint8_t* feedback)
         {
-            kodo::write_feedback(m_decoder, feedback);
+            kodo::write_feedback(m_coder, feedback);
         }
 
+    protected:
 
-    private:
-
-        typename KodoStack::pointer m_decoder;
+        using Super::m_coder;
     };
 }

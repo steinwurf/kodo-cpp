@@ -5,20 +5,26 @@
 
 #pragma once
 
-#include "internal/factory_interface.hpp"
-#include "internal/decoder_factory_wrapper.hpp"
-//#include "decoder.hpp"
+#include <cstdint>
 
-namespace kodo
+#include "api_config.hpp"
+#include "code_type.hpp"
+#include "finite_field.hpp"
+#include "decoder.hpp"
+
+namespace kodocpp
 {
-    class decoder_factory : public factory_interface
+    class decoder_factory_interface;
+
+    class KODOCPP_API decoder_factory
     {
     public:
-        decoder_factory(kodo::algorithm algorithm,
-                        kodo::fieldtype field_type,
+
+        decoder_factory(code_type code_type,
+                        finite_field field_type,
                         uint32_t max_symbols,
                         uint32_t max_symbol_size,
-                        bool trace_enabled);
+                        bool trace_enabled = false);
 
         decoder build();
 
@@ -35,7 +41,7 @@ namespace kodo
         uint32_t max_payload_size() const;
 
     private:
-        factory_interface* m_factory_wrapper;
-    };
 
+        decoder_factory_interface* m_factory_wrapper;
+    };
 }

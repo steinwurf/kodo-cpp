@@ -7,20 +7,11 @@
 
 #include <cstdint>
 
-#include <kodo/rlnc/full_rlnc_codes.hpp>
-#include <kodo/rlnc/on_the_fly_codes.hpp>
-#include <kodo/rlnc/sliding_window_encoder.hpp>
-#include <kodo/rlnc/sliding_window_decoder.hpp>
-
-#include "../algorithm.hpp"
-#include "../field_type.hpp"
-
-namespace kodo
+namespace kodocpp
 {
     class factory_interface
     {
     public:
-//        virtual void* build() = 0;
 
         virtual void set_symbols(uint32_t symbols) = 0;
         virtual void set_symbol_size(uint32_t symbol_size) = 0;

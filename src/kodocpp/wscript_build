@@ -6,6 +6,7 @@ bld.shlib(
     source=bld.path.ant_glob('**/*.cpp'),
     target='kodocpp',
     name='kodocpp',
+    defines=['BUILD_KODOCPP_DLL'],
     install_path=None,
     export_includes='..',
     use=['kodo_includes', 'boost_includes', 'fifi_includes',
