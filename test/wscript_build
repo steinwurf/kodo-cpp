@@ -9,6 +9,6 @@ if not bld.is_mkspec_platform('windows'):
 bld.program(
     features='cxx test',
     source=['kodocpp_tests.cpp'] + bld.path.ant_glob('src/*.cpp'),
-    target='kodocpp_tests',
+    target='../kodocpp_tests',
     rpath=search_path,
     use=['kodocpp', 'gtest'])

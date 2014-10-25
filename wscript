@@ -114,4 +114,16 @@ def build(bld):
         # bld.recurse('examples/udp_sender_receiver')
         # bld.recurse('examples/use_trace_layers')
 
-    bld.recurse('src/kodocpp')
+    # Build the shared library in the build root folder (we also place the
+    # generated program binaries in this folder so that they can find the
+    # shared library)
+    bld.shlib(
+        features='cxx',
+        source=bld.path.ant_glob('src/**/*.cpp'),
+        target='kodocpp',
+        name='kodocpp',
+        defines=['BUILD_KODOCPP_DLL'],
+        install_path=None,
+        export_includes='src',
+        use=['kodo_includes', 'boost_includes', 'fifi_includes',
+             'sak_includes', 'platform_includes'])
