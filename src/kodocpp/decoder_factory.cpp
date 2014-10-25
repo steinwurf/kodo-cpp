@@ -16,37 +16,37 @@
 
 namespace kodocpp
 {
-    decoder_factory::decoder_factory(code_type code_type,
-                     finite_field field_type,
-                     uint32_t max_symbols,
-                     uint32_t max_symbol_size,
-                     bool trace_enabled)
+    decoder_factory::decoder_factory(code_type code,
+                                     finite_field field,
+                                     uint32_t max_symbols,
+                                     uint32_t max_symbol_size,
+                                     bool trace_enabled)
     {
         using namespace kodo;
 
-        if (code_type == code_type::full_rlnc)
+        if (code == code_type::full_rlnc)
         {
             if (!trace_enabled)
             {
-                if (field_type == finite_field::binary)
+                if (field == finite_field::binary)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         full_rlnc_decoder<fifi::binary,
                             disable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary4)
+                else if (field == finite_field::binary4)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         full_rlnc_decoder<fifi::binary4,
                             disable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary8)
+                else if (field == finite_field::binary8)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         full_rlnc_decoder<fifi::binary8,
                             disable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary16)
+                else if (field == finite_field::binary16)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         full_rlnc_decoder<fifi::binary16,
@@ -55,25 +55,25 @@ namespace kodocpp
             }
             else
             {
-                if (field_type == finite_field::binary)
+                if (field == finite_field::binary)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         full_rlnc_decoder<fifi::binary,
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary4)
+                else if (field == finite_field::binary4)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         full_rlnc_decoder<fifi::binary4,
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary8)
+                else if (field == finite_field::binary8)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         full_rlnc_decoder<fifi::binary8,
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary16)
+                else if (field == finite_field::binary16)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         full_rlnc_decoder<fifi::binary16,
@@ -82,29 +82,29 @@ namespace kodocpp
             }
             assert(m_factory_wrapper);
         }
-        else if (code_type == code_type::on_the_fly)
+        else if (code == code_type::on_the_fly)
         {
             if (!trace_enabled)
             {
-                if (field_type == finite_field::binary)
+                if (field == finite_field::binary)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         on_the_fly_decoder<fifi::binary,
                             disable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary4)
+                else if (field == finite_field::binary4)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         on_the_fly_decoder<fifi::binary4,
                             disable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary8)
+                else if (field == finite_field::binary8)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         on_the_fly_decoder<fifi::binary8,
                             disable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary16)
+                else if (field == finite_field::binary16)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         on_the_fly_decoder<fifi::binary16,
@@ -113,25 +113,25 @@ namespace kodocpp
             }
             else
             {
-                if (field_type == finite_field::binary)
+                if (field == finite_field::binary)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         on_the_fly_decoder<fifi::binary,
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary4)
+                else if (field == finite_field::binary4)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         on_the_fly_decoder<fifi::binary4,
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary8)
+                else if (field == finite_field::binary8)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         on_the_fly_decoder<fifi::binary8,
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary16)
+                else if (field == finite_field::binary16)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         on_the_fly_decoder<fifi::binary16,
@@ -140,29 +140,29 @@ namespace kodocpp
             }
             assert(m_factory_wrapper);
         }
-        else if (code_type == code_type::sliding_window)
+        else if (code == code_type::sliding_window)
         {
             if (!trace_enabled)
             {
-                if (field_type == finite_field::binary)
+                if (field == finite_field::binary)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         sliding_window_decoder<fifi::binary,
                             disable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary4)
+                else if (field == finite_field::binary4)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         sliding_window_decoder<fifi::binary4,
                             disable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary8)
+                else if (field == finite_field::binary8)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         sliding_window_decoder<fifi::binary8,
                             disable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary16)
+                else if (field == finite_field::binary16)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         sliding_window_decoder<fifi::binary16,
@@ -171,25 +171,25 @@ namespace kodocpp
             }
             else
             {
-                if (field_type == finite_field::binary)
+                if (field == finite_field::binary)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         sliding_window_decoder<fifi::binary,
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary4)
+                else if (field == finite_field::binary4)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         sliding_window_decoder<fifi::binary4,
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary8)
+                else if (field == finite_field::binary8)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         sliding_window_decoder<fifi::binary8,
                             enable_trace>>(max_symbols, max_symbol_size);
                 }
-                else if (field_type == finite_field::binary16)
+                else if (field == finite_field::binary16)
                 {
                     m_factory_wrapper = new decoder_factory_wrapper<
                         sliding_window_decoder<fifi::binary16,
