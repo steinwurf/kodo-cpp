@@ -125,8 +125,10 @@ int main(void)
                                         encoder.symbol_size());
 
                     // Verify the symbol against the original data
-                    if(std::equal(data_in[i], data_in[i],
-                                  encoder.symbol_size()))
+                    uint32_t offset = i * encoder.symbol_size();
+                    auto start = data_in.begin() + offset;
+                    auto end = start + encoder.symbol_size();
+                    if(std::equal(start, end, data_out.begin() + offset))
                     {
                         std::cout << "Symbol " << i << " decoded correctly.\n";
                     }
