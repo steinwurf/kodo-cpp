@@ -70,11 +70,12 @@ int main(void)
             uint32_t rank = encoder.rank();
 
             // Calculate the offset to the nex symbol to insert
-            std::vector<uint8_t> symbol  = data_in[rank * encoder.symbol_size()];
+            // REMOVE MAYBE?
+            //uint8_t symbol  = data_in[rank * encoder.symbol_size()];
 
             //uint32_t index, const uint8_t* data, uint32_t size
             encoder.set_symbol(rank * encoder.symbol_size(),
-                               data_in[rank * encoder.symbol_size()].data(),
+                               data_in.data(),
                                encoder.symbol_size());
         }
 
@@ -120,7 +121,8 @@ int main(void)
                     // Verify the decoded symbol
 
                     // Copy out the individual symbol from the decoder
-                    decoder.copy_symbol(i, data_out[i], encoder.symbol_size());
+                    decoder.copy_symbol(i, data_out.data(),
+                                        encoder.symbol_size());
 
                     // Verify the symbol against the original data
                     if(std::equal(data_in[i], data_in[i],
