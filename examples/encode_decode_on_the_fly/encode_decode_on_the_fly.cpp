@@ -73,8 +73,9 @@ int main(void)
             // REMOVE MAYBE?
             //uint8_t symbol  = data_in[rank * encoder.symbol_size()];
 
+            // * encoder.symbol_size()
             //uint32_t index, const uint8_t* data, uint32_t size
-            encoder.set_symbol(rank * encoder.symbol_size(),
+            encoder.set_symbol(rank,
                                data_in.data(),
                                encoder.symbol_size());
         }
