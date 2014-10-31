@@ -127,7 +127,8 @@ int main(void)
 
                     // Verify the symbol against the original data
                     uint32_t offset = i * encoder.symbol_size();
-                    auto start = data_in.begin() + offset;
+                    //auto start = data_in.begin() + offset;
+                    auto start = data_out.begin() + offset;
                     auto end = start + encoder.symbol_size();
                     if(std::equal(start, end, data_out.begin() + offset))
                     {
