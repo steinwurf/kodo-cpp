@@ -1,4 +1,4 @@
-// Copyright Steinwurf ApS 2011-2012.
+// Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
@@ -7,11 +7,21 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
 #include <kodocpp/kodocpp.hpp>
+
+/// @example switch_systematic_on_off.cpp
+///
+/// This example shows how to enable or disable systematic coding for
+/// coding stacks that support it.
+/// Systematic coding is used to reduce the amount of work done by an
+/// encoder and a decoder. This is achieved by initially sending all
+/// symbols which has not previously been sent uncoded. Kodo allows this
+/// feature to be optionally turn of or off.
 
 int main(void)
 {
+    // Seed random number generator to produce different results every time
+    srand(static_cast<uint32_t>(time(0)));
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
@@ -53,23 +63,23 @@ int main(void)
 
     encoder.set_symbols(data_in.data(), encoder.block_size());
 
-    std::cout << "Start encoding / decoding\n";
-    while(!decoder.is_complete())
+    std::cout << "Start encoding / decoding" << std:endln;
+    while (!decoder.is_complete())
     {
         //If the chosen codec stack supports systematic coding
-        if(encoder.has_systematic_encoder())
+        if (encoder.has_systematic_encoder())
         {
             // with 50% probability toggle systematic
-            if((rand() % 2) == 0)
+            if ((rand() % 2) == 0)
             {
-                if(encoder.is_systematic_on())
+                if (encoder.is_systematic_on())
                 {
-                    std::cout << "Turning Systematic OFF\n";
+                    std::cout << "Turning Systematic OFF" << std:endln;
                     encoder.set_systematic_off();
                 }
                 else
                 {
-                    std::cout << "Turning systematic ON\n";
+                    std::cout << "Turning systematic ON" << std:endln;
                     encoder.set_systematic_on();
                 }
             }
@@ -78,21 +88,21 @@ int main(void)
         //Encode a packet into the payload buffer
         encoder.encode(payload.data());
 
-        if((rand() % 2) == 0)
+        if ((rand() % 2) == 0)
         {
-            std::cout << "Drop packet\n";
+            std::cout << "Drop packet" << std:endln;
             continue;
         }
 
         //Pass the packet to the decoder
         decoder.decode(payload.data());
 
-        std::cout << "Rank of decoder " << decoder.rank() << "\n";
+        std::cout << "Rank of decoder " << decoder.rank()  << std:endln;
 
         // Symbols that were received in the systematic phase correspond
         // to the original source symbols and are therefore marked as
         // decoded
-        std::cout << "Symbols decoded " << decoder.symbols_uncoded() << "\n";
+        std::cout << "Symbols decoded " << decoder.symbols_uncoded() << std:endln;
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());

@@ -1,29 +1,35 @@
-// Copyright Steinwurf ApS 2011-2012.
+// Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
+
 #include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <set>
-
 #include <kodocpp/kodocpp.hpp>
+
+/// @example use_trace_layers.cpp
+///
+/// Simple example showing how to use some of the trace layers defined
+/// in Kodo.
 
 int main(void)
 {
 
     // Seed random number generator to produce different results every time
     srand(static_cast<uint32_t>(time(0)));
+
     // Filter
     auto filter = [](const std::string& zone)
-        {
-            std::set<std::string> filters =
-            {"decoder_state", "input_symbol_coefficients"};
-            return filters.count(zone);
-        };
+    {
+        std::set<std::string> filters =
+        {"decoder_state", "input_symbol_coefficients"};
+        return filters.count(zone);
+    };
 
-        // Seed random number generator to produce different results every time
+    // Seed random number generator to produce different results every time
     srand(static_cast<uint32_t>(time(0)));
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
@@ -67,27 +73,27 @@ int main(void)
 
     encoder.set_symbols(data_in.data(), encoder.block_size());
 
-    while(!decoder.is_complete())
+    while (!decoder.is_complete())
     {
 
         encoder.encode(payload.data());
 
-        if(encoder.has_trace())
+        if (encoder.has_trace())
         {
-            std::cout << "Tace encoder:\n";
+            std::cout << "Tace encoder:" << std::endl;
             encoder.trace(nullptr);
         }
 
-        if((rand() % 2) == 0)
+        if ((rand() % 2) == 0)
         {
             continue;
         }
 
         decoder.decode(payload.data());
 
-        if(decoder.has_trace())
+        if (decoder.has_trace())
         {
-            std::cout << "Trace decoder:\n";
+            std::cout << "Trace decoder:" << std::endl;
             decoder.trace(filter);
         }
     }

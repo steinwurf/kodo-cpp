@@ -1,25 +1,37 @@
-// Copyright Steinwurf ApS 2011-2012.
+// Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
+
 #include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <set>
-
 #include <kodocpp/kodocpp.hpp>
+
+/// @example sliding_window.cpp
+///
+/// This example shows how to use the sliding window encoder and decoder
+/// stacks. The sliding window is special in that it does not require
+/// that all symbols are available at the encoder before encoding can
+/// start. In addition, it uses feedback between the decoder and encoder
+/// such that symbols that have already been received at the decoder
+/// are not included in the encoding again (saving computations).
 
 int main(void)
 {
+    // Seed random number generator to produce different results every time
+    srand(static_cast<uint32_t>(time(0)));
 
     // Filter
     auto filter = [](const std::string& zone)
-        {
-            std::set<std::string> filters =
-            {"decoder_state", "input_symbol_coefficients"};
-            return filters.count(zone);
-        };
+    {
+        std::set<std::string> filters =
+        {"decoder_state", "input_symbol_coefficients"};
+        return filters.count(zone);
+    };
+
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
     uint32_t max_symbols = 42;
@@ -60,10 +72,10 @@ int main(void)
 
     std::vector<uint8_t> feedback(encoder.feedback_size());
 
-    while(!decoder.is_complete())
+    while (!decoder.is_complete())
     {
 
-        if((rand() % 2) && encoder.rank() < encoder.symbols())
+        if ((rand() % 2) && encoder.rank() < encoder.symbols())
         {
             //The rank of an encoder indicates how many symbols have been
             // added, i.e how many symbols are available for encoding
@@ -76,50 +88,50 @@ int main(void)
                                symbol,
                                encoder.symbol_size());
 
-            std::cout << "Symbol " << rank << " added to the encoder\n";
+            std::cout << "Symbol " << rank << " added to the encoder" << std::endl;
         }
 
         //bytes_used = encoder.encode(payload.data());
-        if(encoder.rank() == 0)
+        if (encoder.rank() == 0)
         {
             continue;
         }
 
         encoder.encode(payload.data());
 
-        std::cout << "Packet encoded\n";
+        std::cout << "Packet encoded" << std::endl;
 
-        if(rand() % 2)
+        if (rand() % 2)
         {
-            std::cout << "Packet dropped on channel\n";
+            std::cout << "Packet dropped on channel" << std::endl;
             continue;
         }
 
-        std::cout << "Decoder received packet\n";
+        std::cout << "Decoder received packet" << std::endl;
 
         decoder.decode(payload.data());
 
-        if(decoder.has_trace())
+        if (decoder.has_trace())
         {
-            std::cout << "Trace decoder:\n";
+            std::cout << "Trace decoder:" << std::endl;
             decoder.trace(filter);
         }
 
-        std::cout << "Encoder rank = " << encoder.rank() << "\n";
-        std::cout << "Decoder rank = " << decoder.rank() << "\n";
+        std::cout << "Encoder rank = " << encoder.rank()  << std::endl;
+        std::cout << "Decoder rank = " << decoder.rank()  << std::endl;
 
-        std::cout << "Decoder uncoded = " << decoder.symbols_uncoded() << "\n";
-        std::cout << "Decoder seen = " << decoder.symbols_seen() << "\n";
+        std::cout << "Decoder uncoded = " << decoder.symbols_uncoded() << std::endl;
+        std::cout << "Decoder seen = " << decoder.symbols_seen() << std::endl;
 
         decoder.write_feedback(feedback.data());
 
-        if(rand() % 2)
+        if (rand() % 2)
         {
-            std::cout << "Lost feedback from decoder\n";
+            std::cout << "Lost feedback from decoder" << std::endl;
             continue;
         }
 
-        std::cout << "Received feedback from decoder\n";
+        std::cout << "Received feedback from decoder" << std::endl;
         encoder.read_feedback(feedback.data());
     }
 

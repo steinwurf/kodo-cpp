@@ -1,4 +1,4 @@
-// Copyright Steinwurf ApS 2011-2012.
+// Copyright Steinwurf ApS 2014.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
@@ -7,7 +7,6 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-
 #include <kodocpp/kodocpp.hpp>
 
 /// @example encode_decode_simple.cpp
@@ -17,6 +16,9 @@
 
 int main(void)
 {
+    // Seed random number generator to produce different results every time
+    srand(static_cast<uint32_t>(time(0)));
+    
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
     uint32_t max_symbols = 42;
