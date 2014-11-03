@@ -119,7 +119,7 @@ def build(bld):
         bld.recurse('examples/sliding_window')
         bld.recurse('examples/switch_systematic_on_off')
         # bld.recurse('examples/udp_sender_receiver')
-        # bld.recurse('examples/use_trace_layers')
+        bld.recurse('examples/use_trace_layers')
 
 
     # Build the shared library in the build root folder (we also place the

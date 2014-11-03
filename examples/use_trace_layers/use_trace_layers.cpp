@@ -2,23 +2,35 @@
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
-
 #include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <set>
 
 #include <kodocpp/kodocpp.hpp>
 
 int main(void)
 {
 
+    // Seed random number generator to produce different results every time
+    srand(static_cast<uint32_t>(time(0)));
+    // Filter
+    auto filter = [](const std::string& zone)
+        {
+            std::set<std::string> filters =
+            {"decoder_state", "input_symbol_coefficients"};
+            return filters.count(zone);
+        };
+
+        // Seed random number generator to produce different results every time
+    srand(static_cast<uint32_t>(time(0)));
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 16;
-    uint32_t max_symbol_size = 160;
+    uint32_t max_symbols = 8;
+    uint32_t max_symbol_size = 33;
 
-    bool trace_enabled = true;
+    bool trace_enabled = false;
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
@@ -29,6 +41,8 @@ int main(void)
         trace_enabled);
 
     kodocpp::encoder encoder = encoder_factory.build();
+
+    trace_enabled = true;
 
     kodocpp::decoder_factory decoder_factory(
         kodocpp::code_type::full_rlnc,
@@ -53,46 +67,30 @@ int main(void)
 
     encoder.set_symbols(data_in.data(), encoder.block_size());
 
-    std::cout << "Start encoding / decoding\n";
     while(!decoder.is_complete())
     {
-        //If the chosen codec stack supports systematic coding
-        if(encoder.has_systematic_encoder())
-        {
-            // with 50% probability toggle systematic
-            if((rand() % 2) == 0)
-            {
-                if(encoder.is_systematic_on())
-                {
-                    std::cout << "Turning Systematic OFF\n";
-                    encoder.set_systematic_off();
-                }
-                else
-                {
-                    std::cout << "Turning systematic ON\n";
-                    encoder.set_systematic_on();
-                }
-            }
-        }
 
-        //Encode a packet into the payload buffer
         encoder.encode(payload.data());
+
+        if(encoder.has_trace())
+        {
+            std::cout << "Tace encoder:\n";
+            //kodo::trace(encoder, std::cout);
+            //encoder.trace(filter);
+        }
 
         if((rand() % 2) == 0)
         {
-            std::cout << "Drop packet\n";
             continue;
         }
 
-        //Pass the packet to the decoder
         decoder.decode(payload.data());
 
-        std::cout << "Rank of decoder " << decoder.rank() << "\n";
-
-        // Symbols that were received in the systematic phase correspond
-        // to the original source symbols and are therefore marked as
-        // decoded
-        std::cout << "Symbols decoded " << decoder.symbols_uncoded() << "\n";
+        if(decoder.has_trace())
+        {
+            std::cout << "Trace decoder:\n";
+            decoder.trace(filter);
+        }
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());
