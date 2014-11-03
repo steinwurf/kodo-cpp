@@ -13,8 +13,7 @@
 
 /// @example encode_decode_simple.cpp
 ///
-/// Simple example showing how to encode and decode a block
-/// of memory.
+/// Simple example showing how to encode and decode a block of memory.
 
 int main(void)
 {

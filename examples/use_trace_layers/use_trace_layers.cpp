@@ -72,6 +72,7 @@ int main(void)
             encoder.trace(nullptr);
         }
 
+        // Simulate a lossy channel where we are losing 50% of the packets
         if ((rand() % 2) == 0)
         {
             continue;
@@ -95,7 +96,6 @@ int main(void)
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());
-
     decoder.copy_symbols(data_out.data(), decoder.block_size());
 
     // Check if we properly decoded the data

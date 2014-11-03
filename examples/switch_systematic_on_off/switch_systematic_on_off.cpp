@@ -76,12 +76,12 @@ int main(void)
             {
                 if (encoder.is_systematic_on())
                 {
-                    std::cout << "Turning Systematic OFF" << std::endl;
+                    std::cout << "Turning systematic coding OFF" << std::endl;
                     encoder.set_systematic_off();
                 }
                 else
                 {
-                    std::cout << "Turning systematic ON" << std::endl;
+                    std::cout << "Turning systematic coding ON" << std::endl;
                     encoder.set_systematic_on();
                 }
             }
@@ -90,6 +90,7 @@ int main(void)
         //Encode a packet into the payload buffer
         encoder.encode(payload.data());
 
+        // Simulate a lossy channel where we are losing 50% of the packets
         if ((rand() % 2) == 0)
         {
             std::cout << "Packet dropped" << std::endl;
@@ -99,17 +100,16 @@ int main(void)
         //Pass the packet to the decoder
         decoder.decode(payload.data());
 
-        std::cout << "Rank of decoder " << decoder.rank()  << std::endl;
+        std::cout << "Decoder rank: " << decoder.rank() << std::endl;
 
         // Symbols that were received in the systematic phase correspond
         // to the original source symbols and are therefore marked as
         // decoded
-        std::cout << "Symbols decoded " << decoder.symbols_uncoded()
+        std::cout << "Symbols decoded: " << decoder.symbols_uncoded()
                   << std::endl;
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());
-
     decoder.copy_symbols(data_out.data(), decoder.block_size());
 
     // Check if we properly decoded the data

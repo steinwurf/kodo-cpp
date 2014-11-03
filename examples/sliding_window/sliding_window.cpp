@@ -94,11 +94,9 @@ int main(void)
 
         // Encode a packet into the payload buffer
         encoder.encode(payload.data());
-
         std::cout << "Packet encoded" << std::endl;
 
-        // Send the data to the decoder, here we just for fun
-        // simulate that we are losing 50% of the packets
+        // Simulate a lossy channel where we are losing 50% of the packets
         if (rand() % 2)
         {
             std::cout << "Packet dropped on channel" << std::endl;
@@ -123,12 +121,13 @@ int main(void)
             decoder.trace(filter);
         }
 
-        std::cout << "Encoder rank = " << encoder.rank()  << std::endl;
-        std::cout << "Decoder rank = " << decoder.rank()  << std::endl;
+        std::cout << "Encoder rank: " << encoder.rank()  << std::endl;
+        std::cout << "Decoder rank: " << decoder.rank()  << std::endl;
 
-        std::cout << "Decoder uncoded = " << decoder.symbols_uncoded()
+        std::cout << "Decoder symbols uncoded: " << decoder.symbols_uncoded()
                   << std::endl;
-        std::cout << "Decoder seen = " << decoder.symbols_seen() << std::endl;
+        std::cout << "Decoder symbols seen: " << decoder.symbols_seen()
+                  << std::endl;
 
         decoder.write_feedback(feedback.data());
 
@@ -144,7 +143,6 @@ int main(void)
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());
-
     decoder.copy_symbols(data_out.data(), decoder.block_size());
 
     // Check if we properly decoded the data
