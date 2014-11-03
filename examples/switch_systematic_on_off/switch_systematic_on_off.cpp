@@ -63,7 +63,7 @@ int main(void)
 
     encoder.set_symbols(data_in.data(), encoder.block_size());
 
-    std::cout << "Start encoding / decoding" << std:endln;
+    std::cout << "Start encoding / decoding" << std::endl;
     while (!decoder.is_complete())
     {
         //If the chosen codec stack supports systematic coding
@@ -74,12 +74,12 @@ int main(void)
             {
                 if (encoder.is_systematic_on())
                 {
-                    std::cout << "Turning Systematic OFF" << std:endln;
+                    std::cout << "Turning Systematic OFF" << std::endl;
                     encoder.set_systematic_off();
                 }
                 else
                 {
-                    std::cout << "Turning systematic ON" << std:endln;
+                    std::cout << "Turning systematic ON" << std::endl;
                     encoder.set_systematic_on();
                 }
             }
@@ -90,19 +90,19 @@ int main(void)
 
         if ((rand() % 2) == 0)
         {
-            std::cout << "Drop packet" << std:endln;
+            std::cout << "Drop packet" << std::endl;
             continue;
         }
 
         //Pass the packet to the decoder
         decoder.decode(payload.data());
 
-        std::cout << "Rank of decoder " << decoder.rank()  << std:endln;
+        std::cout << "Rank of decoder " << decoder.rank()  << std::endl;
 
         // Symbols that were received in the systematic phase correspond
         // to the original source symbols and are therefore marked as
         // decoded
-        std::cout << "Symbols decoded " << decoder.symbols_uncoded() << std:endln;
+        std::cout << "Symbols decoded " << decoder.symbols_uncoded() << std::endl;
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());
