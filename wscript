@@ -117,7 +117,7 @@ def build(bld):
         bld.recurse('examples/encode_decode_on_the_fly')
         # bld.recurse('examples/sample_makefile')
         bld.recurse('examples/sliding_window')
-        # bld.recurse('examples/switch_systematic_on_off')
+        bld.recurse('examples/switch_systematic_on_off')
         # bld.recurse('examples/udp_sender_receiver')
         # bld.recurse('examples/use_trace_layers')
 
