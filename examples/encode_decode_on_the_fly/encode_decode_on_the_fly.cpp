@@ -68,7 +68,7 @@ int main(void)
             // added, i.e. how many symbols are available for encoding
             uint32_t rank = encoder.rank();
 
-            // Calculate the offset to the nex symbol to insert
+            // Calculate the offset to the next symbol to insert
             uint8_t* symbol = data_in.data() + (rank * encoder.symbol_size());
 
             encoder.set_symbol(rank,
