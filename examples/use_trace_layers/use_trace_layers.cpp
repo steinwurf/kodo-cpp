@@ -4,10 +4,12 @@
 // http://www.steinwurf.com/licensing
 
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <set>
+
 #include <kodocpp/kodocpp.hpp>
 
 /// @example use_trace_layers.cpp
@@ -17,26 +19,15 @@
 
 int main(void)
 {
-
     // Seed random number generator to produce different results every time
     srand(static_cast<uint32_t>(time(0)));
 
-    // Filter
-    auto filter = [](const std::string& zone)
-    {
-        std::set<std::string> filters =
-        {"decoder_state", "input_symbol_coefficients"};
-        return filters.count(zone);
-    };
-
-    // Seed random number generator to produce different results every time
-    srand(static_cast<uint32_t>(time(0)));
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
     uint32_t max_symbols = 8;
     uint32_t max_symbol_size = 33;
 
-    bool trace_enabled = false;
+    bool trace_enabled = true;
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
@@ -47,8 +38,6 @@ int main(void)
         trace_enabled);
 
     kodocpp::encoder encoder = encoder_factory.build();
-
-    trace_enabled = true;
 
     kodocpp::decoder_factory decoder_factory(
         kodocpp::code_type::full_rlnc,
@@ -75,7 +64,6 @@ int main(void)
 
     while (!decoder.is_complete())
     {
-
         encoder.encode(payload.data());
 
         if (encoder.has_trace())
@@ -93,6 +81,14 @@ int main(void)
 
         if (decoder.has_trace())
         {
+            // Define filter function
+            auto filter = [](const std::string& zone)
+            {
+                std::set<std::string> filters =
+                    {"decoder_state", "input_symbol_coefficients"};
+                return filters.count(zone) != 0;
+            };
+
             std::cout << "Trace decoder:" << std::endl;
             decoder.trace(filter);
         }

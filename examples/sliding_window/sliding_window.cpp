@@ -4,10 +4,12 @@
 // http://www.steinwurf.com/licensing
 
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <set>
+
 #include <kodocpp/kodocpp.hpp>
 
 /// @example sliding_window.cpp
@@ -23,14 +25,6 @@ int main(void)
 {
     // Seed random number generator to produce different results every time
     srand(static_cast<uint32_t>(time(0)));
-
-    // Filter
-    auto filter = [](const std::string& zone)
-    {
-        std::set<std::string> filters =
-        {"decoder_state", "input_symbol_coefficients"};
-        return filters.count(zone);
-    };
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
@@ -48,6 +42,8 @@ int main(void)
         trace_enabled);
 
     kodocpp::encoder encoder = encoder_factory.build();
+
+    trace_enabled = true;
 
     kodocpp::decoder_factory decoder_factory(
         kodocpp::code_type::sliding_window,
@@ -74,7 +70,7 @@ int main(void)
 
     while (!decoder.is_complete())
     {
-
+        // Randomly choose to insert a symbol or not
         if ((rand() % 2) && encoder.rank() < encoder.symbols())
         {
             //The rank of an encoder indicates how many symbols have been
@@ -84,23 +80,25 @@ int main(void)
             //Calculate the offset to the next symbol to instert
             uint8_t* symbol = data_in.data() + (rank * encoder.symbol_size());
 
-            encoder.set_symbol(rank,
-                               symbol,
-                               encoder.symbol_size());
+            encoder.set_symbol(rank, symbol, encoder.symbol_size());
 
-            std::cout << "Symbol " << rank << " added to the encoder" << std::endl;
+            std::cout << "Symbol " << rank << " added to the encoder"
+                      << std::endl;
         }
 
-        //bytes_used = encoder.encode(payload.data());
+        // Do not generate packets if the encoder is empty
         if (encoder.rank() == 0)
         {
             continue;
         }
 
+        // Encode a packet into the payload buffer
         encoder.encode(payload.data());
 
         std::cout << "Packet encoded" << std::endl;
 
+        // Send the data to the decoder, here we just for fun
+        // simulate that we are losing 50% of the packets
         if (rand() % 2)
         {
             std::cout << "Packet dropped on channel" << std::endl;
@@ -113,6 +111,14 @@ int main(void)
 
         if (decoder.has_trace())
         {
+            // Define trace filter function
+            auto filter = [](const std::string& zone)
+            {
+                std::set<std::string> filters =
+                    {"decoder_state", "input_symbol_coefficients"};
+                return filters.count(zone) != 0;
+            };
+
             std::cout << "Trace decoder:" << std::endl;
             decoder.trace(filter);
         }
@@ -120,7 +126,8 @@ int main(void)
         std::cout << "Encoder rank = " << encoder.rank()  << std::endl;
         std::cout << "Decoder rank = " << decoder.rank()  << std::endl;
 
-        std::cout << "Decoder uncoded = " << decoder.symbols_uncoded() << std::endl;
+        std::cout << "Decoder uncoded = " << decoder.symbols_uncoded()
+                  << std::endl;
         std::cout << "Decoder seen = " << decoder.symbols_seen() << std::endl;
 
         decoder.write_feedback(feedback.data());
@@ -128,11 +135,12 @@ int main(void)
         if (rand() % 2)
         {
             std::cout << "Lost feedback from decoder" << std::endl;
-            continue;
         }
-
-        std::cout << "Received feedback from decoder" << std::endl;
-        encoder.read_feedback(feedback.data());
+        else
+        {
+            std::cout << "Received feedback from decoder" << std::endl;
+            encoder.read_feedback(feedback.data());
+        }
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());

@@ -4,12 +4,14 @@
 // http://www.steinwurf.com/licensing
 
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
 #include <kodocpp/kodocpp.hpp>
 
-/// @example encode_decode_on_the_fly.pp
+/// @example encode_decode_on_the_fly.cpp
 ///
 /// This example shows how to use a storage aware encoder which will
 /// allow you to encode from a block before all symbols have been
@@ -81,9 +83,7 @@ int main(void)
             // Calculate the offset to the next symbol to insert
             uint8_t* symbol = data_in.data() + (rank * encoder.symbol_size());
 
-            encoder.set_symbol(rank,
-                               symbol,
-                               encoder.symbol_size());
+            encoder.set_symbol(rank, symbol, encoder.symbol_size());
         }
 
         bytes_used = encoder.encode(payload.data());
@@ -93,7 +93,7 @@ int main(void)
 
         if (rand() % 2)
         {
-            std::cout << "packet dropped" << std::endl;
+            std::cout << "Packet dropped" << std::endl;
             continue;
         }
 
@@ -131,19 +131,20 @@ int main(void)
                     // Verify the decoded symbol
 
                     // Copy out the individual symbol from the decoder
-                    decoder.copy_symbol(i, target,
-                                        encoder.symbol_size());
+                    decoder.copy_symbol(i, target, encoder.symbol_size());
 
                     // Verify the symbol against the original data
                     auto start = data_out.begin() + offset;
                     auto end = start + encoder.symbol_size();
                     if (std::equal(start, end, data_out.begin() + offset))
                     {
-                        std::cout << "Symbol " << i << " decoded correctly." << std::endl;
+                        std::cout << "Symbol " << i << " decoded correctly."
+                                  << std::endl;
                     }
                     else
                     {
-                        std::cout << "SYMBOL " << i << "DECODING FAILED." << std::endl;
+                        std::cout << "SYMBOL " << i << "DECODING FAILED."
+                                  << std::endl;
                     }
                 }
             }

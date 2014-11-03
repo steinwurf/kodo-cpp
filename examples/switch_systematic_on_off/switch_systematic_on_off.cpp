@@ -4,9 +4,11 @@
 // http://www.steinwurf.com/licensing
 
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
 #include <kodocpp/kodocpp.hpp>
 
 /// @example switch_systematic_on_off.cpp
@@ -90,7 +92,7 @@ int main(void)
 
         if ((rand() % 2) == 0)
         {
-            std::cout << "Drop packet" << std::endl;
+            std::cout << "Packet dropped" << std::endl;
             continue;
         }
 
@@ -102,7 +104,8 @@ int main(void)
         // Symbols that were received in the systematic phase correspond
         // to the original source symbols and are therefore marked as
         // decoded
-        std::cout << "Symbols decoded " << decoder.symbols_uncoded() << std::endl;
+        std::cout << "Symbols decoded " << decoder.symbols_uncoded()
+                  << std::endl;
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());

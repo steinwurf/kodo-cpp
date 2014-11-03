@@ -4,9 +4,11 @@
 // http://www.steinwurf.com/licensing
 
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
 #include <kodocpp/kodocpp.hpp>
 
 /// @example encode_decode_simple.cpp
@@ -18,7 +20,7 @@ int main(void)
 {
     // Seed random number generator to produce different results every time
     srand(static_cast<uint32_t>(time(0)));
-    
+
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
     uint32_t max_symbols = 42;
