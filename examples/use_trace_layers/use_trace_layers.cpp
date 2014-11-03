@@ -75,8 +75,7 @@ int main(void)
         if(encoder.has_trace())
         {
             std::cout << "Tace encoder:\n";
-            //kodo::trace(encoder, std::cout);
-            //encoder.trace(filter);
+            encoder.trace(nullptr);
         }
 
         if((rand() % 2) == 0)
