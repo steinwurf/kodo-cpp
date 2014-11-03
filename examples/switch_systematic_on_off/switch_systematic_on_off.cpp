@@ -11,9 +11,14 @@
 
 #include <kodocpp/kodocpp.hpp>
 
-/// @example encode_decode_simple.cpp
+/// @example switch_systematic_on_off.cpp
 ///
-/// Simple example showing how to encode and decode a block of memory.
+/// This example shows how to enable or disable systematic coding for
+/// coding stacks that support it.
+/// Systematic coding is used to reduce the amount of work done by an
+/// encoder and a decoder. This is achieved by initially sending all
+/// symbols which has not previously been sent uncoded. Kodo allows this
+/// feature to be optionally turn of or off.
 
 int main(void)
 {
@@ -22,12 +27,12 @@ int main(void)
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 42;
+    uint32_t max_symbols = 16;
     uint32_t max_symbol_size = 160;
 
     bool trace_enabled = true;
 
-    //Initilization of encoder and decoder
+    // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
         kodocpp::code_type::full_rlnc,
         kodocpp::finite_field::binary8,
@@ -58,20 +63,52 @@ int main(void)
     // Just for fun - fill the data with random data
     std::generate(data_in.begin(), data_in.end(), rand);
 
-    // Assign the data buffer to the encoder so that we may start
-    // to produce encoded symbols from it
     encoder.set_symbols(data_in.data(), encoder.block_size());
 
+    std::cout << "Start encoding / decoding" << std::endl;
     while (!decoder.is_complete())
     {
-        // Encode the packet into the payload buffer
+        //If the chosen codec stack supports systematic coding
+        if (encoder.has_systematic_encoder())
+        {
+            // with 50% probability toggle systematic
+            if ((rand() % 2) == 0)
+            {
+                if (encoder.is_systematic_on())
+                {
+                    std::cout << "Turning systematic coding OFF" << std::endl;
+                    encoder.set_systematic_off();
+                }
+                else
+                {
+                    std::cout << "Turning systematic coding ON" << std::endl;
+                    encoder.set_systematic_on();
+                }
+            }
+        }
+
+        //Encode a packet into the payload buffer
         encoder.encode(payload.data());
 
-        // Pass that packet to the decoder
+        // Simulate a lossy channel where we are losing 50% of the packets
+        if ((rand() % 2) == 0)
+        {
+            std::cout << "Packet dropped" << std::endl;
+            continue;
+        }
+
+        //Pass the packet to the decoder
         decoder.decode(payload.data());
+
+        std::cout << "Decoder rank: " << decoder.rank() << std::endl;
+
+        // Symbols that were received in the systematic phase correspond
+        // to the original source symbols and are therefore marked as
+        // decoded
+        std::cout << "Symbols decoded: " << decoder.symbols_uncoded()
+                  << std::endl;
     }
 
-     // The decoder is complete, now copy the symbols from the decoder
     std::vector<uint8_t> data_out(decoder.block_size());
     decoder.copy_symbols(data_out.data(), decoder.block_size());
 

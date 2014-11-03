@@ -8,12 +8,14 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <set>
 
 #include <kodocpp/kodocpp.hpp>
 
-/// @example encode_decode_simple.cpp
+/// @example use_trace_layers.cpp
 ///
-/// Simple example showing how to encode and decode a block of memory.
+/// Simple example showing how to use some of the trace layers defined
+/// in Kodo.
 
 int main(void)
 {
@@ -22,12 +24,12 @@ int main(void)
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 42;
-    uint32_t max_symbol_size = 160;
+    uint32_t max_symbols = 8;
+    uint32_t max_symbol_size = 33;
 
     bool trace_enabled = true;
 
-    //Initilization of encoder and decoder
+    // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
         kodocpp::code_type::full_rlnc,
         kodocpp::finite_field::binary8,
@@ -58,20 +60,41 @@ int main(void)
     // Just for fun - fill the data with random data
     std::generate(data_in.begin(), data_in.end(), rand);
 
-    // Assign the data buffer to the encoder so that we may start
-    // to produce encoded symbols from it
     encoder.set_symbols(data_in.data(), encoder.block_size());
 
     while (!decoder.is_complete())
     {
-        // Encode the packet into the payload buffer
         encoder.encode(payload.data());
 
-        // Pass that packet to the decoder
+        if (encoder.has_trace())
+        {
+            std::cout << "Tace encoder:" << std::endl;
+            encoder.trace(nullptr);
+        }
+
+        // Simulate a lossy channel where we are losing 50% of the packets
+        if ((rand() % 2) == 0)
+        {
+            continue;
+        }
+
         decoder.decode(payload.data());
+
+        if (decoder.has_trace())
+        {
+            // Define filter function
+            auto filter = [](const std::string& zone)
+            {
+                std::set<std::string> filters =
+                    {"decoder_state", "input_symbol_coefficients"};
+                return filters.count(zone) != 0;
+            };
+
+            std::cout << "Trace decoder:" << std::endl;
+            decoder.trace(filter);
+        }
     }
 
-     // The decoder is complete, now copy the symbols from the decoder
     std::vector<uint8_t> data_out(decoder.block_size());
     decoder.copy_symbols(data_out.data(), decoder.block_size());
 
