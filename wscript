@@ -108,20 +108,6 @@ def build(bld):
         recurse_helper(bld, 'platform')
         recurse_helper(bld, 'cpuid')
 
-        # Build the shared library in the build root folder (we also place the
-        # generated program binaries in this folder so that they can find the
-        # shared library)
-        bld.stlib(
-            features='cxx',
-            source=bld.path.ant_glob('src/**/*.cpp'),
-            target='kodocpp',
-            name='kodocpp',
-            defines=['BUILD_KODOCPP_DLL'],
-            install_path=None,
-            export_includes='src',
-            use=['kodo_includes', 'boost_includes', 'fifi_includes',
-                 'sak_includes', 'platform_includes'])
-
         # Only build test when executed from the
         # top-level wscript i.e. not when included as a dependency
         # in a recurse call
@@ -134,3 +120,18 @@ def build(bld):
         bld.recurse('examples/switch_systematic_on_off')
         # bld.recurse('examples/udp_sender_receiver')
         bld.recurse('examples/use_trace_layers')
+
+
+    # Build the shared library in the build root folder (we also place the
+    # generated program binaries in this folder so that they can find the
+    # shared library)
+    bld.shlib(
+        features='cxx',
+        source=bld.path.ant_glob('src/**/*.cpp'),
+        target='kodocpp',
+        name='kodocpp',
+        defines=['BUILD_KODOCPP_DLL'],
+        install_path=None,
+        export_includes='src',
+        use=['kodo_includes', 'boost_includes', 'fifi_includes',
+             'sak_includes', 'platform_includes'])

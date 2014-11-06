@@ -22,7 +22,7 @@ void test_trace_encoder(uint32_t symbols, uint32_t symbol_size,
         trace_enabled);
 
     kodocpp::encoder encoder = encoder_factory.build();
-    EXPECT_FALSE(encoder.has_trace());
+    EXPECT_EQ(trace_enabled, encoder.has_trace());
 }
 
 TEST(TestHasTrace, detect)
@@ -30,10 +30,9 @@ TEST(TestHasTrace, detect)
     uint32_t max_symbols = 8;
     uint32_t max_symbol_size = 33;
     bool trace_enabled = true;
-    test_trace_encoder(max_symbols,
-                       max_symbol_size,
+
+    test_trace_encoder(max_symbols, max_symbol_size,
                        kodocpp::code_type::full_rlnc,
                        kodocpp::finite_field::binary8,
                        trace_enabled);
-
 }
