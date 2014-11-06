@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # encoding: utf-8
-##
+####
 APPNAME = 'kodo-cpp'
 VERSION = '0.1.0'
 
