@@ -37,4 +37,11 @@ TEST(TestHasTrace, detect)
                        kodocpp::code_type::full_rlnc,
                        kodocpp::finite_field::binary8,
                        trace_enabled);
+
+    trace_enabled = false;
+
+    test_trace_encoder(max_symbols, max_symbol_size,
+                       kodocpp::code_type::full_rlnc,
+                       kodocpp::finite_field::binary8,
+                       trace_enabled);
 }
