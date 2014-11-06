@@ -111,7 +111,7 @@ def build(bld):
         # Build the shared library in the build root folder (we also place the
         # generated program binaries in this folder so that they can find the
         # shared library)
-        bld.shlib(
+        bld.stlib(
             features='cxx',
             source=bld.path.ant_glob('src/**/*.cpp'),
             target='kodocpp',

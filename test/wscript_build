@@ -7,6 +7,5 @@ bld.program(
     target='kodocpp_tests',
     use=['kodocpp_includes', 'fifi_includes', 'sak_includes',
          'stub_includes', 'gtest', 'boost_includes', 'boost_system',
-         'boost_filesystem','boost_iostreams', 'boost_program_options',
-         'kodocpp'],
-    shlib_path='../')
+         'boost_filesystem', 'boost_iostreams',
+         'kodocpp'])
