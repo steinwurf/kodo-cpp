@@ -3,8 +3,10 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include <cstdint>
 #include <gtest/gtest.h>
+
+#include <cstdint>
+
 #include <kodocpp/kodocpp.hpp>
 
 void test_trace_encoder(uint32_t symbols, uint32_t symbol_size,
@@ -21,7 +23,6 @@ void test_trace_encoder(uint32_t symbols, uint32_t symbol_size,
 
     kodocpp::encoder encoder = encoder_factory.build();
     EXPECT_FALSE(encoder.has_trace());
-
 }
 
 TEST(TestHasTrace, detect)
