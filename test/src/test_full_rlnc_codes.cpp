@@ -3,12 +3,12 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include <gtest/gtest.h>
-
 #include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
+#include <gtest/gtest.h>
 
 #include <kodocpp/kodocpp.hpp>
 

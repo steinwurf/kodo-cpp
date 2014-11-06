@@ -3,9 +3,11 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#include <cstdint>
+
 #include <gtest/gtest.h>
 
-#include <cstdint>
+
 
 #include <kodocpp/kodocpp.hpp>
 
