@@ -28,7 +28,7 @@ void test_set_symbols_encoder(uint32_t symbols, uint32_t symbol_size,
 
     auto encoder_2 = encoder_factory.build();
 
-    EXPECT_EQ(new_symbols, encoder.symbols());
+    EXPECT_EQ(new_symbols, encoder_2.symbols());
 }
 
 void test_set_symbols_decoder(uint32_t symbols, uint32_t symbol_size,
@@ -50,7 +50,7 @@ void test_set_symbols_decoder(uint32_t symbols, uint32_t symbol_size,
 
     auto decoder_2 = decoder_factory.build();
 
-    EXPECT_EQ(new_symbols, decoder.symbols());
+    EXPECT_EQ(new_symbols, decoder_2.symbols());
 
 }
 
