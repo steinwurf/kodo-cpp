@@ -67,64 +67,99 @@ TEST(TestHasFeedbackSize, invoke_api)
     uint32_t max_symbol_size = 160;
 
     // Testing ecoders
+    // Full RLNC encoders
     test_has_feedback_size_encoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::full_rlnc,
-                       kodocpp::finite_field::binary8,
-                       true);
+                                   kodocpp::code_type::full_rlnc,
+                                   kodocpp::finite_field::binary,
+                                   true);
 
     test_has_feedback_size_encoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::full_rlnc,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                   kodocpp::code_type::full_rlnc,
+                                   kodocpp::finite_field::binary8,
+                                   true);
 
     test_has_feedback_size_encoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::on_the_fly,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                   kodocpp::code_type::full_rlnc,
+                                   kodocpp::finite_field::binary16,
+                                   false);
+
+    // On the fly encoders
+    test_has_feedback_size_encoder(max_symbols, max_symbol_size,
+                                   kodocpp::code_type::on_the_fly,
+                                   kodocpp::finite_field::binary,
+                                   false);
 
     test_has_feedback_size_encoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::on_the_fly,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                   kodocpp::code_type::on_the_fly,
+                                   kodocpp::finite_field::binary8,
+                                   false);
 
     test_has_feedback_size_encoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::sliding_window,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                   kodocpp::code_type::on_the_fly,
+                                   kodocpp::finite_field::binary8,
+                                   false);
+
+    // Sliding window encoders
+    test_has_feedback_size_encoder(max_symbols, max_symbol_size,
+                                   kodocpp::code_type::sliding_window,
+                                   kodocpp::finite_field::binary,
+                                   false);
 
     test_has_feedback_size_encoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::sliding_window,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                   kodocpp::code_type::sliding_window,
+                                   kodocpp::finite_field::binary8,
+                                   false);
+
+    test_has_feedback_size_encoder(max_symbols, max_symbol_size,
+                                   kodocpp::code_type::sliding_window,
+                                   kodocpp::finite_field::binary16,
+                                   false);
 
     // Testing decoders
+    // Full RLNC decoders
     test_has_feedback_size_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::full_rlnc,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                   kodocpp::code_type::full_rlnc,
+                                   kodocpp::finite_field::binary,
+                                   false);
 
     test_has_feedback_size_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::full_rlnc,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                   kodocpp::code_type::full_rlnc,
+                                   kodocpp::finite_field::binary8,
+                                   false);
 
     test_has_feedback_size_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::on_the_fly,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                   kodocpp::code_type::full_rlnc,
+                                   kodocpp::finite_field::binary16,
+                                   false);
+
+    // On the fly decoders
+    test_has_feedback_size_decoder(max_symbols, max_symbol_size,
+                                   kodocpp::code_type::on_the_fly,
+                                   kodocpp::finite_field::binary,
+                                   false);
 
     test_has_feedback_size_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::on_the_fly,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                   kodocpp::code_type::on_the_fly,
+                                   kodocpp::finite_field::binary8,
+                                   false);
 
     test_has_feedback_size_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::sliding_window,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                   kodocpp::code_type::on_the_fly,
+                                   kodocpp::finite_field::binary16,
+                                   false);
+    // Sliding window decoders
+    test_has_feedback_size_decoder(max_symbols, max_symbol_size,
+                                   kodocpp::code_type::sliding_window,
+                                   kodocpp::finite_field::binary,
+                                   false);
 
     test_has_feedback_size_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::sliding_window,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                   kodocpp::code_type::sliding_window,
+                                   kodocpp::finite_field::binary8,
+                                   false);
+
+    test_has_feedback_size_decoder(max_symbols, max_symbol_size,
+                                   kodocpp::code_type::sliding_window,
+                                   kodocpp::finite_field::binary16,
+                                   false);
 }
