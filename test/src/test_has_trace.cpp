@@ -7,8 +7,6 @@
 
 #include <gtest/gtest.h>
 
-
-
 #include <kodocpp/kodocpp.hpp>
 
 void test_trace_encoder(uint32_t symbols, uint32_t symbol_size,
