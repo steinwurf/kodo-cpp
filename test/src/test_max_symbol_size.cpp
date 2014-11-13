@@ -9,10 +9,11 @@
 
 #include <kodocpp/kodocpp.hpp>
 
-void test_max_symbol_size_encoder(uint32_t max_symbols, uint32_t max_symbol_size,
-                        kodocpp::code_type code_type,
-                        kodocpp::finite_field finite_field,
-                        bool trace_enabled)
+void test_max_symbol_size_encoder(uint32_t max_symbols,
+                                  uint32_t max_symbol_size,
+                                  kodocpp::code_type code_type,
+                                  kodocpp::finite_field finite_field,
+                                  bool trace_enabled)
 {
     kodocpp::encoder_factory encoder_factory(
         code_type,
@@ -29,10 +30,11 @@ void test_max_symbol_size_encoder(uint32_t max_symbols, uint32_t max_symbol_size
     EXPECT_EQ(max_symbol_size, encoder_factory.max_symbol_size());
 }
 
-void test_max_symbol_size_decoder(uint32_t max_symbols, uint32_t max_symbol_size,
-                        kodocpp::code_type code_type,
-                        kodocpp::finite_field finite_field,
-                        bool trace_enabled)
+void test_max_symbol_size_decoder(uint32_t max_symbols,
+                                  uint32_t max_symbol_size,
+                                  kodocpp::code_type code_type,
+                                  kodocpp::finite_field finite_field,
+                                  bool trace_enabled)
 {
     kodocpp::decoder_factory decoder_factory(
         code_type,
