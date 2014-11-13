@@ -43,46 +43,46 @@ TEST(TestHasPartialDecodingTracker, invoke_api)
     uint32_t max_symbols = 32;
     uint32_t max_symbol_size = 160;
     test_has_partial_decoding_trackere_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::full_rlnc,
-                       kodocpp::finite_field::binary,
-                       false);
+                                               kodocpp::code_type::full_rlnc,
+                                               kodocpp::finite_field::binary,
+                                               false);
 
     test_has_partial_decoding_trackere_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::full_rlnc,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                               kodocpp::code_type::full_rlnc,
+                                               kodocpp::finite_field::binary8,
+                                               false);
 
     test_has_partial_decoding_trackere_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::full_rlnc,
-                       kodocpp::finite_field::binary16,
-                       false);
+                                               kodocpp::code_type::full_rlnc,
+                                               kodocpp::finite_field::binary16,
+                                               false);
 
     test_has_partial_decoding_trackere_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::on_the_fly,
-                       kodocpp::finite_field::binary,
-                       false);
+                                               kodocpp::code_type::on_the_fly,
+                                               kodocpp::finite_field::binary,
+                                               false);
 
     test_has_partial_decoding_trackere_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::on_the_fly,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                               kodocpp::code_type::on_the_fly,
+                                               kodocpp::finite_field::binary8,
+                                               false);
 
     test_has_partial_decoding_trackere_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::on_the_fly,
-                       kodocpp::finite_field::binary16,
-                       false);
+                                               kodocpp::code_type::on_the_fly,
+                                               kodocpp::finite_field::binary16,
+                                               false);
     test_has_partial_decoding_trackere_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::sliding_window,
-                       kodocpp::finite_field::binary,
-                       false);
+                                               kodocpp::code_type::sliding_window,
+                                               kodocpp::finite_field::binary,
+                                               false);
 
     test_has_partial_decoding_trackere_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::sliding_window,
-                       kodocpp::finite_field::binary8,
-                       false);
+                                               kodocpp::code_type::sliding_window,
+                                               kodocpp::finite_field::binary8,
+                                               false);
 
     test_has_partial_decoding_trackere_decoder(max_symbols, max_symbol_size,
-                       kodocpp::code_type::sliding_window,
-                       kodocpp::finite_field::binary16,
-                       false);
+                                               kodocpp::code_type::sliding_window,
+                                               kodocpp::finite_field::binary16,
+                                               false);
 }
