@@ -83,6 +83,7 @@ void test_basic_api(kodocpp::code_type code_type,
 
         // Pass that packet to the decoder
         decoder.decode(payload.data());
+        EXPECT_TRUE(decoder.is_partial_complete());
     }
     EXPECT_TRUE(decoder.is_complete());
 
