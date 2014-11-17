@@ -9,7 +9,7 @@
 
 #include <kodocpp/kodocpp.hpp>
 
-void test_has_systematic_encoder(kodocpp::code_type code_type,
+void test_set_systematic_off(kodocpp::code_type code_type,
                                   kodocpp::finite_field finite_field)
 {
     kodocpp::encoder_factory encoder_factory(
@@ -20,39 +20,39 @@ void test_has_systematic_encoder(kodocpp::code_type code_type,
         false);
 
     auto encoder = encoder_factory.build();
-
-    EXPECT_TRUE(encoder.has_systematic_encoder());
+    encoder.set_systematic_off();
+    EXPECT_FALSE(encoder.is_systematic_on());
 }
 
-TEST(TestHasSystematicEncoder, invoke_api)
+TEST(TestSetSystematicOff, invoke_api)
 {
     // Encoder test for full_rlnc
-    test_has_systematic_encoder(kodocpp::code_type::full_rlnc,
+    test_set_systematic_off(kodocpp::code_type::full_rlnc,
                                  kodocpp::finite_field::binary);
 
-    test_has_systematic_encoder(kodocpp::code_type::full_rlnc,
+    test_set_systematic_off(kodocpp::code_type::full_rlnc,
                                  kodocpp::finite_field::binary8);
 
-    test_has_systematic_encoder(kodocpp::code_type::full_rlnc,
+    test_set_systematic_off(kodocpp::code_type::full_rlnc,
                                  kodocpp::finite_field::binary16);
 
     // Encoder test for on_the_fly
-    test_has_systematic_encoder(kodocpp::code_type::on_the_fly,
+    test_set_systematic_off(kodocpp::code_type::on_the_fly,
                                  kodocpp::finite_field::binary);
 
-    test_has_systematic_encoder(kodocpp::code_type::on_the_fly,
+    test_set_systematic_off(kodocpp::code_type::on_the_fly,
                                  kodocpp::finite_field::binary8);
 
-    test_has_systematic_encoder(kodocpp::code_type::on_the_fly,
+    test_set_systematic_off(kodocpp::code_type::on_the_fly,
                                  kodocpp::finite_field::binary16);
 
     // Encoder test for on_the_fly
-    test_has_systematic_encoder(kodocpp::code_type::sliding_window,
+    test_set_systematic_off(kodocpp::code_type::sliding_window,
                                  kodocpp::finite_field::binary);
 
-    test_has_systematic_encoder(kodocpp::code_type::sliding_window,
+    test_set_systematic_off(kodocpp::code_type::sliding_window,
                                  kodocpp::finite_field::binary8);
 
-    test_has_systematic_encoder(kodocpp::code_type::sliding_window,
+    test_set_systematic_off(kodocpp::code_type::sliding_window,
                                  kodocpp::finite_field::binary16);
 }
