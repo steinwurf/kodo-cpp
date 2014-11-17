@@ -91,7 +91,7 @@ TEST(TestSetSymbolSize, invoke_api)
 
     test_set_symbol_size_encoder(max_symbols, max_symbol_size,
                                    kodocpp::code_type::on_the_fly,
-                                   kodocpp::finite_field::binary8,
+                                   kodocpp::finite_field::binary16,
                                    false);
 
     // Sliding window encoder
