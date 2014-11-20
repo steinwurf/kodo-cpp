@@ -18,6 +18,7 @@ void test_basic_api(kodocpp::code_type code_type,
     uint32_t max_symbols = 32;
     uint32_t max_symbol_size = 160;
     bool trace_enabled = false;
+
     //Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
         code_type,
