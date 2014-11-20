@@ -9,15 +9,19 @@
 
 #include <kodocpp/kodocpp.hpp>
 
-void test_is_systematic_on(kodocpp::code_type code_type,
-                                  kodocpp::finite_field finite_field)
+#include "test_helper.hpp"
+
+void test_is_systematic_on_encoder(uint32_t symbols, uint32_t symbol_size,
+                                   kodocpp::code_type code_type,
+                                   kodocpp::finite_field finite_field,
+                                   bool trace_enabled)
 {
     kodocpp::encoder_factory encoder_factory(
         code_type,
         finite_field,
-        32,
-        160,
-        false);
+        symbols,
+        symbol_size,
+        trace_enabled);
 
     auto encoder = encoder_factory.build();
 
@@ -28,33 +32,11 @@ void test_is_systematic_on(kodocpp::code_type code_type,
 
 TEST(TextIsSystematicOn, invoke_api)
 {
-    // Encoder test for full_rlnc
-    test_is_systematic_on(kodocpp::code_type::full_rlnc,
-                                 kodocpp::finite_field::binary);
+    uint32_t max_symbols = 32;
+    uint32_t max_symbol_size = 160;
 
-    test_is_systematic_on(kodocpp::code_type::full_rlnc,
-                                 kodocpp::finite_field::binary8);
-
-    test_is_systematic_on(kodocpp::code_type::full_rlnc,
-                                 kodocpp::finite_field::binary16);
-
-    // Encoder test for on_the_fly
-    test_is_systematic_on(kodocpp::code_type::on_the_fly,
-                                 kodocpp::finite_field::binary);
-
-    test_is_systematic_on(kodocpp::code_type::on_the_fly,
-                                 kodocpp::finite_field::binary8);
-
-    test_is_systematic_on(kodocpp::code_type::on_the_fly,
-                                 kodocpp::finite_field::binary16);
-
-    // Encoder test for on_the_fly
-    test_is_systematic_on(kodocpp::code_type::sliding_window,
-                                 kodocpp::finite_field::binary);
-
-    test_is_systematic_on(kodocpp::code_type::sliding_window,
-                                 kodocpp::finite_field::binary8);
-
-    test_is_systematic_on(kodocpp::code_type::sliding_window,
-                                 kodocpp::finite_field::binary16);
+    test_combinations(
+        test_is_systematic_on_encoder,
+        nullptr,
+        max_symbols, max_symbol_size, false);
 }

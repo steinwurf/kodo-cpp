@@ -51,9 +51,9 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
     {
         EXPECT_GE(encoder.rank(), decoder.rank());
 
-        // Randomly choose to add a new symbol (with 50% porbability)
+        // Randomly choose to add a new symbol (with 50% probability)
         // if the encoder rank is less than the maximum number of symbols
-        if((rand() % 2) && encoder.rank() < encoder.symbols())
+        if ((rand() % 2) && encoder.rank() < encoder.symbols())
         {
             // The rank of an encoder  indicates how many symbols have been
             // added, i.e. how many symbols are available for encoding
@@ -67,8 +67,7 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
         encoder.encode(payload.data());
 
-
-        if(rand() % 2)
+        if (rand() % 2)
         {
             continue;
         }
@@ -106,6 +105,7 @@ TEST(TestOnTheFlyCodes, invoke_api)
 {
     uint32_t max_symbols = 32;
     uint32_t max_symbol_size = 160;
+
     test_on_the_fly(max_symbols, max_symbol_size,
                     kodocpp::code_type::on_the_fly,
                     kodocpp::finite_field::binary);
@@ -118,6 +118,7 @@ TEST(TestOnTheFlyCodes, invoke_api)
                     kodocpp::code_type::on_the_fly,
                     kodocpp::finite_field::binary16);
 
+    max_symbols = 16;
     max_symbol_size = 128;
 
     test_on_the_fly(max_symbols, max_symbol_size,
