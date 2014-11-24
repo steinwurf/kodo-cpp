@@ -60,6 +60,16 @@ void test_basic_api(kodocpp::code_type code_type,
     EXPECT_EQ(encoder_factory.max_payload_size(),
               decoder_factory.max_payload_size());
 
+    uint32_t feedback_size = 0;
+
+    EXPECT_EQ(encoder.feedback_size(),
+              decoder.feedback_size());
+
+    feedback_size = encoder.feedback_size();
+    EXPECT_TRUE(feedback_size > 0);
+
+    std::vector<uint8_t> feedback(feedback_size);
+
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network
     std::vector<uint8_t> payload(encoder.payload_size());
@@ -76,6 +86,7 @@ void test_basic_api(kodocpp::code_type code_type,
     // to produce encoded symbols from it
     encoder.set_symbols(data_in.data(), encoder.block_size());
 
+
     while (!decoder.is_complete())
     {
         // Encode the packet into the payload buffer
@@ -85,6 +96,9 @@ void test_basic_api(kodocpp::code_type code_type,
         // Pass that packet to the decoder
         decoder.decode(payload.data());
         EXPECT_TRUE(decoder.is_partial_complete());
+
+        decoder.write_feedback(feedback.data());
+        encoder.read_feedback(feedback.data());
     }
     EXPECT_TRUE(decoder.is_complete());
 
