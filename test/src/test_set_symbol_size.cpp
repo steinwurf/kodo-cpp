@@ -63,8 +63,11 @@ TEST(TestSetSymbolSize, invoke_api)
     uint32_t max_symbols = 32;
     uint32_t max_symbol_size = 160;
 
-    test_combinations(
+    test_encoder_combinations(
         test_set_symbol_size_encoder,
+        max_symbols, max_symbol_size, false);
+
+    test_decoder_combinations(
         test_set_symbol_size_decoder,
         max_symbols, max_symbol_size, false);
 }

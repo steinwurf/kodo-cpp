@@ -44,8 +44,7 @@ TEST(TestHasPartialDecodingTracker, invoke_api)
     uint32_t max_symbols = 32;
     uint32_t max_symbol_size = 160;
 
-    test_combinations(
-        nullptr,
+    test_decoder_combinations(
         test_has_partial_decoding_tracker_decoder,
         max_symbols, max_symbol_size, false);
 }

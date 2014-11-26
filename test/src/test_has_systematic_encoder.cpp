@@ -33,8 +33,7 @@ TEST(TestHasSystematicEncoder, invoke_api)
     uint32_t max_symbols = 32;
     uint32_t max_symbol_size = 160;
 
-    test_combinations(
+    test_encoder_combinations(
         test_has_systematic_encoder,
-        nullptr,
         max_symbols, max_symbol_size, false);
 }

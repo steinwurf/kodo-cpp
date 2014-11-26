@@ -48,13 +48,24 @@ TEST(TestHasTrace, detect)
     uint32_t max_symbols = 32;
     uint32_t max_symbol_size = 160;
 
-    test_combinations(
-        test_has_trace_encoder,
-        test_has_trace_decoder,
-        max_symbols, max_symbol_size, true);
+    bool trace_enabled = true;
 
-    test_combinations(
+    test_encoder_combinations(
         test_has_trace_encoder,
+        max_symbols, max_symbol_size, trace_enabled);
+
+    test_decoder_combinations(
         test_has_trace_decoder,
-        max_symbols, max_symbol_size, false);
+        max_symbols, max_symbol_size, trace_enabled);
+
+    trace_enabled = false;
+
+    test_encoder_combinations(
+        test_has_trace_encoder,
+        max_symbols, max_symbol_size, trace_enabled);
+
+    test_decoder_combinations(
+        test_has_trace_decoder,
+        max_symbols, max_symbol_size, trace_enabled);
+
 }

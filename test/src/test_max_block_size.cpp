@@ -61,8 +61,13 @@ TEST(TestMaxBlockSize, invoke_api)
     //This is what is expectede for coder.symbol_size()
     uint32_t max_symbols = 32;
     uint32_t max_symbol_size = 160;
-    test_combinations(
+    test_encoder_combinations(
         test_max_block_size_encoder,
+        max_symbols, max_symbol_size, false);
+
+    test_decoder_combinations(
         test_max_block_size_decoder,
         max_symbols, max_symbol_size, false);
+
+
 }
