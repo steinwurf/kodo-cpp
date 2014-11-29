@@ -59,8 +59,8 @@ static void test_decoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
 
 TEST(TestDecoderFactory, invoke_api)
 {
-    uint32_t max_symbols = 32;
-    uint32_t max_symbol_size = 160;
+    uint32_t max_symbols = rand_symbols();
+    uint32_t max_symbol_size = rand_symbol_size();
 
     test_combinations(
         test_decoder_factory,

@@ -3,14 +3,15 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
+#include <kodocpp/kodocpp.hpp>
+
 #include <cstdlib>
-#include <iostream>
 #include <vector>
 #include <algorithm>
 
 #include <gtest/gtest.h>
 
-#include <kodocpp/kodocpp.hpp>
+#include "test_helper.hpp"
 
 void test_basic_api(uint32_t symbols, uint32_t symbol_size,
                     kodocpp::code_type code_type,
@@ -96,8 +97,8 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
 
 TEST(TestFullRlncCodes, invoke_api)
 {
-    uint32_t max_symbols = 32;
-    uint32_t max_symbol_size = 160;
+    uint32_t max_symbols = rand_symbols();
+    uint32_t max_symbol_size = rand_symbol_size();
 
     test_basic_api(max_symbols, max_symbol_size,
                    kodocpp::code_type::full_rlnc,

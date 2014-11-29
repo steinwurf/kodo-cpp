@@ -61,8 +61,8 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
 
 TEST(TestEncoder, invoke_api)
 {
-    uint32_t symbols = 32;
-    uint32_t symbol_size = 160;
+    uint32_t symbols = rand_symbols();
+    uint32_t symbol_size = rand_symbol_size();
 
     test_combinations(
         test_encoder,
