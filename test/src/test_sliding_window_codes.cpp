@@ -12,11 +12,10 @@
 
 #include <kodocpp/kodocpp.hpp>
 
-void test_basic_api(kodocpp::code_type code_type,
-                    kodocpp::finite_field finite_field)
+void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
+                         kodocpp::code_type code_type,
+                         kodocpp::finite_field finite_field)
 {
-    uint32_t max_symbols = 32;
-    uint32_t max_symbol_size = 160;
     bool trace_enabled = false;
 
     //Initilization of encoder and decoder
@@ -86,7 +85,6 @@ void test_basic_api(kodocpp::code_type code_type,
     // to produce encoded symbols from it
     encoder.set_symbols(data_in.data(), encoder.block_size());
 
-
     while (!decoder.is_complete())
     {
         // Encode the packet into the payload buffer
@@ -112,12 +110,18 @@ void test_basic_api(kodocpp::code_type code_type,
 
 TEST(TestSlidingWindowCodes, invoke_api)
 {
-    test_basic_api(kodocpp::code_type::sliding_window,
-                   kodocpp::finite_field::binary);
+    uint32_t max_symbols = 32;
+    uint32_t max_symbol_size = 160;
 
-    test_basic_api(kodocpp::code_type::sliding_window,
-                   kodocpp::finite_field::binary8);
+    test_sliding_window(max_symbols, max_symbol_size,
+                        kodocpp::code_type::sliding_window,
+                        kodocpp::finite_field::binary);
 
-    test_basic_api(kodocpp::code_type::sliding_window,
-                   kodocpp::finite_field::binary16);
+    test_sliding_window(max_symbols, max_symbol_size,
+                        kodocpp::code_type::sliding_window,
+                        kodocpp::finite_field::binary8);
+
+    test_sliding_window(max_symbols, max_symbol_size,
+                        kodocpp::code_type::sliding_window,
+                        kodocpp::finite_field::binary16);
 }

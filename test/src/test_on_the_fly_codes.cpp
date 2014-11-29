@@ -117,19 +117,4 @@ TEST(TestOnTheFlyCodes, invoke_api)
     test_on_the_fly(max_symbols, max_symbol_size,
                     kodocpp::code_type::on_the_fly,
                     kodocpp::finite_field::binary16);
-
-    max_symbols = 16;
-    max_symbol_size = 128;
-
-    test_on_the_fly(max_symbols, max_symbol_size,
-                    kodocpp::code_type::on_the_fly,
-                    kodocpp::finite_field::binary);
-
-    test_on_the_fly(max_symbols, max_symbol_size,
-                    kodocpp::code_type::on_the_fly,
-                    kodocpp::finite_field::binary8);
-
-    test_on_the_fly(max_symbols, max_symbol_size,
-                    kodocpp::code_type::on_the_fly,
-                    kodocpp::finite_field::binary16);
 }

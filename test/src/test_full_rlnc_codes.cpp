@@ -96,10 +96,16 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
 
 TEST(TestFullRlncCodes, invoke_api)
 {
-    test_basic_api(42, 160, kodocpp::code_type::full_rlnc,
+    uint32_t max_symbols = 32;
+    uint32_t max_symbol_size = 160;
+
+    test_basic_api(max_symbols, max_symbol_size,
+                   kodocpp::code_type::full_rlnc,
                    kodocpp::finite_field::binary);
-    test_basic_api(42, 160, kodocpp::code_type::full_rlnc,
+    test_basic_api(max_symbols, max_symbol_size,
+                   kodocpp::code_type::full_rlnc,
                    kodocpp::finite_field::binary8);
-    test_basic_api(42, 160, kodocpp::code_type::full_rlnc,
+    test_basic_api(max_symbols, max_symbol_size,
+                   kodocpp::code_type::full_rlnc,
                    kodocpp::finite_field::binary16);
 }
