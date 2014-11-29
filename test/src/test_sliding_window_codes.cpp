@@ -13,9 +13,9 @@
 
 #include "test_helper.hpp"
 
-void test_basic_api(uint32_t symbols, uint32_t symbol_size,
-                    kodocpp::code_type code_type,
-                    kodocpp::finite_field finite_field)
+void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
+                         kodocpp::code_type code_type,
+                         kodocpp::finite_field finite_field)
 {
     bool trace_enabled = false;
 
@@ -23,8 +23,8 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
     kodocpp::encoder_factory encoder_factory(
         code_type,
         finite_field,
-        symbols,
-        symbol_size,
+        max_symbols,
+        max_symbol_size,
         trace_enabled);
 
     kodocpp::encoder encoder = encoder_factory.build();
@@ -32,24 +32,24 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
     kodocpp::decoder_factory decoder_factory(
         code_type,
         finite_field,
-        symbols,
-        symbol_size,
+        max_symbols,
+        max_symbol_size,
         trace_enabled);
 
     kodocpp::decoder decoder = decoder_factory.build();
 
-    EXPECT_TRUE(symbols == encoder_factory.max_symbols());
-    EXPECT_TRUE(symbol_size == encoder_factory.max_symbol_size());
-    EXPECT_TRUE(symbols == encoder.symbols());
-    EXPECT_TRUE(symbol_size == encoder.symbol_size());
+    EXPECT_TRUE(max_symbols == encoder_factory.max_symbols());
+    EXPECT_TRUE(max_symbol_size == encoder_factory.max_symbol_size());
+    EXPECT_TRUE(max_symbols == encoder.symbols());
+    EXPECT_TRUE(max_symbol_size == encoder.symbol_size());
 
-    EXPECT_TRUE(symbols == decoder_factory.max_symbols());
-    EXPECT_TRUE(symbol_size == decoder_factory.max_symbol_size());
-    EXPECT_TRUE(symbols == decoder.symbols());
-    EXPECT_TRUE(symbol_size == decoder.symbol_size());
+    EXPECT_TRUE(max_symbols == decoder_factory.max_symbols());
+    EXPECT_TRUE(max_symbol_size == decoder_factory.max_symbol_size());
+    EXPECT_TRUE(max_symbols == decoder.symbols());
+    EXPECT_TRUE(max_symbol_size == decoder.symbol_size());
 
-    EXPECT_TRUE(encoder.block_size() == symbols * symbol_size);
-    EXPECT_TRUE(decoder.block_size() == symbols * symbol_size);
+    EXPECT_TRUE(encoder.block_size() == max_symbols * max_symbol_size);
+    EXPECT_TRUE(decoder.block_size() == max_symbols * max_symbol_size);
 
     EXPECT_TRUE(encoder_factory.max_payload_size() >=
                 encoder.payload_size());
@@ -59,6 +59,16 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
 
     EXPECT_EQ(encoder_factory.max_payload_size(),
               decoder_factory.max_payload_size());
+
+    uint32_t feedback_size = 0;
+
+    EXPECT_EQ(encoder.feedback_size(),
+              decoder.feedback_size());
+
+    feedback_size = encoder.feedback_size();
+    EXPECT_TRUE(feedback_size > 0);
+
+    std::vector<uint8_t> feedback(feedback_size);
 
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network
@@ -84,6 +94,10 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
 
         // Pass that packet to the decoder
         decoder.decode(payload.data());
+        EXPECT_TRUE(decoder.is_partial_complete());
+
+        decoder.write_feedback(feedback.data());
+        encoder.read_feedback(feedback.data());
     }
     EXPECT_TRUE(decoder.is_complete());
 
@@ -95,18 +109,20 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
     EXPECT_TRUE(data_out == data_in);
 }
 
-TEST(TestFullRlncCodes, invoke_api)
+TEST(TestSlidingWindowCodes, invoke_api)
 {
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(max_symbols, max_symbol_size,
-                   kodocpp::code_type::full_rlnc,
-                   kodocpp::finite_field::binary);
-    test_basic_api(max_symbols, max_symbol_size,
-                   kodocpp::code_type::full_rlnc,
-                   kodocpp::finite_field::binary8);
-    test_basic_api(max_symbols, max_symbol_size,
-                   kodocpp::code_type::full_rlnc,
-                   kodocpp::finite_field::binary16);
+    test_sliding_window(max_symbols, max_symbol_size,
+                        kodocpp::code_type::sliding_window,
+                        kodocpp::finite_field::binary);
+
+    test_sliding_window(max_symbols, max_symbol_size,
+                        kodocpp::code_type::sliding_window,
+                        kodocpp::finite_field::binary8);
+
+    test_sliding_window(max_symbols, max_symbol_size,
+                        kodocpp::code_type::sliding_window,
+                        kodocpp::finite_field::binary16);
 }
