@@ -40,7 +40,7 @@ static void test_encoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
     uint32_t new_symbols = max_symbols / 2;
     encoder_factory.set_symbols(new_symbols);
 
-    uint32_t new_symbol_size = max_symbol_size / 2;
+    uint32_t new_symbol_size = max_symbol_size - 4;
     encoder_factory.set_symbol_size(new_symbol_size);
 
     // Test that the max_* properties are not changed
@@ -59,8 +59,9 @@ static void test_encoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
 
 TEST(TestEncoderFactory, invoke_api)
 {
-    uint32_t max_symbols = rand_symbols();
-    uint32_t max_symbol_size = rand_symbol_size();
+    // Make sure that we can lower these values in the test
+    uint32_t max_symbols = rand_symbols() + 1;
+    uint32_t max_symbol_size = rand_symbol_size() + 4;
 
     test_combinations(
         test_encoder_factory,
