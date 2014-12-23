@@ -12,8 +12,8 @@
 #include "test_helper.hpp"
 
 static void test_decoder(uint32_t symbols, uint32_t symbol_size,
-                         kodocpp::code_type code_type,
-                         kodocpp::finite_field finite_field,
+                         kodo_code_type code_type,
+                         kodo_finite_field finite_field,
                          bool trace_enabled)
 {
     kodocpp::decoder_factory decoder_factory(
@@ -33,12 +33,12 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     EXPECT_GT(decoder.payload_size(), symbol_size);
     EXPECT_EQ(0U, decoder.rank());
 
-    if (code_type == kodocpp::code_type::full_rlnc ||
-        code_type == kodocpp::code_type::on_the_fly)
+    if (code_type == kodo_full_rlnc ||
+        code_type == kodo_on_the_fly)
     {
         EXPECT_FALSE(decoder.has_feedback_size());
     }
-    else if (code_type == kodocpp::code_type::sliding_window)
+    else if (code_type == kodo_sliding_window)
     {
         EXPECT_TRUE(decoder.has_feedback_size());
         EXPECT_GT(decoder.feedback_size(), 0U);
@@ -49,12 +49,12 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
 
     // Decoder methods
 
-    if (code_type == kodocpp::code_type::on_the_fly ||
-        code_type == kodocpp::code_type::sliding_window)
+    if (code_type == kodo_on_the_fly ||
+        code_type == kodo_sliding_window)
     {
         EXPECT_TRUE(decoder.has_partial_decoding_tracker());
     }
-    else if (code_type == kodocpp::code_type::full_rlnc)
+    else if (code_type == kodo_full_rlnc)
     {
         EXPECT_FALSE(decoder.has_partial_decoding_tracker());
     }

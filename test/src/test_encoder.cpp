@@ -12,8 +12,8 @@
 #include "test_helper.hpp"
 
 static void test_encoder(uint32_t symbols, uint32_t symbol_size,
-                         kodocpp::code_type code_type,
-                         kodocpp::finite_field finite_field,
+                         kodo_code_type code_type,
+                         kodo_finite_field finite_field,
                          bool trace_enabled)
 {
     kodocpp::encoder_factory encoder_factory(
@@ -33,12 +33,12 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
     EXPECT_GT(encoder.payload_size(), symbol_size);
     EXPECT_EQ(0U, encoder.rank());
 
-    if (code_type == kodocpp::code_type::full_rlnc ||
-        code_type == kodocpp::code_type::on_the_fly)
+    if (code_type == kodo_full_rlnc ||
+        code_type == kodo_on_the_fly)
     {
         EXPECT_FALSE(encoder.has_feedback_size());
     }
-    else if (code_type == kodocpp::code_type::sliding_window)
+    else if (code_type == kodo_sliding_window)
     {
         EXPECT_TRUE(encoder.has_feedback_size());
 

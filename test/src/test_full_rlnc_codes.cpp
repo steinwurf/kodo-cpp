@@ -14,8 +14,8 @@
 #include "test_helper.hpp"
 
 void test_basic_api(uint32_t symbols, uint32_t symbol_size,
-                    kodocpp::code_type code_type,
-                    kodocpp::finite_field finite_field)
+                    kodo_code_type code_type,
+                    kodo_finite_field finite_field)
 {
     bool trace_enabled = false;
 
@@ -101,12 +101,12 @@ TEST(TestFullRlncCodes, invoke_api)
     uint32_t max_symbol_size = rand_symbol_size();
 
     test_basic_api(max_symbols, max_symbol_size,
-                   kodocpp::code_type::full_rlnc,
-                   kodocpp::finite_field::binary);
+                   kodo_full_rlnc,
+                   kodo_binary);
     test_basic_api(max_symbols, max_symbol_size,
-                   kodocpp::code_type::full_rlnc,
-                   kodocpp::finite_field::binary8);
+                   kodo_full_rlnc,
+                   kodo_binary8);
     test_basic_api(max_symbols, max_symbol_size,
-                   kodocpp::code_type::full_rlnc,
-                   kodocpp::finite_field::binary16);
+                   kodo_full_rlnc,
+                   kodo_binary16);
 }

@@ -10,4 +10,4 @@ bld.program(features='cxx',
             source='encode_decode_simple.cpp',
             target='../../encode_decode_simple',
             rpath=search_path,
-            use=['kodocpp'])
+            use=['kodocpp_includes'])

@@ -6,9 +6,12 @@ search_path = []
 if not bld.is_mkspec_platform('windows'):
     search_path = ['.']
 
+shared_lib = bld.get_tgen_by_name('kodoc').link_task.outputs[0]
+
 bld.program(
     features='cxx test',
     source=['kodocpp_tests.cpp'] + bld.path.ant_glob('src/*.cpp'),
     target='../kodocpp_tests',
+    test_files=shared_lib,
     rpath=search_path,
-    use=['kodocpp', 'gtest'])
+    use=['kodocpp_includes', 'gtest'])

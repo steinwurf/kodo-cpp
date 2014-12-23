@@ -33,8 +33,8 @@ int main(void)
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodocpp::code_type::on_the_fly,
-        kodocpp::finite_field::binary8,
+        kodo_on_the_fly,
+        kodo_binary8,
         max_symbols,
         max_symbol_size,
         trace_enabled);
@@ -42,8 +42,8 @@ int main(void)
     kodocpp::encoder encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
-        kodocpp::code_type::on_the_fly,
-        kodocpp::finite_field::binary8,
+        kodo_on_the_fly,
+        kodo_binary8,
         max_symbols,
         max_symbol_size,
         trace_enabled);

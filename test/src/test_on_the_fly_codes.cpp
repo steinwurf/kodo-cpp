@@ -14,8 +14,8 @@
 #include "test_helper.hpp"
 
 void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
-                     kodocpp::code_type code_type,
-                     kodocpp::finite_field finite_field)
+                     kodo_code_type code_type,
+                     kodo_finite_field finite_field)
 {
     bool trace_enabled = false;
 
@@ -48,7 +48,7 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
     ASSERT_TRUE(decoder.is_complete() == 0);
 
-    while(!decoder.is_complete())
+    while (!decoder.is_complete())
     {
         EXPECT_GE(encoder.rank(), decoder.rank());
 
@@ -108,14 +108,14 @@ TEST(TestOnTheFlyCodes, invoke_api)
     uint32_t max_symbol_size = rand_symbol_size();
 
     test_on_the_fly(max_symbols, max_symbol_size,
-                    kodocpp::code_type::on_the_fly,
-                    kodocpp::finite_field::binary);
+                    kodo_on_the_fly,
+                    kodo_binary);
 
     test_on_the_fly(max_symbols, max_symbol_size,
-                    kodocpp::code_type::on_the_fly,
-                    kodocpp::finite_field::binary8);
+                    kodo_on_the_fly,
+                    kodo_binary8);
 
     test_on_the_fly(max_symbols, max_symbol_size,
-                    kodocpp::code_type::on_the_fly,
-                    kodocpp::finite_field::binary16);
+                    kodo_on_the_fly,
+                    kodo_binary16);
 }

@@ -19,19 +19,19 @@ def options(opt):
     import waflib.extras.wurf_dependency_resolve as resolve
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
-        name='waf-tools',
-        git_repository='github.com/steinwurf/waf-tools.git',
-        major_version=2))
-
-    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='boost',
         git_repository='github.com/steinwurf/boost.git',
         major_version=1))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+        name='cpuid',
+        git_repository='github.com/steinwurf/cpuid.git',
+        major_version=3))
+
+    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='fifi',
         git_repository='github.com/steinwurf/fifi.git',
-        major_version=14))
+        major_version=15))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='gtest',
@@ -41,12 +41,12 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='kodo',
         git_repository='github.com/steinwurf/kodo.git',
-        major_version=19))
+        major_version=21))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
-        name='sak',
-        git_repository='github.com/steinwurf/sak.git',
-        major_version=12))
+        name='kodo-c',
+        git_repository='github.com/steinwurf/kodo-c.git',
+        major_version=2))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='platform',
@@ -54,9 +54,19 @@ def options(opt):
         major_version=1))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
-        name='cpuid',
-        git_repository='github.com/steinwurf/cpuid.git',
-        major_version=3))
+        name='recycle',
+        git_repository='github.com/steinwurf/recycle.git',
+        major_version=1))
+
+    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+        name='sak',
+        git_repository='github.com/steinwurf/sak.git',
+        major_version=13))
+
+    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+        name='waf-tools',
+        git_repository='github.com/steinwurf/waf-tools.git',
+        major_version=2))
 
     opt.load('wurf_configure_output')
     opt.load('wurf_dependency_bundle')
@@ -80,11 +90,11 @@ def configure(conf):
         recurse_helper(conf, 'fifi')
         recurse_helper(conf, 'gtest')
         recurse_helper(conf, 'kodo')
+        recurse_helper(conf, 'kodo-c')
         recurse_helper(conf, 'sak')
+        recurse_helper(conf, 'recycle')
         recurse_helper(conf, 'platform')
         recurse_helper(conf, 'cpuid')
-
-#        conf.recurse('examples/sample_makefile')
 
 
 def build(bld):
@@ -96,17 +106,25 @@ def build(bld):
     if 'g++' in CXX or 'clang' in CXX:
         bld.env.append_value('CXXFLAGS', '-fPIC')
 
+    # Build the kodocpp includes
+    bld(name='kodocpp_includes',
+        includes='src',
+        export_includes='src',
+        use=['kodoc'])
+
     if bld.is_toplevel():
 
         bld.load('wurf_dependency_bundle')
 
+        recurse_helper(bld, 'platform')
+        recurse_helper(bld, 'cpuid')
         recurse_helper(bld, 'boost')
+        recurse_helper(bld, 'sak')
+        recurse_helper(bld, 'recycle')
         recurse_helper(bld, 'fifi')
         recurse_helper(bld, 'gtest')
         recurse_helper(bld, 'kodo')
-        recurse_helper(bld, 'sak')
-        recurse_helper(bld, 'platform')
-        recurse_helper(bld, 'cpuid')
+        recurse_helper(bld, 'kodo-c')
 
         # Only build test when executed from the
         # top-level wscript i.e. not when included as a dependency
@@ -115,23 +133,11 @@ def build(bld):
         bld.recurse('test')
         bld.recurse('examples/encode_decode_simple')
         bld.recurse('examples/encode_decode_on_the_fly')
-        # bld.recurse('examples/sample_makefile')
         bld.recurse('examples/sliding_window')
         bld.recurse('examples/switch_systematic_on_off')
-        # bld.recurse('examples/udp_sender_receiver')
         bld.recurse('examples/use_trace_layers')
 
 
-    # Build the shared library in the build root folder (we also place the
-    # generated program binaries in this folder so that they can find the
-    # shared library)
-    bld.shlib(
-        features='cxx',
-        source=bld.path.ant_glob('src/**/*.cpp'),
-        target='kodocpp',
-        name='kodocpp',
-        defines=['BUILD_KODOCPP_DLL'],
-        install_path=None,
-        export_includes='src',
-        use=['kodo_includes', 'boost_includes', 'fifi_includes',
-             'sak_includes', 'platform_includes'])
+
+
+

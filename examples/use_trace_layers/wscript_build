@@ -10,4 +10,4 @@ bld.program(features='cxx',
             source='use_trace_layers.cpp',
             target='../../use_trace_layers',
             rpath=search_path,
-            use=['kodocpp'])
+            use=['kodocpp_includes'])

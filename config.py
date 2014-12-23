@@ -14,6 +14,7 @@ project_dependencies = \
     'sak',
     'fifi',
     'kodo',
+    'kodo-c',
 ]
 
 # Importing a dynamically generated module
