@@ -10,14 +10,16 @@
 
 #include <kodoc/kodoc.h>
 
+#include "coder.hpp"
+
 namespace kodocpp
 {
-    class encoder
+    class encoder: public coder
     {
     public:
 
         encoder(kodo_coder_t coder) :
-            m_coder(coder)
+            coder(coder)
         {
             assert(m_coder);
         }
@@ -26,65 +28,6 @@ namespace kodocpp
         {
             kodo_delete_encoder(m_coder);
         }
-
-        // Coder methods
-
-        uint32_t block_size() const
-        {
-            return kodo_block_size(m_coder);
-        }
-
-        uint32_t payload_size() const
-        {
-            return kodo_payload_size(m_coder);
-        }
-
-        uint32_t rank() const
-        {
-            return kodo_rank(m_coder);
-        }
-
-        uint32_t symbol_size() const
-        {
-            return kodo_symbol_size(m_coder);
-        }
-
-        uint32_t symbols() const
-        {
-            return kodo_symbols(m_coder);
-        }
-
-        bool symbol_pivot(uint32_t index) const
-        {
-            return kodo_symbol_pivot(m_coder, index) != 0;
-        }
-
-        bool has_trace() const
-        {
-            return kodo_has_trace(m_coder) != 0;
-        }
-
-        void trace()
-        {
-            kodo_trace(m_coder);
-        }
-
-        void trace(kodo_trace_callback_t callback)
-        {
-            kodo_trace_callback(m_coder, callback);
-        }
-
-        bool has_feedback_size() const
-        {
-            return kodo_has_feedback_size(m_coder) != 0;
-        }
-
-        uint32_t feedback_size() const
-        {
-            return kodo_feedback_size(m_coder);
-        }
-
-        // Enoder methods
 
         uint32_t encode(uint8_t* payload)
         {
@@ -126,9 +69,5 @@ namespace kodocpp
         {
             kodo_read_feedback(m_coder, feedback);
         }
-
-    private:
-
-        kodo_coder_t m_coder;
     };
 }
