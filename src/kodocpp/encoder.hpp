@@ -6,56 +6,68 @@
 #pragma once
 
 #include <cstdint>
+#include <cassert>
 
-#include <functional>
-#include <string>
+#include <kodoc/kodoc.h>
 
-#include "api_config.hpp"
+#include "coder.hpp"
 
 namespace kodocpp
 {
-    class encoder_interface;
-
-    class KODOCPP_API encoder
+    class encoder: public coder
     {
     public:
 
-        encoder(encoder_interface* wrapper);
-        ~encoder();
+        encoder(kodo_coder_t coder_instance) :
+            coder(coder_instance)
+        {
+            assert(m_coder);
+        }
 
-        // Coder methods
-        uint32_t block_size() const;
-        uint32_t payload_size() const;
-        uint32_t rank() const;
-        uint32_t symbol_size() const;
-        uint32_t symbols() const;
-        bool symbol_pivot(uint32_t) const;
+        ~encoder()
+        {
+            kodo_delete_encoder(m_coder);
+        }
 
-        bool has_trace() const;
-        void trace(std::function<bool (std::string)>);
+        uint32_t encode(uint8_t* payload)
+        {
+            return kodo_encode(m_coder, payload);
+        }
 
-        bool has_feedback_size() const;
-        uint32_t feedback_size() const;
+        void set_symbols(const uint8_t* data, uint32_t size)
+        {
+            kodo_set_symbols(m_coder, data, size);
+        }
 
-        // Enoder methods
-        uint32_t encode(uint8_t* payload);
+        void set_symbol(
+            uint32_t index, const uint8_t* data, uint32_t size)
+        {
+            kodo_set_symbol(m_coder, index, data, size);
+        }
 
-        void set_symbols(const uint8_t* data, uint32_t size);
+        bool has_systematic_encoder() const
+        {
+            return kodo_has_systematic_encoder(m_coder) != 0;
+        }
 
-        void set_symbol(uint32_t index, const uint8_t* data, uint32_t size);
+        bool is_systematic_on() const
+        {
+            return kodo_is_systematic_on(m_coder) != 0;
+        }
 
-        bool has_systematic_encoder() const;
+        void set_systematic_on()
+        {
+            kodo_set_systematic_on(m_coder);
+        }
 
-        bool is_systematic_on() const;
+        void set_systematic_off()
+        {
+            kodo_set_systematic_off(m_coder);
+        }
 
-        void set_systematic_on();
-
-        void set_systematic_off();
-
-        void read_feedback(uint8_t* feedback);
-
-    private:
-
-        encoder_interface* m_wrapper;
+        void read_feedback(uint8_t* feedback)
+        {
+            kodo_read_feedback(m_coder, feedback);
+        }
     };
 }

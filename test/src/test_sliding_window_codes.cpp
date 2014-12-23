@@ -14,8 +14,8 @@
 #include "test_helper.hpp"
 
 void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
-                         kodocpp::code_type code_type,
-                         kodocpp::finite_field finite_field)
+                         kodo_code_type code_type,
+                         kodo_finite_field finite_field)
 {
     bool trace_enabled = false;
 
@@ -115,14 +115,14 @@ TEST(TestSlidingWindowCodes, invoke_api)
     uint32_t max_symbol_size = rand_symbol_size();
 
     test_sliding_window(max_symbols, max_symbol_size,
-                        kodocpp::code_type::sliding_window,
-                        kodocpp::finite_field::binary);
+                        kodo_sliding_window,
+                        kodo_binary);
 
     test_sliding_window(max_symbols, max_symbol_size,
-                        kodocpp::code_type::sliding_window,
-                        kodocpp::finite_field::binary8);
+                        kodo_sliding_window,
+                        kodo_binary8);
 
     test_sliding_window(max_symbols, max_symbol_size,
-                        kodocpp::code_type::sliding_window,
-                        kodocpp::finite_field::binary16);
+                        kodo_sliding_window,
+                        kodo_binary16);
 }

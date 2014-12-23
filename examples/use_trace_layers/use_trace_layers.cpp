@@ -27,24 +27,26 @@ int main(void)
     uint32_t max_symbols = 8;
     uint32_t max_symbol_size = 33;
 
-    bool trace_enabled = true;
+    bool trace_mode = false;
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodocpp::code_type::full_rlnc,
-        kodocpp::finite_field::binary8,
+        kodo_full_rlnc,
+        kodo_binary8,
         max_symbols,
         max_symbol_size,
-        trace_enabled);
+        trace_mode);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
+    trace_mode = true;
+
     kodocpp::decoder_factory decoder_factory(
-        kodocpp::code_type::full_rlnc,
-        kodocpp::finite_field::binary8,
+        kodo_full_rlnc,
+        kodo_binary8,
         max_symbols,
         max_symbol_size,
-        trace_enabled);
+        trace_mode);
 
     kodocpp::decoder decoder = decoder_factory.build();
 
@@ -68,8 +70,8 @@ int main(void)
 
         if (encoder.has_trace())
         {
-            std::cout << "Tace encoder:" << std::endl;
-            encoder.trace(nullptr);
+            std::cout << "Trace encoder:" << std::endl;
+            encoder.trace();
         }
 
         // Simulate a lossy channel where we are losing 50% of the packets
@@ -82,16 +84,21 @@ int main(void)
 
         if (decoder.has_trace())
         {
-            // Define filter function
-            auto filter = [](const std::string& zone)
+            // Define trace callback function
+            auto callback = [](const char* zone, const char* data)
             {
                 std::set<std::string> filters =
                     {"decoder_state", "input_symbol_coefficients"};
-                return filters.count(zone) != 0;
+
+                if (filters.count(zone))
+                {
+                    std::cout << zone << ":" << std::endl;
+                    std::cout << data << std::endl;
+                }
             };
 
             std::cout << "Trace decoder:" << std::endl;
-            decoder.trace(filter);
+            decoder.trace(callback);
         }
     }
 

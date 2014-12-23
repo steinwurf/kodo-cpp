@@ -35,8 +35,8 @@ int main(void)
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodocpp::code_type::sliding_window,
-        kodocpp::finite_field::binary8,
+        kodo_sliding_window,
+        kodo_binary8,
         max_symbols,
         max_symbol_size,
         trace_enabled);
@@ -46,8 +46,8 @@ int main(void)
     trace_enabled = true;
 
     kodocpp::decoder_factory decoder_factory(
-        kodocpp::code_type::sliding_window,
-        kodocpp::finite_field::binary8,
+        kodo_sliding_window,
+        kodo_binary8,
         max_symbols,
         max_symbol_size,
         trace_enabled);
@@ -109,16 +109,21 @@ int main(void)
 
         if (decoder.has_trace())
         {
-            // Define trace filter function
-            auto filter = [](const std::string& zone)
+            // Define trace callback function
+            auto callback = [](const char* zone, const char* data)
             {
                 std::set<std::string> filters =
                     {"decoder_state", "input_symbol_coefficients"};
-                return filters.count(zone) != 0;
+
+                if (filters.count(zone))
+                {
+                    std::cout << zone << ":" << std::endl;
+                    std::cout << data << std::endl;
+                }
             };
 
             std::cout << "Trace decoder:" << std::endl;
-            decoder.trace(filter);
+            decoder.trace(callback);
         }
 
         std::cout << "Encoder rank: " << encoder.rank()  << std::endl;

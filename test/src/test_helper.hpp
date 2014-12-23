@@ -36,7 +36,7 @@ inline uint32_t rand_symbol_size(uint32_t max_symbol_size = 1600)
 }
 
 using test_function = std::function<
-    void (uint32_t, uint32_t, kodocpp::code_type, kodocpp::finite_field, bool)>;
+    void (uint32_t, uint32_t, kodo_code_type, kodo_finite_field, bool)>;
 
 inline void test_combinations(
     test_function coder_test,
@@ -47,18 +47,18 @@ inline void test_combinations(
     SCOPED_TRACE(testing::Message() << "symbols = " << max_symbols);
     SCOPED_TRACE(testing::Message() << "symbol_size = " << max_symbol_size);
 
-    std::vector<kodocpp::code_type> code_types =
+    std::vector<kodo_code_type> code_types =
     {
-        kodocpp::code_type::full_rlnc,
-        kodocpp::code_type::on_the_fly,
-        kodocpp::code_type::sliding_window
+        kodo_full_rlnc,
+        kodo_on_the_fly,
+        kodo_sliding_window
     };
 
-    std::vector<kodocpp::finite_field> fields =
+    std::vector<kodo_finite_field> fields =
     {
-        kodocpp::finite_field::binary,
-        kodocpp::finite_field::binary8,
-        kodocpp::finite_field::binary16
+        kodo_binary,
+        kodo_binary8,
+        kodo_binary16
     };
 
     for (auto& code : code_types)

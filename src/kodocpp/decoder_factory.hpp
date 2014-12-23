@@ -6,44 +6,42 @@
 #pragma once
 
 #include <cstdint>
+#include <cassert>
 
-#include "api_config.hpp"
-#include "code_type.hpp"
-#include "finite_field.hpp"
+#include <kodoc/kodoc.h>
+
+#include "factory.hpp"
 #include "decoder.hpp"
 
 namespace kodocpp
 {
-    class decoder_factory_interface;
-
-    class KODOCPP_API decoder_factory
+    class decoder_factory : public factory
     {
     public:
 
-        decoder_factory(code_type code,
-                        finite_field field,
-                        uint32_t max_symbols,
-                        uint32_t max_symbol_size,
-                        bool trace_enabled = false);
+        decoder_factory(kodo_code_type code,
+            kodo_finite_field field,
+            uint32_t max_symbols,
+            uint32_t max_symbol_size,
+            bool trace_enabled = false)
+        {
+            m_factory = kodo_new_decoder_factory(
+                code, field,
+                max_symbols, max_symbol_size,
+                trace_enabled);
+            assert(m_factory);
+        }
 
-        ~decoder_factory();
+        ~decoder_factory()
+        {
+            assert(m_factory);
+            kodo_delete_decoder_factory(m_factory);
+        }
 
-        decoder build();
-
-        void set_symbols(uint32_t symbols);
-
-        void set_symbol_size(uint32_t symbol_size);
-
-        uint32_t max_symbols() const;
-
-        uint32_t max_symbol_size() const;
-
-        uint32_t max_block_size() const;
-
-        uint32_t max_payload_size() const;
-
-    private:
-
-        decoder_factory_interface* m_factory_wrapper;
+        decoder build()
+        {
+            kodo_coder_t coder = kodo_factory_new_decoder(m_factory);
+            return decoder(coder);
+        }
     };
 }

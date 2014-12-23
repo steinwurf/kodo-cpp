@@ -12,8 +12,8 @@
 #include "test_helper.hpp"
 
 static void test_encoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
-                                 kodocpp::code_type code_type,
-                                 kodocpp::finite_field finite_field,
+                                 kodo_code_type code_type,
+                                 kodo_finite_field finite_field,
                                  bool trace_enabled)
 {
     kodocpp::encoder_factory encoder_factory(

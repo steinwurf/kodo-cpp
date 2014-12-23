@@ -5,10 +5,6 @@
 
 #pragma once
 
-#include "api_config.hpp"
-
-#include "code_type.hpp"
-#include "finite_field.hpp"
 #include "encoder_factory.hpp"
 #include "decoder_factory.hpp"
 #include "encoder.hpp"

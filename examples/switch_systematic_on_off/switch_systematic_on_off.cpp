@@ -34,8 +34,8 @@ int main(void)
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodocpp::code_type::full_rlnc,
-        kodocpp::finite_field::binary8,
+        kodo_full_rlnc,
+        kodo_binary8,
         max_symbols,
         max_symbol_size,
         trace_enabled);
@@ -43,8 +43,8 @@ int main(void)
     kodocpp::encoder encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
-        kodocpp::code_type::full_rlnc,
-        kodocpp::finite_field::binary8,
+        kodo_full_rlnc,
+        kodo_binary8,
         max_symbols,
         max_symbol_size,
         trace_enabled);

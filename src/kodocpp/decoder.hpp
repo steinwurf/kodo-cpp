@@ -6,59 +6,82 @@
 #pragma once
 
 #include <cstdint>
+#include <cassert>
 
-#include <functional>
-#include <string>
+#include <kodoc/kodoc.h>
 
-#include "api_config.hpp"
+#include "coder.hpp"
 
 namespace kodocpp
 {
-    class decoder_interface;
-
-    class KODOCPP_API decoder
+    class decoder: public coder
     {
     public:
 
-        decoder(decoder_interface* wrapper);
-        ~decoder();
+        decoder(kodo_coder_t coder_instance) :
+            coder(coder_instance)
+        {
+            assert(m_coder);
+        }
 
-        // Coder methods
-        uint32_t block_size() const;
-        uint32_t payload_size() const;
-        uint32_t rank() const;
-        uint32_t symbol_size() const;
-        uint32_t symbols() const;
-        bool symbol_pivot(uint32_t) const;
+        ~decoder()
+        {
+            kodo_delete_decoder(m_coder);
+        }
 
-        bool has_trace() const;
-        void trace(std::function<bool (std::string)>);
+        uint32_t recode(uint8_t* data)
+        {
+            return kodo_recode(m_coder, data);
+        }
 
-        bool has_feedback_size() const;
-        uint32_t feedback_size() const;
+        void decode(uint8_t* data)
+        {
+            kodo_decode(m_coder, data);
+        }
 
-        // Decoder methods
-        uint32_t recode(uint8_t* data);
+        bool is_complete() const
+        {
+            return kodo_is_complete(m_coder) != 0;
+        }
 
-        void decode(uint8_t* data);
+        void copy_symbols(uint8_t* data, uint32_t size) const
+        {
+            kodo_copy_symbols(m_coder, data, size);
+        }
 
-        bool is_complete() const;
+        void copy_symbol(uint32_t index, uint8_t* data, uint32_t size) const
+        {
+            kodo_copy_symbol(m_coder, index, data, size);
+        }
 
-        void copy_symbols(uint8_t* data, uint32_t size) const;
+        bool has_partial_decoding_tracker() const
+        {
+            return kodo_has_partial_decoding_tracker(m_coder) != 0;
+        }
 
-        void copy_symbol(uint32_t index, uint8_t* data, uint32_t size) const;
+        bool is_partial_complete() const
+        {
+            return kodo_is_partial_complete(m_coder) != 0;
+        }
 
-        bool has_partial_decoding_tracker() const;
+        bool is_symbol_uncoded(uint32_t index) const
+        {
+            return kodo_is_symbol_uncoded(m_coder, index) != 0;
+        }
 
-        bool is_partial_complete() const;
-        bool is_symbol_uncoded(uint32_t index) const;
+        uint32_t symbols_uncoded() const
+        {
+            return kodo_symbols_uncoded(m_coder);
+        }
 
-        uint32_t symbols_uncoded() const;
-        uint32_t symbols_seen() const;
-        void write_feedback(uint8_t* feedback);
+        uint32_t symbols_seen() const
+        {
+            return kodo_symbols_seen(m_coder);
+        }
 
-    private:
-
-        decoder_interface* m_wrapper;
+        void write_feedback(uint8_t* feedback)
+        {
+            kodo_write_feedback(m_coder, feedback);
+        }
     };
 }
