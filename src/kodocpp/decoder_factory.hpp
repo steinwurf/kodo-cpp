@@ -10,11 +10,12 @@
 
 #include <kodoc/kodoc.h>
 
+#include "factory.hpp"
 #include "decoder.hpp"
 
 namespace kodocpp
 {
-    class decoder_factory
+    class decoder_factory : public factory
     {
     public:
 
@@ -42,39 +43,5 @@ namespace kodocpp
             kodo_coder_t coder = kodo_factory_new_decoder(m_factory);
             return decoder(coder);
         }
-
-        void set_symbols(uint32_t symbols)
-        {
-            kodo_factory_set_symbols(m_factory, symbols);
-        }
-
-        void set_symbol_size(uint32_t symbol_size)
-        {
-            kodo_factory_set_symbol_size(m_factory, symbol_size);
-        }
-
-        uint32_t max_symbols() const
-        {
-            return kodo_factory_max_symbols(m_factory);
-        }
-
-        uint32_t max_symbol_size() const
-        {
-            return kodo_factory_max_symbol_size(m_factory);
-        }
-
-        uint32_t max_block_size() const
-        {
-            return kodo_factory_max_block_size(m_factory);
-        }
-
-        uint32_t max_payload_size() const
-        {
-            return kodo_factory_max_payload_size(m_factory);
-        }
-
-    private:
-
-        kodo_factory_t m_factory;
     };
 }
