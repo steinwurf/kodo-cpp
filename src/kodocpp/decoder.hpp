@@ -18,8 +18,8 @@ namespace kodocpp
     {
     public:
 
-        decoder(kodo_coder_t coder) :
-            coder(coder)
+        decoder(kodo_coder_t coder_instance) :
+            coder(coder_instance)
         {
             assert(m_coder);
         }
