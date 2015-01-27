@@ -136,8 +136,3 @@ def build(bld):
         bld.recurse('examples/sliding_window')
         bld.recurse('examples/switch_systematic_on_off')
         bld.recurse('examples/use_trace_layers')
-
-
-
-
-
