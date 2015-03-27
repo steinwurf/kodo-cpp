@@ -80,6 +80,11 @@ namespace kodocpp
             return kodo_feedback_size(m_coder);
         }
 
+        uint32_t write_payload(uint8_t* data)
+        {
+            return kodo_write_payload(m_coder, data);
+        }
+
     protected:
 
         kodo_coder_t m_coder;

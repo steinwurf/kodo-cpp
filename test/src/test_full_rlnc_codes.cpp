@@ -79,11 +79,11 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
     while (!decoder.is_complete())
     {
         // Encode the packet into the payload buffer
-        uint32_t payload_used = encoder.encode(payload.data());
+        uint32_t payload_used = encoder.write_payload(payload.data());
         EXPECT_TRUE(payload_used <= encoder.payload_size());
 
         // Pass that packet to the decoder
-        decoder.decode(payload.data());
+        decoder.read_payload(payload.data());
     }
     EXPECT_TRUE(decoder.is_complete());
 

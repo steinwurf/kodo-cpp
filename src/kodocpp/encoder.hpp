@@ -29,25 +29,19 @@ namespace kodocpp
             kodo_delete_encoder(m_coder);
         }
 
-        uint32_t encode(uint8_t* payload)
-        {
-            return kodo_encode(m_coder, payload);
-        }
-
-        void set_symbols(const uint8_t* data, uint32_t size)
+        void set_symbols(uint8_t* data, uint32_t size)
         {
             kodo_set_symbols(m_coder, data, size);
         }
 
-        void set_symbol(
-            uint32_t index, const uint8_t* data, uint32_t size)
+        void set_symbol(uint32_t index, uint8_t* data, uint32_t size)
         {
             kodo_set_symbol(m_coder, index, data, size);
         }
 
-        bool has_systematic_encoder() const
+        bool has_set_systematic_off() const
         {
-            return kodo_has_systematic_encoder(m_coder) != 0;
+            return kodo_has_set_systematic_off(m_coder) != 0;
         }
 
         bool is_systematic_on() const

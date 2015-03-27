@@ -27,8 +27,8 @@ int main(void)
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 16;
-    uint32_t max_symbol_size = 160;
+    uint32_t max_symbols = 10;
+    uint32_t max_symbol_size = 100;
 
     bool trace_enabled = true;
 
@@ -69,7 +69,7 @@ int main(void)
     while (!decoder.is_complete())
     {
         //If the chosen codec stack supports systematic coding
-        if (encoder.has_systematic_encoder())
+        if (encoder.has_set_systematic_off())
         {
             // with 50% probability toggle systematic
             if ((rand() % 2) == 0)
@@ -88,7 +88,7 @@ int main(void)
         }
 
         //Encode a packet into the payload buffer
-        encoder.encode(payload.data());
+        encoder.write_payload(payload.data());
 
         // Simulate a lossy channel where we are losing 50% of the packets
         if ((rand() % 2) == 0)
@@ -98,7 +98,7 @@ int main(void)
         }
 
         //Pass the packet to the decoder
-        decoder.decode(payload.data());
+        decoder.read_payload(payload.data());
 
         std::cout << "Decoder rank: " << decoder.rank() << std::endl;
 

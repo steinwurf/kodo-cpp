@@ -31,7 +31,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='fifi',
         git_repository='github.com/steinwurf/fifi.git',
-        major_version=15))
+        major_version=19))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='gtest',
@@ -41,12 +41,12 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='kodo',
         git_repository='github.com/steinwurf/kodo.git',
-        major_version=21))
+        major_version=25))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='kodo-c',
         git_repository='github.com/steinwurf/kodo-c.git',
-        major_version=2))
+        major_version=3))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='platform',
@@ -61,7 +61,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='sak',
         git_repository='github.com/steinwurf/sak.git',
-        major_version=13))
+        major_version=14))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='waf-tools',
@@ -98,13 +98,6 @@ def configure(conf):
 
 
 def build(bld):
-
-    # The -fPIC is required for all underlying static libraries that will be
-    # included in the shared library
-    CXX = bld.env.get_flat("CXX")
-    # Matches both /usr/bin/g++ and /usr/bin/clang++
-    if 'g++' in CXX or 'clang' in CXX:
-        bld.env.append_value('CXXFLAGS', '-fPIC')
 
     # Build the kodocpp includes
     bld(name='kodocpp_includes',
