@@ -24,10 +24,10 @@ int main(void)
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 8;
-    uint32_t max_symbol_size = 33;
+    uint32_t max_symbols = 6;
+    uint32_t max_symbol_size = 32;
 
-    bool trace_mode = false;
+    bool trace_mode = true;
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
@@ -38,8 +38,6 @@ int main(void)
         trace_mode);
 
     kodocpp::encoder encoder = encoder_factory.build();
-
-    trace_mode = true;
 
     kodocpp::decoder_factory decoder_factory(
         kodo_full_rlnc,
@@ -62,17 +60,35 @@ int main(void)
     // Just for fun - fill the data with random data
     std::generate(data_in.begin(), data_in.end(), rand);
 
+    // Install the default trace function for encoder (writes to stdout)
+    if (encoder.has_trace())
+    {
+        encoder.trace();
+    }
+
+    // Install a custom trace function for the decoder if tracing is enabled
+    if (decoder.has_trace())
+    {
+        auto callback = [](const char* zone, const char* data)
+        {
+            std::set<std::string> filters =
+                { "decoder_state", "input_symbol_coefficients" };
+
+            if (filters.count(zone))
+            {
+                std::cout << zone << ":" << std::endl;
+                std::cout << data << std::endl;
+            }
+        };
+
+        decoder.trace(callback);
+    }
+
     encoder.set_symbols(data_in.data(), encoder.block_size());
 
     while (!decoder.is_complete())
     {
-        encoder.encode(payload.data());
-
-        if (encoder.has_trace())
-        {
-            std::cout << "Trace encoder:" << std::endl;
-            encoder.trace();
-        }
+        encoder.write_payload(payload.data());
 
         // Simulate a lossy channel where we are losing 50% of the packets
         if ((rand() % 2) == 0)
@@ -80,26 +96,7 @@ int main(void)
             continue;
         }
 
-        decoder.decode(payload.data());
-
-        if (decoder.has_trace())
-        {
-            // Define trace callback function
-            auto callback = [](const char* zone, const char* data)
-            {
-                std::set<std::string> filters =
-                    {"decoder_state", "input_symbol_coefficients"};
-
-                if (filters.count(zone))
-                {
-                    std::cout << zone << ":" << std::endl;
-                    std::cout << data << std::endl;
-                }
-            };
-
-            std::cout << "Trace decoder:" << std::endl;
-            decoder.trace(callback);
-        }
+        decoder.read_payload(payload.data());
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());

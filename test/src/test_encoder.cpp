@@ -50,7 +50,7 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
 
     // Enoder methods
 
-    EXPECT_TRUE(encoder.has_systematic_encoder());
+    EXPECT_TRUE(encoder.has_set_systematic_off());
 
     EXPECT_TRUE(encoder.is_systematic_on());
     encoder.set_systematic_off();

@@ -22,8 +22,8 @@ int main(void)
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 42;
-    uint32_t max_symbol_size = 160;
+    uint32_t max_symbols = 10;
+    uint32_t max_symbol_size = 100;
 
     bool trace_enabled = true;
 
@@ -65,10 +65,10 @@ int main(void)
     while (!decoder.is_complete())
     {
         // Encode the packet into the payload buffer
-        encoder.encode(payload.data());
+        encoder.write_payload(payload.data());
 
         // Pass that packet to the decoder
-        decoder.decode(payload.data());
+        decoder.read_payload(payload.data());
     }
 
      // The decoder is complete, now copy the symbols from the decoder

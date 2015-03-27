@@ -89,11 +89,11 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     while (!decoder.is_complete())
     {
         // Encode the packet into the payload buffer
-        uint32_t payload_used = encoder.encode(payload.data());
+        uint32_t payload_used = encoder.write_payload(payload.data());
         EXPECT_TRUE(payload_used <= encoder.payload_size());
 
         // Pass that packet to the decoder
-        decoder.decode(payload.data());
+        decoder.read_payload(payload.data());
         EXPECT_TRUE(decoder.is_partial_complete());
 
         decoder.write_feedback(feedback.data());
@@ -115,14 +115,11 @@ TEST(TestSlidingWindowCodes, invoke_api)
     uint32_t max_symbol_size = rand_symbol_size();
 
     test_sliding_window(max_symbols, max_symbol_size,
-                        kodo_sliding_window,
-                        kodo_binary);
+                        kodo_sliding_window, kodo_binary);
 
     test_sliding_window(max_symbols, max_symbol_size,
-                        kodo_sliding_window,
-                        kodo_binary8);
+                        kodo_sliding_window, kodo_binary8);
 
     test_sliding_window(max_symbols, max_symbol_size,
-                        kodo_sliding_window,
-                        kodo_binary16);
+                        kodo_sliding_window, kodo_binary16);
 }

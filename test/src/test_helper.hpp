@@ -35,11 +35,12 @@ inline uint32_t rand_symbol_size(uint32_t max_symbol_size = 1600)
     return rand_nonzero(elements) * granularity;
 }
 
-using test_function = std::function<
-    void (uint32_t, uint32_t, kodo_code_type, kodo_finite_field, bool)>;
+//using test_function = std::function<
+//    void (uint32_t, uint32_t, kodo_code_type, kodo_finite_field, bool)>;
 
+template<class TestFunction>
 inline void test_combinations(
-    test_function coder_test,
+    TestFunction test_function,
     uint32_t max_symbols,
     uint32_t max_symbol_size,
     bool trace_enabled)
@@ -57,6 +58,7 @@ inline void test_combinations(
     std::vector<kodo_finite_field> fields =
     {
         kodo_binary,
+        kodo_binary4,
         kodo_binary8,
         kodo_binary16
     };
@@ -65,10 +67,10 @@ inline void test_combinations(
     {
         for (auto& field : fields)
         {
-            if (coder_test)
+            if (test_function)
             {
-                coder_test(max_symbols, max_symbol_size,
-                           code, field, trace_enabled);
+                test_function(max_symbols, max_symbol_size,
+                              code, field, trace_enabled);
             }
         }
     }

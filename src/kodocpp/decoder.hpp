@@ -29,14 +29,9 @@ namespace kodocpp
             kodo_delete_decoder(m_coder);
         }
 
-        uint32_t recode(uint8_t* data)
+        void read_payload(uint8_t* data)
         {
-            return kodo_recode(m_coder, data);
-        }
-
-        void decode(uint8_t* data)
-        {
-            kodo_decode(m_coder, data);
+            kodo_read_payload(m_coder, data);
         }
 
         bool is_complete() const

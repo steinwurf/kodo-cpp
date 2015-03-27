@@ -46,7 +46,7 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
     std::generate(data_in.begin(), data_in.end(), rand);
 
-    ASSERT_TRUE(decoder.is_complete() == 0);
+    EXPECT_TRUE(decoder.is_complete() == 0);
 
     while (!decoder.is_complete())
     {
@@ -66,14 +66,14 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
             encoder.set_symbol(rank, symbol, encoder.symbol_size());
         }
 
-        encoder.encode(payload.data());
+        encoder.write_payload(payload.data());
 
         if (rand() % 2)
         {
             continue;
         }
 
-        decoder.decode(payload.data());
+        decoder.read_payload(payload.data());
 
         // Check if the decoder is partially complete
         // The decoder has to support partial decoding tracker for

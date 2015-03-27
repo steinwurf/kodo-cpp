@@ -28,8 +28,8 @@ int main(void)
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 42;
-    uint32_t max_symbol_size = 160;
+    uint32_t max_symbols = 6;
+    uint32_t max_symbol_size = 100;
 
     bool trace_enabled = false;
 
@@ -68,9 +68,27 @@ int main(void)
 
     std::vector<uint8_t> feedback(encoder.feedback_size());
 
+    if (decoder.has_trace())
+    {
+        // Install a custom trace callback function
+        auto callback = [](const char* zone, const char* data)
+        {
+            std::set<std::string> filters =
+                { "decoder_state", "input_symbol_coefficients" };
+
+            if (filters.count(zone))
+            {
+                std::cout << zone << ":" << std::endl;
+                std::cout << data << std::endl;
+            }
+        };
+
+        decoder.trace(callback);
+    }
+
     while (!decoder.is_complete())
     {
-        // Randomly choose to insert a symbol or not
+        // Randomly choose to insert a symbol
         if ((rand() % 2) && encoder.rank() < encoder.symbols())
         {
             //The rank of an encoder indicates how many symbols have been
@@ -86,45 +104,27 @@ int main(void)
                       << std::endl;
         }
 
-        // Do not generate packets if the encoder is empty
-        if (encoder.rank() == 0)
+        // Only send packets if the encoder has more data than the decoder
+        if (encoder.rank() == decoder.rank())
         {
             continue;
         }
 
         // Encode a packet into the payload buffer
-        encoder.encode(payload.data());
-        std::cout << "Packet encoded" << std::endl;
+        encoder.write_payload(payload.data());
+        std::cout << "Encoded packet generated" << std::endl;
 
         // Simulate a lossy channel where we are losing 50% of the packets
         if (rand() % 2)
         {
-            std::cout << "Packet dropped on channel" << std::endl;
+            std::cout << "Packet dropped on channel" << std::endl << std::endl;
             continue;
         }
 
         std::cout << "Decoder received packet" << std::endl;
 
-        decoder.decode(payload.data());
-
-        if (decoder.has_trace())
-        {
-            // Define trace callback function
-            auto callback = [](const char* zone, const char* data)
-            {
-                std::set<std::string> filters =
-                    {"decoder_state", "input_symbol_coefficients"};
-
-                if (filters.count(zone))
-                {
-                    std::cout << zone << ":" << std::endl;
-                    std::cout << data << std::endl;
-                }
-            };
-
-            std::cout << "Trace decoder:" << std::endl;
-            decoder.trace(callback);
-        }
+        // Packet got through - pass that packet to the decoder
+        decoder.read_payload(payload.data());
 
         std::cout << "Encoder rank: " << encoder.rank()  << std::endl;
         std::cout << "Decoder rank: " << decoder.rank()  << std::endl;
@@ -134,17 +134,11 @@ int main(void)
         std::cout << "Decoder symbols seen: " << decoder.symbols_seen()
                   << std::endl;
 
+        // Transmit the feedback
         decoder.write_feedback(feedback.data());
 
-        if (rand() % 2)
-        {
-            std::cout << "Lost feedback from decoder" << std::endl;
-        }
-        else
-        {
-            std::cout << "Received feedback from decoder" << std::endl;
-            encoder.read_feedback(feedback.data());
-        }
+        std::cout << "Received feedback from decoder" << std::endl << std::endl;
+        encoder.read_feedback(feedback.data());
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());
