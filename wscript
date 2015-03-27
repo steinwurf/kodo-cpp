@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 APPNAME = 'kodo-cpp'
-VERSION = '0.1.0'
+VERSION = '1.0.0'
 
 
 def recurse_helper(ctx, name):
