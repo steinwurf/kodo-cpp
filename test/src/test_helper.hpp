@@ -8,7 +8,6 @@
 #include <cstdint>
 #include <cstdlib>
 #include <vector>
-#include <functional>
 
 #include <gtest/gtest.h>
 
@@ -34,9 +33,6 @@ inline uint32_t rand_symbol_size(uint32_t max_symbol_size = 1600)
 
     return rand_nonzero(elements) * granularity;
 }
-
-//using test_function = std::function<
-//    void (uint32_t, uint32_t, kodo_code_type, kodo_finite_field, bool)>;
 
 template<class TestFunction>
 inline void test_combinations(
