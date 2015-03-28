@@ -129,7 +129,7 @@ int main(void)
                     decoder.copy_symbol(i, target, encoder.symbol_size());
 
                     // Verify the symbol against the original data
-                    auto start = data_out.begin() + offset;
+                    auto start = data_in.begin() + offset;
                     auto end = start + encoder.symbol_size();
                     if (std::equal(start, end, data_out.begin() + offset))
                     {
