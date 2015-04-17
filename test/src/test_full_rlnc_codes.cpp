@@ -101,12 +101,14 @@ TEST(TestFullRlncCodes, invoke_api)
     uint32_t max_symbol_size = rand_symbol_size();
 
     test_basic_api(max_symbols, max_symbol_size,
-                   kodo_full_rlnc,
-                   kodo_binary);
+                   kodo_full_rlnc, kodo_binary);
+
     test_basic_api(max_symbols, max_symbol_size,
-                   kodo_full_rlnc,
-                   kodo_binary8);
+                   kodo_full_rlnc, kodo_binary4);
+
     test_basic_api(max_symbols, max_symbol_size,
-                   kodo_full_rlnc,
-                   kodo_binary16);
+                   kodo_full_rlnc, kodo_binary8);
+
+    test_basic_api(max_symbols, max_symbol_size,
+                   kodo_full_rlnc, kodo_binary16);
 }

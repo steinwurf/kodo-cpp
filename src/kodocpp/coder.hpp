@@ -50,9 +50,9 @@ namespace kodocpp
             return kodo_symbols(m_coder);
         }
 
-        bool symbol_pivot(uint32_t index) const
+        bool is_symbol_pivot(uint32_t index) const
         {
-            return kodo_symbol_pivot(m_coder, index) != 0;
+            return kodo_is_symbol_pivot(m_coder, index) != 0;
         }
 
         bool has_trace() const

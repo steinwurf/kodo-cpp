@@ -88,7 +88,7 @@ int main(void)
 
     while (!decoder.is_complete())
     {
-        // Randomly choose to insert a symbol
+        // Insert a new symbol until the encoder is full
         if ((rand() % 2) && encoder.rank() < encoder.symbols())
         {
             //The rank of an encoder indicates how many symbols have been
@@ -137,6 +137,8 @@ int main(void)
         // Transmit the feedback
         decoder.write_feedback(feedback.data());
 
+        // Note that the feedback packets can also be lost in a real network,
+        // but here we deliver all of them for the sake of simplicity
         std::cout << "Received feedback from decoder" << std::endl << std::endl;
         encoder.read_feedback(feedback.data());
     }
