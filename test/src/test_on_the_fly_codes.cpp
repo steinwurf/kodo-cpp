@@ -85,6 +85,9 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
             {
                 if (decoder.is_symbol_uncoded(i))
                 {
+                    // All uncoded symbols must have a pivot
+                    EXPECT_TRUE(decoder.is_symbol_pivot(i));
+
                     uint8_t* original = data_in.data() + i * max_symbol_size;
                     uint8_t* target = data_out.data() + i * max_symbol_size;
 
@@ -108,14 +111,14 @@ TEST(TestOnTheFlyCodes, invoke_api)
     uint32_t max_symbol_size = rand_symbol_size();
 
     test_on_the_fly(max_symbols, max_symbol_size,
-                    kodo_on_the_fly,
-                    kodo_binary);
+                    kodo_on_the_fly, kodo_binary);
 
     test_on_the_fly(max_symbols, max_symbol_size,
-                    kodo_on_the_fly,
-                    kodo_binary8);
+                    kodo_on_the_fly, kodo_binary4);
 
     test_on_the_fly(max_symbols, max_symbol_size,
-                    kodo_on_the_fly,
-                    kodo_binary16);
+                    kodo_on_the_fly, kodo_binary8);
+
+    test_on_the_fly(max_symbols, max_symbol_size,
+                    kodo_on_the_fly, kodo_binary16);
 }

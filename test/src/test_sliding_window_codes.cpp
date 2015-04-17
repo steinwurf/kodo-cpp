@@ -118,6 +118,9 @@ TEST(TestSlidingWindowCodes, invoke_api)
                         kodo_sliding_window, kodo_binary);
 
     test_sliding_window(max_symbols, max_symbol_size,
+                        kodo_sliding_window, kodo_binary4);
+
+    test_sliding_window(max_symbols, max_symbol_size,
                         kodo_sliding_window, kodo_binary8);
 
     test_sliding_window(max_symbols, max_symbol_size,
