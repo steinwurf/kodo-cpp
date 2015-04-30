@@ -16,3 +16,8 @@ This repository contains high-level C++ bindings for the Kodo Network Coding
 library. The bindings provide convenient access to the basic functionality
 of Kodo, such as encoding and decoding data. The ``examples`` folder contains
 sample applications showing the usage of the high-level C++ API.
+
+If you have any questions or suggestions about this library, please contact
+us at our developer mailing list (hosted at Google Groups):
+
+* http://groups.google.com/group/steinwurf-dev
