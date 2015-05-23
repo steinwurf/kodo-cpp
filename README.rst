@@ -3,7 +3,7 @@ License
 
 To obtain a valid Kodo license **you must fill out the license request** form_.
 
-Kodo is available under a research- and education- friendly license,
+Kodo is available under a research- and education-friendly license,
 see the details in the LICENSE.rst file. For commercial projects, see
 http://steinwurf.com/license/.
 
