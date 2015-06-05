@@ -6,6 +6,7 @@ of every change, see the Git log.
 
 Latest
 ------
+* Minor: Added buildbot.py for coverage reports.
 * Major: Upgrade to kodo 26
 * Major: Upgrade to kodo-c 4
 * Major: Renamed ``symbol_pivot`` to ``is_symbol_pivot`` to match the

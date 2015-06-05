@@ -17,7 +17,7 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
                     kodo_code_type code_type,
                     kodo_finite_field finite_field)
 {
-    bool trace_enabled = false;
+    bool trace_flag = false;
 
     //Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
@@ -25,7 +25,7 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
         finite_field,
         symbols,
         symbol_size,
-        trace_enabled);
+        trace_flag);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
@@ -34,7 +34,7 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
         finite_field,
         symbols,
         symbol_size,
-        trace_enabled);
+        trace_flag);
 
     kodocpp::decoder decoder = decoder_factory.build();
 

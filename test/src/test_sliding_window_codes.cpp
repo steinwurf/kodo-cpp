@@ -13,11 +13,30 @@
 
 #include "test_helper.hpp"
 
+static uint32_t encoder_trace_called = 0;
+static uint32_t decoder_trace_called = 0;
+
+static void encoder_trace_callback(const char* zone, const char* data)
+{
+    EXPECT_TRUE(zone != 0);
+    EXPECT_TRUE(data != 0);
+
+    encoder_trace_called++;
+}
+
+static void decoder_trace_callback(const char* zone, const char* data)
+{
+    EXPECT_TRUE(zone != 0);
+    EXPECT_TRUE(data != 0);
+
+    decoder_trace_called++;
+}
+
 void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
                          kodo_code_type code_type,
                          kodo_finite_field finite_field)
 {
-    bool trace_enabled = false;
+    bool trace_flag = true;
 
     //Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
@@ -25,7 +44,7 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
         finite_field,
         max_symbols,
         max_symbol_size,
-        trace_enabled);
+        trace_flag);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
@@ -34,7 +53,7 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
         finite_field,
         max_symbols,
         max_symbol_size,
-        trace_enabled);
+        trace_flag);
 
     kodocpp::decoder decoder = decoder_factory.build();
 
@@ -82,6 +101,13 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     // Just for fun - fill the data with random data
     std::generate(data_in.begin(), data_in.end(), rand);
 
+    // Install a custom trace function for the encoder and decoder
+    EXPECT_TRUE(encoder.has_trace());
+    encoder.trace(encoder_trace_callback);
+
+    EXPECT_TRUE(decoder.has_trace());
+    decoder.trace(decoder_trace_callback);
+
     // Assign the data buffer to the encoder so that we may start
     // to produce encoded symbols from it
     encoder.set_symbols(data_in.data(), encoder.block_size());
@@ -107,6 +133,10 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
 
     // Check if we properly decoded the data
     EXPECT_TRUE(data_out == data_in);
+
+    // Check that the trace functions were called at least once
+    EXPECT_GT(encoder_trace_called, 0U);
+    EXPECT_GT(decoder_trace_called, 0U);
 }
 
 TEST(TestSlidingWindowCodes, invoke_api)
