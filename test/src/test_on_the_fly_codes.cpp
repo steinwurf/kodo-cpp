@@ -17,14 +17,14 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
                      kodo_code_type code_type,
                      kodo_finite_field finite_field)
 {
-    bool trace_enabled = false;
+    bool trace_flag = false;
 
     kodocpp::encoder_factory encoder_factory(
         code_type,
         finite_field,
         max_symbols,
         max_symbol_size,
-        trace_enabled);
+        trace_flag);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
@@ -33,7 +33,7 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
         finite_field,
         max_symbols,
         max_symbol_size,
-        trace_enabled);
+        trace_flag);
 
     kodocpp::decoder decoder = decoder_factory.build();
 
@@ -74,6 +74,11 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
         }
 
         decoder.read_payload(payload.data());
+
+        // Check the decoder rank and symbol counters
+        EXPECT_GE(encoder.rank(), decoder.rank());
+        EXPECT_GE(decoder.rank(), decoder.symbols_uncoded());
+        EXPECT_GE(decoder.rank(), decoder.symbols_seen());
 
         // Check if the decoder is partially complete
         // The decoder has to support partial decoding tracker for

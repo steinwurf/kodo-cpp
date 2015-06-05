@@ -46,7 +46,10 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
     }
 
     EXPECT_EQ(trace_enabled, encoder.has_trace());
-
+    if (trace_enabled)
+    {
+        encoder.trace();
+    }
 
     // Enoder methods
 
