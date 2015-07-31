@@ -6,6 +6,10 @@ of every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+2.0.0
+-----
 * Major: Renamed ``copy_symbol`` and ``copy_symbols`` to
   ``copy_from_symbol`` and ``copy_from_symbols`` to their name in kodo 29.
 * Major: Renamed `trace` and `trace_callback` to the appropriate names in
