@@ -6,9 +6,14 @@ of every change, see the Git log.
 
 Latest
 ------
+* Major: Renamed ``copy_symbol`` and ``copy_symbols`` to
+  ``copy_from_symbol`` and ``copy_from_symbols`` to their name in kodo 29.
+* Major: Renamed `trace` and `trace_callback` to the appropriate names in
+  kodo 29.
 * Minor: Added buildbot.py for coverage reports.
-* Major: Upgrade to kodo 26
-* Major: Upgrade to kodo-c 4
+* Major: Upgrade to kodo 29
+* Major: Upgrade to fifi 20
+* Major: Upgrade to kodo-c 5
 * Major: Renamed ``symbol_pivot`` to ``is_symbol_pivot`` to match the
   function name in Kodo.
 

@@ -68,7 +68,7 @@ int main(void)
 
     std::vector<uint8_t> feedback(encoder.feedback_size());
 
-    if (decoder.has_trace())
+    if (decoder.has_set_trace_callback())
     {
         // Install a custom trace callback function
         auto callback = [](const char* zone, const char* data)
@@ -83,7 +83,7 @@ int main(void)
             }
         };
 
-        decoder.trace(callback);
+        decoder.set_trace_callback(callback);
     }
 
     while (!decoder.is_complete())
@@ -144,7 +144,7 @@ int main(void)
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.copy_symbols(data_out.data(), decoder.block_size());
+    decoder.copy_from_symbols(data_out.data(), decoder.block_size());
 
     // Check if we properly decoded the data
     if (std::equal(data_out.begin(), data_out.end(), data_in.begin()))

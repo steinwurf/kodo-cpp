@@ -89,7 +89,7 @@ void test_basic_api(uint32_t symbols, uint32_t symbol_size,
 
     // The decoder is complete, now copy the symbols from the decoder
     std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.copy_symbols(data_out.data(), decoder.block_size());
+    decoder.copy_from_symbols(data_out.data(), decoder.block_size());
 
     // Check if we properly decoded the data
     EXPECT_TRUE(data_out == data_in);

@@ -31,7 +31,7 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='fifi',
         git_repository='github.com/steinwurf/fifi.git',
-        major_version=19))
+        major_version=20))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='gtest',
@@ -41,12 +41,12 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='kodo',
         git_repository='github.com/steinwurf/kodo.git',
-        major_version=26))
+        major_version=29))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='kodo-c',
         git_repository='github.com/steinwurf/kodo-c.git',
-        major_version=4))
+        major_version=5))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='platform',
@@ -56,6 +56,11 @@ def options(opt):
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
         name='recycle',
         git_repository='github.com/steinwurf/recycle.git',
+        major_version=1))
+
+    bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
+        name='meta',
+        git_repository='github.com/steinwurf/meta.git',
         major_version=1))
 
     bundle.add_dependency(opt, resolve.ResolveGitMajorVersion(
@@ -93,6 +98,7 @@ def configure(conf):
         recurse_helper(conf, 'kodo-c')
         recurse_helper(conf, 'sak')
         recurse_helper(conf, 'recycle')
+        recurse_helper(conf, 'meta')
         recurse_helper(conf, 'platform')
         recurse_helper(conf, 'cpuid')
 
@@ -114,6 +120,7 @@ def build(bld):
         recurse_helper(bld, 'boost')
         recurse_helper(bld, 'sak')
         recurse_helper(bld, 'recycle')
+        recurse_helper(bld, 'meta')
         recurse_helper(bld, 'fifi')
         recurse_helper(bld, 'gtest')
         recurse_helper(bld, 'kodo')

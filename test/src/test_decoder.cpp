@@ -46,10 +46,13 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
         EXPECT_GT(decoder.feedback_size(), 0U);
     }
 
-    EXPECT_EQ(trace_enabled, decoder.has_trace());
+    EXPECT_EQ(trace_enabled, decoder.has_set_trace_stdout());
+    EXPECT_EQ(trace_enabled, decoder.has_set_trace_callback());
+    EXPECT_EQ(trace_enabled, decoder.has_set_trace_off());
     if (trace_enabled)
     {
-        decoder.trace();
+        decoder.set_trace_stdout();
+        decoder.set_trace_off();
     }
 
     // Decoder methods

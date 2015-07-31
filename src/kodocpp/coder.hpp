@@ -55,19 +55,34 @@ namespace kodocpp
             return kodo_is_symbol_pivot(m_coder, index) != 0;
         }
 
-        bool has_trace() const
+        bool has_set_trace_callback() const
         {
-            return kodo_has_trace(m_coder) != 0;
+            return kodo_has_set_trace_callback(m_coder) != 0;
         }
 
-        void trace()
+        bool has_set_trace_stdout() const
         {
-            kodo_trace(m_coder);
+            return kodo_has_set_trace_stdout(m_coder) != 0;
         }
 
-        void trace(kodo_trace_callback_t callback)
+        bool has_set_trace_off() const
         {
-            kodo_trace_callback(m_coder, callback);
+            return kodo_has_set_trace_off(m_coder) != 0;
+        }
+
+        void set_trace_callback(kodo_trace_callback_t callback)
+        {
+            kodo_set_trace_callback(m_coder, callback);
+        }
+
+        void set_trace_stdout()
+        {
+            kodo_set_trace_stdout(m_coder);
+        }
+
+        void set_trace_off()
+        {
+            kodo_set_trace_off(m_coder);
         }
 
         bool has_feedback_size() const

@@ -61,13 +61,13 @@ int main(void)
     std::generate(data_in.begin(), data_in.end(), rand);
 
     // Install the default trace function for encoder (writes to stdout)
-    if (encoder.has_trace())
+    if (encoder.has_set_trace_stdout())
     {
-        encoder.trace();
+        encoder.set_trace_stdout();
     }
 
     // Install a custom trace function for the decoder if tracing is enabled
-    if (decoder.has_trace())
+    if (decoder.has_set_trace_callback())
     {
         auto callback = [](const char* zone, const char* data)
         {
@@ -81,7 +81,7 @@ int main(void)
             }
         };
 
-        decoder.trace(callback);
+        decoder.set_trace_callback(callback);
     }
 
     encoder.set_symbols(data_in.data(), encoder.block_size());
@@ -100,7 +100,7 @@ int main(void)
     }
 
     std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.copy_symbols(data_out.data(), decoder.block_size());
+    decoder.copy_from_symbols(data_out.data(), decoder.block_size());
 
     // Check if we properly decoded the data
     if (std::equal(data_out.begin(), data_out.end(), data_in.begin()))
