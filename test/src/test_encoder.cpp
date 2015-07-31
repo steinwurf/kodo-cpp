@@ -45,10 +45,13 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
         EXPECT_GT(encoder.feedback_size(), 0U);
     }
 
-    EXPECT_EQ(trace_enabled, encoder.has_trace());
+    EXPECT_EQ(trace_enabled, encoder.has_set_trace_stdout());
+    EXPECT_EQ(trace_enabled, encoder.has_set_trace_callback());
+    EXPECT_EQ(trace_enabled, encoder.has_set_trace_off());
     if (trace_enabled)
     {
-        encoder.trace();
+        encoder.set_trace_stdout();
+        encoder.set_trace_off();
     }
 
     // Enoder methods

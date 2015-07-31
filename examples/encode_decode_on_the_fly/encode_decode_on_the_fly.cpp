@@ -126,7 +126,7 @@ int main(void)
                     uint8_t* target = data_out.data() + offset;
 
                     // Copy out the individual symbol from the decoder
-                    decoder.copy_symbol(i, target, encoder.symbol_size());
+                    decoder.copy_from_symbol(i, target, encoder.symbol_size());
 
                     // Verify the symbol against the original data
                     auto start = data_in.begin() + offset;
@@ -146,7 +146,7 @@ int main(void)
         }
     }
 
-    decoder.copy_symbols(data_out.data(), encoder.block_size());
+    decoder.copy_from_symbols(data_out.data(), encoder.block_size());
 
     // Check if we properly decoded the data
     if (std::equal(data_out.begin(), data_out.end(), data_in.begin()))

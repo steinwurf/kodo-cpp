@@ -73,7 +73,7 @@ int main(void)
 
      // The decoder is complete, now copy the symbols from the decoder
     std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.copy_symbols(data_out.data(), decoder.block_size());
+    decoder.copy_from_symbols(data_out.data(), decoder.block_size());
 
     // Check if we properly decoded the data
     if (std::equal(data_out.begin(), data_out.end(), data_in.begin()))

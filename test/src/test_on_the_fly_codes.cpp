@@ -98,14 +98,14 @@ void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
 
                     // Copy the decoded symbol and verify it against the
                     // original data
-                    decoder.copy_symbol(i, target, max_symbol_size);
+                    decoder.copy_from_symbol(i, target, max_symbol_size);
                     EXPECT_EQ(memcmp(original, target, max_symbol_size), 0);
                 }
             }
         }
     }
 
-    decoder.copy_symbols(data_out.data(), block_size);
+    decoder.copy_from_symbols(data_out.data(), block_size);
 
     EXPECT_TRUE(std::equal(data_out.begin(), data_out.end(), data_in.begin()));
 }

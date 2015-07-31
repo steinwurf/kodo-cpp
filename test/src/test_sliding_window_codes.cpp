@@ -102,11 +102,11 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
     std::generate(data_in.begin(), data_in.end(), rand);
 
     // Install a custom trace function for the encoder and decoder
-    EXPECT_TRUE(encoder.has_trace());
-    encoder.trace(encoder_trace_callback);
+    EXPECT_TRUE(encoder.has_set_trace_callback());
+    encoder.set_trace_callback(encoder_trace_callback);
 
-    EXPECT_TRUE(decoder.has_trace());
-    decoder.trace(decoder_trace_callback);
+    EXPECT_TRUE(decoder.has_set_trace_callback());
+    decoder.set_trace_callback(decoder_trace_callback);
 
     // Assign the data buffer to the encoder so that we may start
     // to produce encoded symbols from it
@@ -129,7 +129,7 @@ void test_sliding_window(uint32_t max_symbols, uint32_t max_symbol_size,
 
     // The decoder is complete, now copy the symbols from the decoder
     std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.copy_symbols(data_out.data(), decoder.block_size());
+    decoder.copy_from_symbols(data_out.data(), decoder.block_size());
 
     // Check if we properly decoded the data
     EXPECT_TRUE(data_out == data_in);
