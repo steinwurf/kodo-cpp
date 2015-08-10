@@ -7,6 +7,8 @@
 
 #include <cstdint>
 #include <cassert>
+#include <string>
+#include <functional>
 
 #include <kodoc/kodoc.h>
 
@@ -14,6 +16,12 @@ namespace kodocpp
 {
     class coder
     {
+
+    private:
+
+        using callback_type =
+            std::function<void(const std::string&, const std::string&)>;
+
     protected:
 
         // Make sure that this base class cannot be instantiated
@@ -70,9 +78,20 @@ namespace kodocpp
             return kodo_has_set_trace_off(m_coder) != 0;
         }
 
-        void set_trace_callback(kodo_trace_callback_t callback)
+        void set_trace_callback(callback_type callback)
         {
-            kodo_set_trace_callback(m_coder, callback);
+            m_callback = callback;
+
+            auto c_callback = [](
+                const char* zone,
+                const char* data,
+                void* _this)
+            {
+                ((coder*)_this)->m_callback(std::string(zone),
+                    std::string(data));
+            };
+
+            kodo_set_trace_callback(m_coder, c_callback, this);
         }
 
         void set_trace_stdout()
@@ -103,5 +122,7 @@ namespace kodocpp
     protected:
 
         kodo_coder_t m_coder;
+        callback_type m_callback;
+
     };
 }

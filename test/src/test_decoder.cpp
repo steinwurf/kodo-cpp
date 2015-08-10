@@ -35,7 +35,7 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     EXPECT_GE(0U, decoder.symbols_uncoded());
     EXPECT_GE(0U, decoder.symbols_seen());
 
-    if (code_type == kodo_full_rlnc ||
+    if (code_type == kodo_full_vector ||
         code_type == kodo_on_the_fly)
     {
         EXPECT_FALSE(decoder.has_feedback_size());
@@ -62,13 +62,13 @@ static void test_decoder(uint32_t symbols, uint32_t symbol_size,
     {
         EXPECT_TRUE(decoder.has_partial_decoding_tracker());
     }
-    else if (code_type == kodo_full_rlnc)
+    else if (code_type == kodo_full_vector)
     {
         EXPECT_FALSE(decoder.has_partial_decoding_tracker());
     }
 }
 
-TEST(TestDecoder, invoke_api)
+TEST(test_decoder, invoke_api)
 {
     uint32_t symbols = rand_symbols();
     uint32_t symbol_size = rand_symbol_size();

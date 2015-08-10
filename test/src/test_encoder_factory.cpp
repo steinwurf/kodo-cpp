@@ -57,7 +57,7 @@ static void test_encoder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
     EXPECT_EQ(new_symbol_size, encoder2.symbol_size());
 }
 
-TEST(TestEncoderFactory, invoke_api)
+TEST(test_encoder_factory, invoke_api)
 {
     // Make sure that we can lower these values in the test
     uint32_t max_symbols = rand_symbols() + 1;

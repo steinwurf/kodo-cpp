@@ -33,7 +33,7 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
     EXPECT_GT(encoder.payload_size(), symbol_size);
     EXPECT_EQ(0U, encoder.rank());
 
-    if (code_type == kodo_full_rlnc ||
+    if (code_type == kodo_full_vector ||
         code_type == kodo_on_the_fly)
     {
         EXPECT_FALSE(encoder.has_feedback_size());
@@ -54,18 +54,19 @@ static void test_encoder(uint32_t symbols, uint32_t symbol_size,
         encoder.set_trace_off();
     }
 
-    // Enoder methods
+    // Encoder methods
 
-    EXPECT_TRUE(encoder.has_set_systematic_off());
-
-    EXPECT_TRUE(encoder.is_systematic_on());
-    encoder.set_systematic_off();
-    EXPECT_FALSE(encoder.is_systematic_on());
-    encoder.set_systematic_on();
-    EXPECT_TRUE(encoder.is_systematic_on());
+    if (encoder.has_set_systematic_off())
+    {
+        EXPECT_TRUE(encoder.is_systematic_on());
+        encoder.set_systematic_off();
+        EXPECT_FALSE(encoder.is_systematic_on());
+        encoder.set_systematic_on();
+        EXPECT_TRUE(encoder.is_systematic_on());
+    }
 }
 
-TEST(TestEncoder, invoke_api)
+TEST(test_encoder, invoke_api)
 {
     uint32_t symbols = rand_symbols();
     uint32_t symbol_size = rand_symbol_size();

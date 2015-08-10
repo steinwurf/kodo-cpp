@@ -63,5 +63,45 @@ namespace kodocpp
         {
             kodo_read_feedback(m_coder, feedback);
         }
+
+        uint8_t pseudo_systematic() const
+        {
+            return kodo_pseudo_systematic(m_coder);
+        }
+
+        void set_pseudo_systematic(bool pseudo_systematic)
+        {
+            kodo_set_pseudo_systematic(m_coder, pseudo_systematic);
+        }
+
+        uint8_t pre_charging() const
+        {
+            return kodo_pre_charging(m_coder);
+        }
+
+        void set_pre_charging(bool pre_charging)
+        {
+            kodo_set_pre_charging(m_coder, pre_charging);
+        }
+
+        uint32_t width() const
+        {
+            return kodo_width(m_coder);
+        }
+
+        void set_width(uint32_t width)
+        {
+            kodo_set_width(m_coder, width);
+        }
+
+        double width_ratio() const
+        {
+            return kodo_width_ratio(m_coder);
+        }
+
+        void set_width_ratio(double width_ratio)
+        {
+            kodo_set_width_ratio(m_coder, width_ratio);
+        }
     };
 }

@@ -1,13 +1,15 @@
-// Copyright Steinwurf ApS 2014.
+// Copyright Steinwurf ApS 2015.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
 #pragma once
 
+#include <algorithm>
 #include <cstdint>
 #include <cstdlib>
 #include <vector>
+
 
 #include <gtest/gtest.h>
 
@@ -41,14 +43,26 @@ inline void test_combinations(
     uint32_t max_symbol_size,
     bool trace_enabled)
 {
+    EXPECT_TRUE(test_function);
+
     SCOPED_TRACE(testing::Message() << "symbols = " << max_symbols);
     SCOPED_TRACE(testing::Message() << "symbol_size = " << max_symbol_size);
 
     std::vector<kodo_code_type> code_types =
     {
-        kodo_full_rlnc,
+        kodo_full_vector,
         kodo_on_the_fly,
-        kodo_sliding_window
+        kodo_sliding_window,
+        kodo_perpetual
+    };
+
+
+    std::vector<std::string> code_type_names =
+    {
+        "kodo_full_vector",
+        "kodo_on_the_fly",
+        "kodo_sliding_window",
+        "kodo_perpetual"
     };
 
     std::vector<kodo_finite_field> fields =
@@ -59,15 +73,258 @@ inline void test_combinations(
         kodo_binary16
     };
 
-    for (auto& code : code_types)
+    std::vector<std::string> field_names =
     {
-        for (auto& field : fields)
+        "kodo_binary",
+        "kodo_binary4",
+        "kodo_binary8",
+        "kodo_binary16"
+    };
+
+    for (uint32_t i = 0; i < code_types.size(); ++i)
+    {
+        SCOPED_TRACE(testing::Message() << "code_type = " << code_type_names[i]);
+
+        for (uint32_t j = 0; j < fields.size(); ++j)
         {
-            if (test_function)
+            SCOPED_TRACE(testing::Message() << "field = " << field_names[j]);
+            test_function(max_symbols, max_symbol_size,
+                              code_types[i], fields[j], trace_enabled);
+        }
+    }
+}
+
+
+inline void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
+                    kodo_code_type code_type,
+                    kodo_finite_field finite_field)
+{
+    bool trace_flag = true;
+
+    //Initilization of encoder and decoder
+    kodocpp::encoder_factory encoder_factory(
+        code_type,
+        finite_field,
+        max_symbols,
+        max_symbol_size,
+        trace_flag);
+
+    kodocpp::encoder encoder = encoder_factory.build();
+
+    kodocpp::decoder_factory decoder_factory(
+        code_type,
+        finite_field,
+        max_symbols,
+        max_symbol_size,
+        trace_flag);
+
+    kodocpp::decoder decoder = decoder_factory.build();
+
+    EXPECT_EQ(max_symbols, encoder_factory.max_symbols());
+    EXPECT_EQ(max_symbol_size, encoder_factory.max_symbol_size());
+    EXPECT_EQ(max_symbols, encoder.symbols());
+    EXPECT_EQ(max_symbol_size, encoder.symbol_size());
+
+    EXPECT_EQ(max_symbols, decoder_factory.max_symbols());
+    EXPECT_EQ(max_symbol_size, decoder_factory.max_symbol_size());
+    EXPECT_EQ(max_symbols, decoder.symbols());
+    EXPECT_EQ(max_symbol_size, decoder.symbol_size());
+
+    EXPECT_EQ(max_symbols * max_symbol_size, encoder.block_size());
+    EXPECT_EQ(max_symbols * max_symbol_size, decoder.block_size());
+
+    EXPECT_GE(encoder_factory.max_payload_size(), encoder.payload_size());
+
+    EXPECT_GE(decoder_factory.max_payload_size(), decoder.payload_size());
+
+    EXPECT_EQ(encoder_factory.max_payload_size(),
+        decoder_factory.max_payload_size());
+
+    auto callback = [](uint32_t& count, const std::string& zone, const std::string& data)
+    {
+        EXPECT_FALSE(zone.empty());
+        EXPECT_FALSE(data.empty());
+        count++;
+    };
+
+    // Install a custom trace function for the encoder and decoder
+    using namespace std::placeholders;
+
+    EXPECT_TRUE(encoder.has_set_trace_callback());
+    uint32_t encoder_trace_count = 0;
+    encoder.set_trace_callback(
+        std::bind<void>(callback, std::ref(encoder_trace_count), _1, _2));
+
+    EXPECT_TRUE(decoder.has_set_trace_callback());
+    uint32_t decoder_trace_count = 0;
+    decoder.set_trace_callback(
+        std::bind<void>(callback, std::ref(decoder_trace_count), _1, _2));
+
+    std::vector<uint8_t> feedback;
+    if (code_type == kodo_sliding_window)
+    {
+        uint32_t feedback_size = 0;
+
+        EXPECT_EQ(encoder.feedback_size(), decoder.feedback_size());
+
+        feedback_size = encoder.feedback_size();
+        EXPECT_GT(feedback_size, 0U);
+
+        feedback.resize(feedback_size);
+    }
+
+    // Allocate some storage for a "payload" the payload is what we would
+    // eventually send over a network
+    std::vector<uint8_t> payload(encoder.payload_size());
+
+    // Allocate some data to encode. In this case we make a buffer
+    // with the same size as the encoder's block size (the max.
+    // amount a single encoder can encode)
+    std::vector<uint8_t> data_in(encoder.block_size());
+    std::vector<uint8_t> data_out(decoder.block_size());
+
+    // Just for fun - fill the data with random data
+    std::generate(data_in.begin(), data_in.end(), rand);
+
+    // Assign the data buffer to the encoder so that we may start
+    // to produce encoded symbols from it
+    if (code_type != kodo_on_the_fly)
+    {
+        encoder.set_symbols(data_in.data(), encoder.block_size());
+    }
+
+    while (!decoder.is_complete())
+    {
+        EXPECT_GE(encoder.rank(), decoder.rank());
+
+        if (code_type == kodo_on_the_fly)
+        {
+            // Randomly choose to add a new symbol (with 50% probability)
+            // if the encoder rank is less than the maximum number of symbols
+            if ((rand() % 2) && encoder.rank() < encoder.symbols())
             {
-                test_function(max_symbols, max_symbol_size,
-                              code, field, trace_enabled);
+                // The rank of an encoder  indicates how many symbols have been
+                // added, i.e. how many symbols are available for encoding
+                uint32_t rank = encoder.rank();
+                uint32_t symbol_size = encoder.symbol_size();
+
+                // Calculate the offset to the next symbol to insert
+                uint8_t* symbol = data_in.data() + (rank * symbol_size);
+
+                encoder.set_symbol(rank, symbol, symbol_size);
+            }
+        }
+
+        // Encode the packet into the payload buffer
+        uint32_t payload_used = encoder.write_payload(payload.data());
+        EXPECT_LE(payload_used, encoder.payload_size());
+
+        // Pass that packet to the decoder
+        decoder.read_payload(payload.data());
+
+        if (code_type == kodo_sliding_window)
+        {
+            decoder.write_feedback(feedback.data());
+            encoder.read_feedback(feedback.data());
+        }
+
+        // Check the decoder rank and symbol counters
+        EXPECT_GE(encoder.rank(), decoder.rank());
+        EXPECT_GE(decoder.rank(), decoder.symbols_uncoded());
+        EXPECT_GE(decoder.rank(), decoder.symbols_seen());
+
+        // Check if the decoder is partially complete
+        // The decoder has to support partial decoding tracker for
+        // on-the-fly decoding
+        if (decoder.has_partial_decoding_tracker() &&
+            decoder.is_partial_complete())
+        {
+            for (uint32_t i = 0; i < decoder.symbols(); ++i)
+            {
+                if (decoder.is_symbol_uncoded(i))
+                {
+                    // All uncoded symbols must have a pivot
+                    EXPECT_TRUE(decoder.is_symbol_pivot(i));
+
+                    uint8_t* original = data_in.data() + i * max_symbol_size;
+                    uint8_t* target = data_out.data() + i * max_symbol_size;
+
+                    // Copy the decoded symbol and verify it against the
+                    // original data
+                    decoder.copy_from_symbol(i, target, max_symbol_size);
+                    EXPECT_EQ(memcmp(original, target, max_symbol_size), 0);
+                }
             }
         }
     }
+    EXPECT_TRUE(decoder.is_complete());
+
+    // The decoder is complete, now copy the symbols from the decoder
+    decoder.copy_from_symbols(data_out.data(), decoder.block_size());
+
+    // Check if we properly decoded the data
+    EXPECT_EQ(data_in, data_out);
+
+    EXPECT_GT(encoder_trace_count, 0U);
+    EXPECT_GT(decoder_trace_count, 0U);
+}
+
+
+
+inline void test_on_the_fly(uint32_t max_symbols, uint32_t max_symbol_size,
+                     kodo_code_type code_type,
+                     kodo_finite_field finite_field)
+{
+    bool trace_flag = false;
+
+    kodocpp::encoder_factory encoder_factory(
+        code_type,
+        finite_field,
+        max_symbols,
+        max_symbol_size,
+        trace_flag);
+
+    kodocpp::encoder encoder = encoder_factory.build();
+
+    kodocpp::decoder_factory decoder_factory(
+        code_type,
+        finite_field,
+        max_symbols,
+        max_symbol_size,
+        trace_flag);
+
+    kodocpp::decoder decoder = decoder_factory.build();
+
+    uint32_t payload_size = encoder.payload_size();
+    std::vector<uint8_t> payload(payload_size);
+
+    uint32_t block_size = encoder.block_size();
+    std::vector<uint8_t> data_in(block_size);
+    std::vector<uint8_t> data_out(block_size);
+
+    std::generate(data_in.begin(), data_in.end(), rand);
+
+    EXPECT_TRUE(decoder.is_complete() == 0);
+
+    while (!decoder.is_complete())
+    {
+        EXPECT_GE(encoder.rank(), decoder.rank());
+
+
+
+        encoder.write_payload(payload.data());
+
+        if (rand() % 2)
+        {
+            continue;
+        }
+
+        decoder.read_payload(payload.data());
+
+
+    }
+
+    decoder.copy_from_symbols(data_out.data(), block_size);
+
+    EXPECT_TRUE(std::equal(data_out.begin(), data_out.end(), data_in.begin()));
 }
