@@ -6,6 +6,10 @@ of every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+3.0.0
+-----
 * Major: Store coders and factories as shared pointers in cpp wrappers.
 * Minor: Added perpetual stack.
 * Major: Upgrade to kodo 30.
