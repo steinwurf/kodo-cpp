@@ -10,7 +10,8 @@
 #include <gtest/gtest.h>
 
 #include <functional>
-
+#include <cstdint>
+#include <vector>
 
 namespace kodocpp
 {
@@ -65,9 +66,35 @@ namespace kodocpp
         EXPECT_GT(factory.max_payload_size(), max_symbol_size);
 
         // Build a coder with the changed settings
-        auto coder2 = factory.build();
+        auto coder_two = factory.build();
 
-        EXPECT_EQ(new_symbols, coder2.symbols());
-        EXPECT_EQ(new_symbol_size, coder2.symbol_size());
+        EXPECT_EQ(new_symbols, coder_two.symbols());
+        EXPECT_EQ(new_symbol_size, coder_two.symbol_size());
+
+        // Test copying factory
+        auto factory_copy = factory;
+        EXPECT_EQ(max_symbols, factory_copy.max_symbols());
+        EXPECT_EQ(max_symbol_size, factory_copy.max_symbol_size());
+
+        // Test copying coder
+        auto coder_copy = coder;
+        EXPECT_EQ(coder.symbols(), coder_copy.symbols());
+        EXPECT_EQ(coder.symbol_size(), coder_copy.symbol_size());
+
+        // Test store in vector
+        std::vector<typename Factory::coder_type> coder_vector =
+        {
+            factory.build(),
+            factory.build(),
+            factory.build()
+        };
+
+        coder_vector.push_back(factory.build());
+
+        for (auto& c : coder_vector)
+        {
+            EXPECT_EQ(new_symbols, c.symbols());
+            EXPECT_EQ(new_symbol_size, c.symbol_size());
+        }
     }
 }
