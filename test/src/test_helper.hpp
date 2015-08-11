@@ -32,4 +32,42 @@ namespace kodocpp
 
     void test_coder(coder& coder, uint32_t symbols, uint32_t symbol_size,
         kodo_code_type code_type, bool trace_enabled);
+
+    template<class Factory>
+    void test_coder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
+        kodo_code_type code_type, kodo_finite_field field, bool trace)
+    {
+        Factory factory(code_type, field, max_symbols, max_symbol_size, trace);
+
+        // Test the max_* properties
+        EXPECT_EQ(max_symbols, factory.max_symbols());
+        EXPECT_EQ(max_symbol_size, factory.max_symbol_size());
+        EXPECT_EQ(max_symbol_size * max_symbols, factory.max_block_size());
+        EXPECT_GT(factory.max_payload_size(), max_symbol_size);
+
+        // Build a coder with the default settings
+        auto coder = factory.build();
+
+        EXPECT_EQ(max_symbols, coder.symbols());
+        EXPECT_EQ(max_symbol_size, coder.symbol_size());
+
+        // Lower the number of symbols and the symbol_size
+        uint32_t new_symbols = max_symbols / 2;
+        factory.set_symbols(new_symbols);
+
+        uint32_t new_symbol_size = max_symbol_size - 4;
+        factory.set_symbol_size(new_symbol_size);
+
+        // Test that the max_* properties are not changed
+        EXPECT_EQ(max_symbols, factory.max_symbols());
+        EXPECT_EQ(max_symbol_size, factory.max_symbol_size());
+        EXPECT_EQ(max_symbol_size * max_symbols, factory.max_block_size());
+        EXPECT_GT(factory.max_payload_size(), max_symbol_size);
+
+        // Build a coder with the changed settings
+        auto coder2 = factory.build();
+
+        EXPECT_EQ(new_symbols, coder2.symbols());
+        EXPECT_EQ(new_symbol_size, coder2.symbol_size());
+    }
 }
