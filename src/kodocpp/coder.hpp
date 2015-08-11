@@ -87,8 +87,7 @@ namespace kodocpp
                 const char* data,
                 void* _this)
             {
-                ((coder*)_this)->m_callback(std::string(zone),
-                    std::string(data));
+                ((coder*)_this)->m_callback(zone, data);
             };
 
             kodo_set_trace_callback(m_coder, c_callback, this);
