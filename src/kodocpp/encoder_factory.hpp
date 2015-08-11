@@ -19,6 +19,10 @@ namespace kodocpp
     {
     public:
 
+        using coder_type = encoder;
+
+    public:
+
         encoder_factory(kodo_code_type code, kodo_finite_field field,
             uint32_t max_symbols, uint32_t max_symbol_size,
             bool trace_enabled = false) :
@@ -29,10 +33,10 @@ namespace kodocpp
                 })
         { }
 
-        encoder build()
+        coder_type build()
         {
             kodo_coder_t coder = kodo_factory_new_encoder(m_factory.get());
-            return encoder(coder);
+            return coder_type(coder);
         }
     };
 }
