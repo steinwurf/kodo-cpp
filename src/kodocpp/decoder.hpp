@@ -44,7 +44,8 @@ namespace kodocpp
             kodo_copy_from_symbols(m_coder, data, size);
         }
 
-        void copy_from_symbol(uint32_t index, uint8_t* data, uint32_t size) const
+        void copy_from_symbol(uint32_t index, uint8_t* data,
+            uint32_t size) const
         {
             kodo_copy_from_symbol(m_coder, index, data, size);
         }

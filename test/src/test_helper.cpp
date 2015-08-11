@@ -78,13 +78,16 @@ namespace kodocpp
 
         for (uint32_t i = 0; i < code_types.size(); ++i)
         {
-            SCOPED_TRACE(testing::Message() << "code_type = " << code_type_names[i]);
+            SCOPED_TRACE(testing::Message() << "code_type = "
+                                            << code_type_names[i]);
 
             for (uint32_t j = 0; j < fields.size(); ++j)
             {
-                SCOPED_TRACE(testing::Message() << "field = " << field_names[j]);
-                test_function(max_symbols, max_symbol_size,
-                                  code_types[i], fields[j], trace_enabled);
+                SCOPED_TRACE(testing::Message() << "field = "
+                                                << field_names[j]);
+
+                test_function(max_symbols, max_symbol_size, code_types[i],
+                    fields[j], trace_enabled);
             }
         }
     }
@@ -211,11 +214,13 @@ namespace kodocpp
             if (code_type == kodo_on_the_fly)
             {
                 // Randomly choose to add a new symbol (with 50% probability)
-                // if the encoder rank is less than the maximum number of symbols
+                // if the encoder rank is less than the maximum number of
+                // symbols
                 if ((rand() % 2) && encoder.rank() < encoder.symbols())
                 {
-                    // The rank of an encoder  indicates how many symbols have been
-                    // added, i.e. how many symbols are available for encoding
+                    // The rank of an encoder  indicates how many symbols have
+                    // been added, i.e. how many symbols are available for
+                    // encoding
                     uint32_t rank = encoder.rank();
                     uint32_t symbol_size = encoder.symbol_size();
 
@@ -257,8 +262,9 @@ namespace kodocpp
                         // All uncoded symbols must have a pivot
                         EXPECT_TRUE(decoder.is_symbol_pivot(i));
 
-                        uint8_t* original = data_in.data() + i * max_symbol_size;
-                        uint8_t* target = data_out.data() + i * max_symbol_size;
+                        uint32_t offset = i * max_symbol_size;
+                        uint8_t* original = data_in.data() + offset;
+                        uint8_t* target = data_out.data() + offset;
 
                         // Copy the decoded symbol and verify it against the
                         // original data
