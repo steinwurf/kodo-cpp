@@ -65,9 +65,15 @@ namespace kodocpp
         EXPECT_GT(factory.max_payload_size(), max_symbol_size);
 
         // Build a coder with the changed settings
-        auto coder2 = factory.build();
+        auto coder_two = factory.build();
 
-        EXPECT_EQ(new_symbols, coder2.symbols());
-        EXPECT_EQ(new_symbol_size, coder2.symbol_size());
+        EXPECT_EQ(new_symbols, coder_two.symbols());
+        EXPECT_EQ(new_symbol_size, coder_two.symbol_size());
+
+        // Test copying
+        auto coder_copy = coder;
+
+        EXPECT_EQ(coder.symbols(), coder_copy.symbols());
+        EXPECT_EQ(coder.symbol_size(), coder_copy.symbol_size());
     }
 }

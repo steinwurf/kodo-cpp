@@ -20,9 +20,7 @@ namespace kodocpp
 
         decoder(kodo_coder_t coder_instance) :
             coder(coder_instance)
-        {
-            assert(m_coder);
-        }
+        { }
 
         ~decoder()
         {

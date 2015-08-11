@@ -122,6 +122,9 @@ namespace kodocpp
     protected:
 
         kodo_coder_t m_coder;
+
+    private:
+
         callback_type m_callback;
     };
 }
