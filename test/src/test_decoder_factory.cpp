@@ -68,7 +68,6 @@ TEST(test_decoder_factory, invoke_api)
     uint32_t max_symbols = kodocpp::rand_symbols() + 1;
     uint32_t max_symbol_size = kodocpp::rand_symbol_size() + 4;
 
-    kodocpp::test_combinations(
-        kodocpp::test_decoder_factory,
-        max_symbols, max_symbol_size, false);
+    kodocpp::test_combinations(kodocpp::test_decoder_factory, max_symbols,
+        max_symbol_size, false);
 }

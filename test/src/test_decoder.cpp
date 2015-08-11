@@ -15,49 +15,24 @@ namespace kodocpp
 {
 namespace
 {
-    void test_decoder(uint32_t symbols, uint32_t symbol_size,
+    void test_decoder(uint32_t max_symbols, uint32_t max_symbol_size,
         kodo_code_type code_type, kodo_finite_field finite_field,
-        bool trace_enabled)
+        bool trace)
     {
         decoder_factory decoder_factory(
             code_type,
             finite_field,
-            symbols,
-            symbol_size,
-            trace_enabled);
+            max_symbols,
+            max_symbol_size,
+            trace);
 
         decoder decoder = decoder_factory.build();
+        test_coder(decoder, max_symbols, max_symbol_size, code_type, trace);
 
-        // Coder methods
-        EXPECT_EQ(symbols, decoder.symbols());
-        EXPECT_EQ(symbol_size, decoder.symbol_size());
-        EXPECT_EQ(symbols * symbol_size, decoder.block_size());
-        EXPECT_GT(decoder.payload_size(), symbol_size);
-        EXPECT_EQ(0U, decoder.rank());
+        // Decoder methods
         EXPECT_GE(0U, decoder.symbols_uncoded());
         EXPECT_GE(0U, decoder.symbols_seen());
 
-        if (code_type == kodo_full_vector ||
-            code_type == kodo_on_the_fly)
-        {
-            EXPECT_FALSE(decoder.has_feedback_size());
-        }
-        else if (code_type == kodo_sliding_window)
-        {
-            EXPECT_TRUE(decoder.has_feedback_size());
-            EXPECT_GT(decoder.feedback_size(), 0U);
-        }
-
-        EXPECT_EQ(trace_enabled, decoder.has_set_trace_stdout());
-        EXPECT_EQ(trace_enabled, decoder.has_set_trace_callback());
-        EXPECT_EQ(trace_enabled, decoder.has_set_trace_off());
-        if (trace_enabled)
-        {
-            decoder.set_trace_stdout();
-            decoder.set_trace_off();
-        }
-
-        // Decoder methods
         if (code_type == kodo_on_the_fly ||
             code_type == kodo_sliding_window)
         {
@@ -79,14 +54,12 @@ namespace
 
 TEST(test_decoder, invoke_api)
 {
-    uint32_t symbols = kodocpp::rand_symbols();
-    uint32_t symbol_size = kodocpp::rand_symbol_size();
+    uint32_t max_symbols = kodocpp::rand_symbols();
+    uint32_t max_symbol_size = kodocpp::rand_symbol_size();
 
-    kodocpp::test_combinations(
-        kodocpp::test_decoder,
-        symbols, symbol_size, false);
+    kodocpp::test_combinations(kodocpp::test_decoder, max_symbols,
+        max_symbol_size, false);
 
-    kodocpp::test_combinations(
-        kodocpp::test_decoder,
-        symbols, symbol_size, true);
+    kodocpp::test_combinations(kodocpp::test_decoder, max_symbols,
+        max_symbol_size, true);
 }

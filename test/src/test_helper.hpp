@@ -27,7 +27,9 @@ namespace kodocpp
     void test_combinations(test_function_type test_function,
         uint32_t max_symbols, uint32_t max_symbol_size, bool trace_enabled);
 
-
     void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
         kodo_code_type code_type, kodo_finite_field finite_field);
+
+    void test_coder(coder& coder, uint32_t symbols, uint32_t symbol_size,
+        kodo_code_type code_type, bool trace_enabled);
 }

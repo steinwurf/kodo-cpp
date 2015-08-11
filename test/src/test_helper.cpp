@@ -279,4 +279,34 @@ namespace kodocpp
         EXPECT_GT(encoder_trace_count, 0U);
         EXPECT_GT(decoder_trace_count, 0U);
     }
+
+    void test_coder(coder& coder, uint32_t symbols, uint32_t symbol_size,
+        kodo_code_type code_type, bool trace_enabled)
+    {
+        EXPECT_EQ(symbols, coder.symbols());
+        EXPECT_EQ(symbol_size, coder.symbol_size());
+        EXPECT_EQ(symbols * symbol_size, coder.block_size());
+        EXPECT_GT(coder.payload_size(), symbol_size);
+        EXPECT_EQ(0U, coder.rank());
+
+        if (code_type == kodo_full_vector ||
+            code_type == kodo_on_the_fly)
+        {
+            EXPECT_FALSE(coder.has_feedback_size());
+        }
+        else if (code_type == kodo_sliding_window)
+        {
+            EXPECT_TRUE(coder.has_feedback_size());
+            EXPECT_GT(coder.feedback_size(), 0U);
+        }
+
+        EXPECT_EQ(trace_enabled, coder.has_set_trace_stdout());
+        EXPECT_EQ(trace_enabled, coder.has_set_trace_callback());
+        EXPECT_EQ(trace_enabled, coder.has_set_trace_off());
+        if (trace_enabled)
+        {
+            coder.set_trace_stdout();
+            coder.set_trace_off();
+        }
+    }
 }

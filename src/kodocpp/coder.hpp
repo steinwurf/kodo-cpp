@@ -121,9 +121,7 @@ namespace kodocpp
 
     protected:
 
-        uint32_t reference_count;
         kodo_coder_t m_coder;
         callback_type m_callback;
-
     };
 }
