@@ -101,7 +101,7 @@ inline void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
 {
     bool trace_flag = true;
 
-    //Initilization of encoder and decoder
+    // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
         code_type,
         finite_field,
@@ -140,6 +140,7 @@ inline void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
     EXPECT_EQ(encoder_factory.max_payload_size(),
         decoder_factory.max_payload_size());
 
+    // Install a custom trace function for the encoder and decoder
     auto callback = [](uint32_t& count, const std::string& zone, const std::string& data)
     {
         EXPECT_FALSE(zone.empty());
@@ -147,7 +148,6 @@ inline void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
         count++;
     };
 
-    // Install a custom trace function for the encoder and decoder
     using namespace std::placeholders;
 
     EXPECT_TRUE(encoder.has_set_trace_callback());
@@ -160,6 +160,7 @@ inline void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
     decoder.set_trace_callback(
         std::bind<void>(callback, std::ref(decoder_trace_count), _1, _2));
 
+    // Test feedback if we are testing sliding window
     std::vector<uint8_t> feedback;
     if (code_type == kodo_sliding_window)
     {
@@ -171,6 +172,29 @@ inline void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
         EXPECT_GT(feedback_size, 0U);
 
         feedback.resize(feedback_size);
+    }
+
+    // Test perpetual specific functions
+    if (code_type == kodo_perpetual)
+    {
+        EXPECT_FALSE(encoder.pseudo_systematic());
+        bool pseudo_systematic = true;
+        encoder.set_pseudo_systematic(pseudo_systematic);
+        EXPECT_TRUE(encoder.pseudo_systematic());
+
+        EXPECT_FALSE(encoder.pre_charging());
+        bool pre_charging = true;
+        encoder.set_pre_charging(pre_charging);
+        EXPECT_TRUE(encoder.pre_charging());
+
+        // width must be < symbols
+        uint32_t width = max_symbols - 1;
+        encoder.set_width(width);
+        EXPECT_EQ(width, encoder.width());
+
+        double width_ratio = 1.0;
+        encoder.set_width_ratio(width_ratio);
+        EXPECT_EQ(width_ratio, encoder.width_ratio());
     }
 
     // Allocate some storage for a "payload" the payload is what we would

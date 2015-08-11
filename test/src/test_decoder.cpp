@@ -11,61 +11,68 @@
 
 #include "test_helper.hpp"
 
-static void test_decoder(uint32_t symbols, uint32_t symbol_size,
-                         kodo_code_type code_type,
-                         kodo_finite_field finite_field,
-                         bool trace_enabled)
+namespace kodocpp
 {
-    kodocpp::decoder_factory decoder_factory(
-        code_type,
-        finite_field,
-        symbols,
-        symbol_size,
-        trace_enabled);
+namespace
+{
 
-    kodocpp::decoder decoder = decoder_factory.build();
-
-    // Coder methods
-
-    EXPECT_EQ(symbols, decoder.symbols());
-    EXPECT_EQ(symbol_size, decoder.symbol_size());
-    EXPECT_EQ(symbols * symbol_size, decoder.block_size());
-    EXPECT_GT(decoder.payload_size(), symbol_size);
-    EXPECT_EQ(0U, decoder.rank());
-    EXPECT_GE(0U, decoder.symbols_uncoded());
-    EXPECT_GE(0U, decoder.symbols_seen());
-
-    if (code_type == kodo_full_vector ||
-        code_type == kodo_on_the_fly)
+    void test_decoder(uint32_t symbols, uint32_t symbol_size,
+                             kodo_code_type code_type,
+                             kodo_finite_field finite_field,
+                             bool trace_enabled)
     {
-        EXPECT_FALSE(decoder.has_feedback_size());
-    }
-    else if (code_type == kodo_sliding_window)
-    {
-        EXPECT_TRUE(decoder.has_feedback_size());
-        EXPECT_GT(decoder.feedback_size(), 0U);
-    }
+        kodocpp::decoder_factory decoder_factory(
+            code_type,
+            finite_field,
+            symbols,
+            symbol_size,
+            trace_enabled);
 
-    EXPECT_EQ(trace_enabled, decoder.has_set_trace_stdout());
-    EXPECT_EQ(trace_enabled, decoder.has_set_trace_callback());
-    EXPECT_EQ(trace_enabled, decoder.has_set_trace_off());
-    if (trace_enabled)
-    {
-        decoder.set_trace_stdout();
-        decoder.set_trace_off();
-    }
+        kodocpp::decoder decoder = decoder_factory.build();
 
-    // Decoder methods
+        // Coder methods
 
-    if (code_type == kodo_on_the_fly ||
-        code_type == kodo_sliding_window)
-    {
-        EXPECT_TRUE(decoder.has_partial_decoding_tracker());
+        EXPECT_EQ(symbols, decoder.symbols());
+        EXPECT_EQ(symbol_size, decoder.symbol_size());
+        EXPECT_EQ(symbols * symbol_size, decoder.block_size());
+        EXPECT_GT(decoder.payload_size(), symbol_size);
+        EXPECT_EQ(0U, decoder.rank());
+        EXPECT_GE(0U, decoder.symbols_uncoded());
+        EXPECT_GE(0U, decoder.symbols_seen());
+
+        if (code_type == kodo_full_vector ||
+            code_type == kodo_on_the_fly)
+        {
+            EXPECT_FALSE(decoder.has_feedback_size());
+        }
+        else if (code_type == kodo_sliding_window)
+        {
+            EXPECT_TRUE(decoder.has_feedback_size());
+            EXPECT_GT(decoder.feedback_size(), 0U);
+        }
+
+        EXPECT_EQ(trace_enabled, decoder.has_set_trace_stdout());
+        EXPECT_EQ(trace_enabled, decoder.has_set_trace_callback());
+        EXPECT_EQ(trace_enabled, decoder.has_set_trace_off());
+        if (trace_enabled)
+        {
+            decoder.set_trace_stdout();
+            decoder.set_trace_off();
+        }
+
+        // Decoder methods
+
+        if (code_type == kodo_on_the_fly ||
+            code_type == kodo_sliding_window)
+        {
+            EXPECT_TRUE(decoder.has_partial_decoding_tracker());
+        }
+        else if (code_type == kodo_full_vector)
+        {
+            EXPECT_FALSE(decoder.has_partial_decoding_tracker());
+        }
     }
-    else if (code_type == kodo_full_vector)
-    {
-        EXPECT_FALSE(decoder.has_partial_decoding_tracker());
-    }
+}
 }
 
 TEST(test_decoder, invoke_api)
@@ -74,10 +81,10 @@ TEST(test_decoder, invoke_api)
     uint32_t symbol_size = rand_symbol_size();
 
     test_combinations(
-        test_decoder,
+        kodocpp::test_decoder,
         symbols, symbol_size, false);
 
     test_combinations(
-        test_decoder,
+        kodocpp::test_decoder,
         symbols, symbol_size, true);
 }

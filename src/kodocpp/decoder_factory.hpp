@@ -19,10 +19,8 @@ namespace kodocpp
     {
     public:
 
-        decoder_factory(kodo_code_type code,
-            kodo_finite_field field,
-            uint32_t max_symbols,
-            uint32_t max_symbol_size,
+        decoder_factory(kodo_code_type code, kodo_finite_field field,
+            uint32_t max_symbols, uint32_t max_symbol_size,
             bool trace_enabled = false)
         {
             m_factory = kodo_new_decoder_factory(
