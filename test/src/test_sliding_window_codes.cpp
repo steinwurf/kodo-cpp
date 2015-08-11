@@ -11,6 +11,8 @@
 
 TEST(test_sliding_window_codes, invoke_api)
 {
+    using namespace kodocpp;
+
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
