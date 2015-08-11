@@ -7,6 +7,8 @@
 
 #include <cstdint>
 #include <cassert>
+#include <memory>
+#include <functional>
 
 #include <kodoc/kodoc.h>
 
@@ -17,43 +19,45 @@ namespace kodocpp
     protected:
 
         // Make sure that this base class cannot be instantiated
-        factory()
+        factory(kodo_factory_t factory,
+            std::function<void(kodo_factory_t)> deleter) :
+            m_factory(factory, deleter)
         { }
 
     public:
 
         void set_symbols(uint32_t symbols)
         {
-            kodo_factory_set_symbols(m_factory, symbols);
+            kodo_factory_set_symbols(m_factory.get(), symbols);
         }
 
         void set_symbol_size(uint32_t symbol_size)
         {
-            kodo_factory_set_symbol_size(m_factory, symbol_size);
+            kodo_factory_set_symbol_size(m_factory.get(), symbol_size);
         }
 
         uint32_t max_symbols() const
         {
-            return kodo_factory_max_symbols(m_factory);
+            return kodo_factory_max_symbols(m_factory.get());
         }
 
         uint32_t max_symbol_size() const
         {
-            return kodo_factory_max_symbol_size(m_factory);
+            return kodo_factory_max_symbol_size(m_factory.get());
         }
 
         uint32_t max_block_size() const
         {
-            return kodo_factory_max_block_size(m_factory);
+            return kodo_factory_max_block_size(m_factory.get());
         }
 
         uint32_t max_payload_size() const
         {
-            return kodo_factory_max_payload_size(m_factory);
+            return kodo_factory_max_payload_size(m_factory.get());
         }
 
     protected:
 
-        kodo_factory_t m_factory;
+        std::shared_ptr<kodo_factory> m_factory;
     };
 }

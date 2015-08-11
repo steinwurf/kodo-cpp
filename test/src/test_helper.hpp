@@ -70,9 +70,13 @@ namespace kodocpp
         EXPECT_EQ(new_symbols, coder_two.symbols());
         EXPECT_EQ(new_symbol_size, coder_two.symbol_size());
 
-        // Test copying
-        auto coder_copy = coder;
+        // Test copying factory
+        auto factory_copy = factory;
+        EXPECT_EQ(max_symbols, factory_copy.max_symbols());
+        EXPECT_EQ(max_symbol_size, factory_copy.max_symbol_size());
 
+        // Test copying coder
+        auto coder_copy = coder;
         EXPECT_EQ(coder.symbols(), coder_copy.symbols());
         EXPECT_EQ(coder.symbol_size(), coder_copy.symbol_size());
     }

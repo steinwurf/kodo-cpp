@@ -11,6 +11,7 @@
 #include <functional>
 
 #include <kodoc/kodoc.h>
+#include <memory>
 
 namespace kodocpp
 {
@@ -25,57 +26,55 @@ namespace kodocpp
     protected:
 
         // Make sure that this base class cannot be instantiated
-        coder(kodo_coder_t coder) :
-            m_coder(coder)
-        {
-            assert(m_coder);
-        }
+        coder(kodo_coder_t coder, std::function<void(kodo_coder_t)> deleter) :
+            m_coder(coder, deleter)
+        { }
 
     public:
 
         uint32_t block_size() const
         {
-            return kodo_block_size(m_coder);
+            return kodo_block_size(m_coder.get());
         }
 
         uint32_t payload_size() const
         {
-            return kodo_payload_size(m_coder);
+            return kodo_payload_size(m_coder.get());
         }
 
         uint32_t rank() const
         {
-            return kodo_rank(m_coder);
+            return kodo_rank(m_coder.get());
         }
 
         uint32_t symbol_size() const
         {
-            return kodo_symbol_size(m_coder);
+            return kodo_symbol_size(m_coder.get());
         }
 
         uint32_t symbols() const
         {
-            return kodo_symbols(m_coder);
+            return kodo_symbols(m_coder.get());
         }
 
         bool is_symbol_pivot(uint32_t index) const
         {
-            return kodo_is_symbol_pivot(m_coder, index) != 0;
+            return kodo_is_symbol_pivot(m_coder.get(), index) != 0;
         }
 
         bool has_set_trace_callback() const
         {
-            return kodo_has_set_trace_callback(m_coder) != 0;
+            return kodo_has_set_trace_callback(m_coder.get()) != 0;
         }
 
         bool has_set_trace_stdout() const
         {
-            return kodo_has_set_trace_stdout(m_coder) != 0;
+            return kodo_has_set_trace_stdout(m_coder.get()) != 0;
         }
 
         bool has_set_trace_off() const
         {
-            return kodo_has_set_trace_off(m_coder) != 0;
+            return kodo_has_set_trace_off(m_coder.get()) != 0;
         }
 
         void set_trace_callback(callback_type callback)
@@ -90,37 +89,37 @@ namespace kodocpp
                 ((coder*)_this)->m_callback(zone, data);
             };
 
-            kodo_set_trace_callback(m_coder, c_callback, this);
+            kodo_set_trace_callback(m_coder.get(), c_callback, this);
         }
 
         void set_trace_stdout()
         {
-            kodo_set_trace_stdout(m_coder);
+            kodo_set_trace_stdout(m_coder.get());
         }
 
         void set_trace_off()
         {
-            kodo_set_trace_off(m_coder);
+            kodo_set_trace_off(m_coder.get());
         }
 
         bool has_feedback_size() const
         {
-            return kodo_has_feedback_size(m_coder) != 0;
+            return kodo_has_feedback_size(m_coder.get()) != 0;
         }
 
         uint32_t feedback_size() const
         {
-            return kodo_feedback_size(m_coder);
+            return kodo_feedback_size(m_coder.get());
         }
 
         uint32_t write_payload(uint8_t* data)
         {
-            return kodo_write_payload(m_coder, data);
+            return kodo_write_payload(m_coder.get(), data);
         }
 
     protected:
 
-        kodo_coder_t m_coder;
+        std::shared_ptr<kodo_coder> m_coder;
 
     private:
 
