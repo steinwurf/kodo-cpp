@@ -31,7 +31,7 @@ int main(void)
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodo_full_rlnc,
+        kodo_full_vector,
         kodo_binary8,
         max_symbols,
         max_symbol_size,
@@ -40,7 +40,7 @@ int main(void)
     kodocpp::encoder encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
-        kodo_full_rlnc,
+        kodo_full_vector,
         kodo_binary8,
         max_symbols,
         max_symbol_size,
@@ -69,7 +69,7 @@ int main(void)
     // Install a custom trace function for the decoder if tracing is enabled
     if (decoder.has_set_trace_callback())
     {
-        auto callback = [](const char* zone, const char* data)
+        auto callback = [](const std::string& zone, const std::string& data)
         {
             std::set<std::string> filters =
                 { "decoder_state", "input_symbol_coefficients" };

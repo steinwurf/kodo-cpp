@@ -19,16 +19,12 @@ namespace kodocpp
     {
     public:
 
-        encoder_factory(kodo_code_type code,
-                        kodo_finite_field field,
-                        uint32_t max_symbols,
-                        uint32_t max_symbol_size,
-                        bool trace_enabled = false)
+        encoder_factory(kodo_code_type code, kodo_finite_field field,
+            uint32_t max_symbols, uint32_t max_symbol_size,
+            bool trace_enabled = false)
         {
-            m_factory = kodo_new_encoder_factory(
-                code, field,
-                max_symbols, max_symbol_size,
-                trace_enabled);
+            m_factory = kodo_new_encoder_factory(code, field, max_symbols,
+                max_symbol_size, trace_enabled);
             assert(m_factory);
         }
 

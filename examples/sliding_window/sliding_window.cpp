@@ -71,7 +71,7 @@ int main(void)
     if (decoder.has_set_trace_callback())
     {
         // Install a custom trace callback function
-        auto callback = [](const char* zone, const char* data)
+        auto callback = [](const std::string& zone, const std::string& data)
         {
             std::set<std::string> filters =
                 { "decoder_state", "input_symbol_coefficients" };

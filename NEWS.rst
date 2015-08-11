@@ -6,7 +6,8 @@ of every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Major: Upgrade to kodo 30
+* Major: Upgrade to kodo-c 6
 
 2.0.0
 -----

@@ -1,73 +1,73 @@
-// Copyright Steinwurf ApS 2014.
+// Copyright Steinwurf ApS 2015.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
 #pragma once
 
-#include <cstdint>
-#include <cstdlib>
-#include <vector>
+#include <kodocpp/kodocpp.hpp>
 
 #include <gtest/gtest.h>
 
-#include <kodocpp/kodocpp.hpp>
+#include <functional>
 
-inline uint32_t rand_nonzero(uint32_t max_value = 256)
+
+namespace kodocpp
 {
-    assert(max_value > 0);
-    return (rand() % max_value) + 1;
-}
 
-inline uint32_t rand_symbols(uint32_t max_symbols = 64)
-{
-    return rand_nonzero(max_symbols);
-}
+    using test_function_type = std::function<
+        void(uint32_t, uint32_t, kodo_code_type, kodo_finite_field, bool)>;
 
-inline uint32_t rand_symbol_size(uint32_t max_symbol_size = 1600)
-{
-    /// Currently the biggest field we support is 2^32, so we always make
-    /// sure that the symbol size is a multiple of 4 bytes.
-    uint32_t granularity = 4;
-    uint32_t elements = max_symbol_size / granularity;
+    uint32_t rand_nonzero(uint32_t max_value);
 
-    return rand_nonzero(elements) * granularity;
-}
+    uint32_t rand_symbols(uint32_t max_symbols = 64);
 
-template<class TestFunction>
-inline void test_combinations(
-    TestFunction test_function,
-    uint32_t max_symbols,
-    uint32_t max_symbol_size,
-    bool trace_enabled)
-{
-    SCOPED_TRACE(testing::Message() << "symbols = " << max_symbols);
-    SCOPED_TRACE(testing::Message() << "symbol_size = " << max_symbol_size);
+    uint32_t rand_symbol_size(uint32_t max_symbol_size = 1600);
 
-    std::vector<kodo_code_type> code_types =
+    void test_combinations(test_function_type test_function,
+        uint32_t max_symbols, uint32_t max_symbol_size, bool trace_enabled);
+
+    void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
+        kodo_code_type code_type, kodo_finite_field finite_field);
+
+    void test_coder(coder& coder, uint32_t symbols, uint32_t symbol_size,
+        kodo_code_type code_type, bool trace_enabled);
+
+    template<class Factory>
+    void test_coder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
+        kodo_code_type code_type, kodo_finite_field field, bool trace)
     {
-        kodo_full_rlnc,
-        kodo_on_the_fly,
-        kodo_sliding_window
-    };
+        Factory factory(code_type, field, max_symbols, max_symbol_size, trace);
 
-    std::vector<kodo_finite_field> fields =
-    {
-        kodo_binary,
-        kodo_binary4,
-        kodo_binary8,
-        kodo_binary16
-    };
+        // Test the max_* properties
+        EXPECT_EQ(max_symbols, factory.max_symbols());
+        EXPECT_EQ(max_symbol_size, factory.max_symbol_size());
+        EXPECT_EQ(max_symbol_size * max_symbols, factory.max_block_size());
+        EXPECT_GT(factory.max_payload_size(), max_symbol_size);
 
-    for (auto& code : code_types)
-    {
-        for (auto& field : fields)
-        {
-            if (test_function)
-            {
-                test_function(max_symbols, max_symbol_size,
-                              code, field, trace_enabled);
-            }
-        }
+        // Build a coder with the default settings
+        auto coder = factory.build();
+
+        EXPECT_EQ(max_symbols, coder.symbols());
+        EXPECT_EQ(max_symbol_size, coder.symbol_size());
+
+        // Lower the number of symbols and the symbol_size
+        uint32_t new_symbols = max_symbols / 2;
+        factory.set_symbols(new_symbols);
+
+        uint32_t new_symbol_size = max_symbol_size - 4;
+        factory.set_symbol_size(new_symbol_size);
+
+        // Test that the max_* properties are not changed
+        EXPECT_EQ(max_symbols, factory.max_symbols());
+        EXPECT_EQ(max_symbol_size, factory.max_symbol_size());
+        EXPECT_EQ(max_symbol_size * max_symbols, factory.max_block_size());
+        EXPECT_GT(factory.max_payload_size(), max_symbol_size);
+
+        // Build a coder with the changed settings
+        auto coder2 = factory.build();
+
+        EXPECT_EQ(new_symbols, coder2.symbols());
+        EXPECT_EQ(new_symbol_size, coder2.symbol_size());
     }
 }
