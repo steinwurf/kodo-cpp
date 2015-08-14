@@ -1,5 +1,5 @@
-Kodo-CPP Examples
------------------
+Examples of kodo-cpp
+--------------------
 
 This directory contains a set of examples which aim to use some of the
 functionality available in kodo-cpp.
