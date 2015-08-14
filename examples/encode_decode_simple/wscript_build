@@ -1,13 +1,8 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-search_path = []
-
-if not bld.is_mkspec_platform('windows'):
-    search_path = ['.']
-
 bld.program(features='cxx',
             source='encode_decode_simple.cpp',
-            target='../../encode_decode_simple',
-            rpath=search_path,
+            target='encode_decode_simple',
+            rpath=['.'],
             use=['kodocpp_includes'])
