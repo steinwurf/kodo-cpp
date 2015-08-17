@@ -111,10 +111,10 @@ def build(bld):
         export_includes='src',
         use=['kodoc'])
 
-    # bld(name='kodocpp_static_includes',
-    #     includes='src',
-    #     export_includes='src',
-    #     use=['kodoc_static'])
+    bld(name='kodocpp_static_includes',
+        includes='src',
+        export_includes='src',
+        use=['kodoc_static'])
 
     if bld.is_toplevel():
 
