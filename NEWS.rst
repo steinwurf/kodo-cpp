@@ -8,6 +8,10 @@ Latest
 ------
 * tbd
 
+3.1.0
+-----
+* Minor: Added ``kodocpp_static_includes``.
+
 3.0.0
 -----
 * Major: Store coders and factories as shared pointers in cpp wrappers.
