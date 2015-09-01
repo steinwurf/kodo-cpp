@@ -15,7 +15,6 @@
 
 namespace kodocpp
 {
-
     using test_function_type = std::function<
         void(uint32_t, uint32_t, kodo_code_type, kodo_finite_field, bool)>;
 
@@ -70,6 +69,13 @@ namespace kodocpp
 
         EXPECT_EQ(new_symbols, coder_two.symbols());
         EXPECT_EQ(new_symbol_size, coder_two.symbol_size());
+
+        // Use the default constructor and build the coder later
+        typename Factory::coder_type coder_default;
+        coder_default = factory.build();
+
+        EXPECT_EQ(new_symbols, coder_default.symbols());
+        EXPECT_EQ(new_symbol_size, coder_default.symbol_size());
 
         // Test copying factory
         auto factory_copy = factory;

@@ -19,11 +19,11 @@ namespace kodocpp
     {
     public:
 
-        encoder(kodo_coder_t coder_instance) :
+        encoder(kodo_coder_t coder_instance = 0) :
             coder(coder_instance,
                 [](kodo_coder_t coder)
                 {
-                    kodo_delete_encoder(coder);
+                    if (coder != 0) kodo_delete_encoder(coder);
                 })
         { }
 
@@ -62,9 +62,9 @@ namespace kodocpp
             kodo_read_feedback(m_coder.get(), feedback);
         }
 
-        uint8_t pseudo_systematic() const
+        bool pseudo_systematic() const
         {
-            return kodo_pseudo_systematic(m_coder.get());
+            return kodo_pseudo_systematic(m_coder.get()) != 0;
         }
 
         void set_pseudo_systematic(bool pseudo_systematic)
@@ -72,9 +72,9 @@ namespace kodocpp
             kodo_set_pseudo_systematic(m_coder.get(), pseudo_systematic);
         }
 
-        uint8_t pre_charging() const
+        bool pre_charging() const
         {
-            return kodo_pre_charging(m_coder.get());
+            return kodo_pre_charging(m_coder.get()) != 0;
         }
 
         void set_pre_charging(bool pre_charging)
