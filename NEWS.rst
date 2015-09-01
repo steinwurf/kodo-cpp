@@ -8,6 +8,14 @@ Latest
 ------
 * tbd
 
+3.3.0
+-----
+* Patch: Removed the unsafe usage of the this pointer in ``set_trace_callback``.
+  The callback function is now stored on the heap, and it can be accessed even
+  after the coder instance is copied and destroyed.
+* Minor: Changed the ``test_basic_api`` helper function to test coder instances
+  that are created in different functions.
+
 3.2.0
 -----
 * Minor: Allowed the default constructor for the encoder and decoder classes.
