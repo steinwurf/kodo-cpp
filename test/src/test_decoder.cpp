@@ -54,12 +54,12 @@ namespace
 
 TEST(test_decoder, invoke_api)
 {
-    uint32_t max_symbols = kodocpp::rand_symbols();
-    uint32_t max_symbol_size = kodocpp::rand_symbol_size();
+    using namespace kodocpp;
 
-    kodocpp::test_combinations(kodocpp::test_decoder, max_symbols,
-        max_symbol_size, false);
+    uint32_t max_symbols = rand_symbols();
+    uint32_t max_symbol_size = rand_symbol_size();
 
-    kodocpp::test_combinations(kodocpp::test_decoder, max_symbols,
-        max_symbol_size, true);
+    test_combinations(test_decoder, max_symbols, max_symbol_size, false);
+
+    test_combinations(test_decoder, max_symbols, max_symbol_size, true);
 }

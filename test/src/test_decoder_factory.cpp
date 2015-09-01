@@ -13,11 +13,12 @@
 
 TEST(test_decoder_factory, invoke_api)
 {
-    // Make sure that we can lower these values in the test
-    uint32_t max_symbols = kodocpp::rand_symbols() + 1;
-    uint32_t max_symbol_size = kodocpp::rand_symbol_size() + 4;
+    using namespace kodocpp;
 
-    kodocpp::test_combinations(
-        kodocpp::test_coder_factory<kodocpp::decoder_factory>, max_symbols,
-        max_symbol_size, false);
+    // Make sure that we can lower these values in the test
+    uint32_t max_symbols = rand_symbols() + 1;
+    uint32_t max_symbol_size = rand_symbol_size() + 4;
+
+    test_combinations(test_coder_factory<decoder_factory>, max_symbols,
+                      max_symbol_size, false);
 }
