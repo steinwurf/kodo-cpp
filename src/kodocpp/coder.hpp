@@ -17,7 +17,6 @@ namespace kodocpp
 {
     class coder
     {
-
     private:
 
         using callback_type =
@@ -79,17 +78,22 @@ namespace kodocpp
 
         void set_trace_callback(callback_type callback)
         {
-            m_callback = callback;
+            // This function object will be allocated on the heap, and its
+            // address remain valid until the shared pointer is destroyed.
+            // Therefore it is safe to use this callback even after the coder
+            // object is copied and destroyed (i.e. its this pointer becomes
+            // invalid).
+            m_callback.reset(new callback_type(callback));
 
-            auto c_callback = [](
-                const char* zone,
-                const char* data,
-                void* _this)
+            auto c_callback = [](const char* zone, const char* data,
+                                 void* context)
             {
-                ((coder*)_this)->m_callback(zone, data);
+                callback_type heap_callback = *((callback_type*)context);
+                heap_callback(zone, data);
             };
 
-            kodo_set_trace_callback(m_coder.get(), c_callback, this);
+            kodo_set_trace_callback(m_coder.get(), c_callback,
+                                    m_callback.get());
         }
 
         void set_trace_stdout()
@@ -123,6 +127,6 @@ namespace kodocpp
 
     private:
 
-        callback_type m_callback;
+        std::shared_ptr<callback_type> m_callback;
     };
 }
