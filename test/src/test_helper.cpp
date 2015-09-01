@@ -178,7 +178,7 @@ namespace kodocpp
 
         // Install a custom trace function for the encoder and decoder
         auto callback = [](uint32_t& count, const std::string& zone,
-            const std::string& data)
+                           const std::string& data)
         {
             EXPECT_FALSE(zone.empty());
             EXPECT_FALSE(data.empty());
@@ -202,17 +202,22 @@ namespace kodocpp
         uint32_t encoder_trace_count = 0;
         uint32_t decoder_trace_count = 0;
 
-        // We create and configure the encoder and decoder in another
-        // function to verify correct operation with copied instances.
+        // Use the default constructor, so the compiler will be forced to copy
+        // the coder instances created in the other functions.
+        encoder encoder;
+        decoder decoder;
+
+        // We create and configure the encoder and decoder in different
+        // functions to verify correct operation with copied instances.
         // The corresponding factories are also destroyed before the coder
         // instances are used.
-        encoder encoder = create_encoder(max_symbols, max_symbol_size,
-                                         code_type, finite_field,
-                                         encoder_trace_count);
+        encoder = create_encoder(max_symbols, max_symbol_size,
+                                 code_type, finite_field,
+                                 encoder_trace_count);
 
-        decoder decoder = create_decoder(max_symbols, max_symbol_size,
-                                         code_type, finite_field,
-                                         decoder_trace_count);
+        decoder = create_decoder(max_symbols, max_symbol_size,
+                                 code_type, finite_field,
+                                 decoder_trace_count);
 
         EXPECT_EQ(encoder.payload_size(), decoder.payload_size());
 
