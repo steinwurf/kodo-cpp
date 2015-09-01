@@ -128,7 +128,7 @@ namespace kodocpp
 
         EXPECT_TRUE(encoder.has_set_trace_callback());
         encoder.set_trace_callback(
-            std::bind<void>(callback, trace_counter, _1, _2));
+            std::bind<void>(callback, std::ref(trace_counter), _1, _2));
 
         // Test perpetual specific functions
         if (code_type == kodo_perpetual)
@@ -190,7 +190,7 @@ namespace kodocpp
         EXPECT_TRUE(decoder.has_set_trace_callback());
 
         decoder.set_trace_callback(
-            std::bind<void>(callback, trace_counter, _1, _2));
+            std::bind<void>(callback, std::ref(trace_counter), _1, _2));
 
         return decoder;
     }
