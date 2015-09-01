@@ -8,6 +8,10 @@ Latest
 ------
 * tbd
 
+3.2.0
+-----
+* Minor: Allowed the default constructor for the encoder and decoder classes.
+
 3.1.0
 -----
 * Minor: Added ``kodocpp_static_includes``.
