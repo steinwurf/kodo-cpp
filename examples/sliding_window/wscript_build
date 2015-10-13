@@ -1,13 +1,8 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-search_path = []
-
-if not bld.is_mkspec_platform('windows'):
-    search_path = ['.']
-
 bld.program(features='cxx',
             source='sliding_window.cpp',
-            target='../../sliding_window',
-            rpath=search_path,
+            target='sliding_window',
+            rpath=['.'],
             use=['kodocpp_includes'])
