@@ -16,18 +16,16 @@ namespace kodocpp
 namespace
 {
     void test_decoder(uint32_t max_symbols, uint32_t max_symbol_size,
-        kodo_code_type code_type, kodo_finite_field finite_field,
-        bool trace)
+        kodo_code_type code_type, kodo_finite_field finite_field)
     {
         decoder_factory decoder_factory(
             code_type,
             finite_field,
             max_symbols,
-            max_symbol_size,
-            trace);
+            max_symbol_size);
 
         decoder decoder = decoder_factory.build();
-        test_coder(decoder, max_symbols, max_symbol_size, code_type, trace);
+        test_coder(decoder, max_symbols, max_symbol_size, code_type);
 
         // Decoder methods
         EXPECT_GE(0U, decoder.symbols_uncoded());
@@ -59,7 +57,7 @@ TEST(test_decoder, invoke_api)
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_combinations(test_decoder, max_symbols, max_symbol_size, false);
+    test_combinations(test_decoder, max_symbols, max_symbol_size);
 
-    test_combinations(test_decoder, max_symbols, max_symbol_size, true);
+    test_combinations(test_decoder, max_symbols, max_symbol_size);
 }

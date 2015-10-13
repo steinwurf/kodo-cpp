@@ -29,15 +29,12 @@ int main(void)
     uint32_t max_symbols = 10;
     uint32_t max_symbol_size = 100;
 
-    bool trace_enabled = true;
-
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
         kodo_on_the_fly,
         kodo_binary8,
         max_symbols,
-        max_symbol_size,
-        trace_enabled);
+        max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
@@ -45,8 +42,7 @@ int main(void)
         kodo_on_the_fly,
         kodo_binary8,
         max_symbols,
-        max_symbol_size,
-        trace_enabled);
+        max_symbol_size);
 
     kodocpp::decoder decoder = decoder_factory.build();
 
@@ -59,6 +55,9 @@ int main(void)
     // amount a single encoder can encode)
     std::vector<uint8_t> data_in(encoder.block_size());
     std::vector<uint8_t> data_out(encoder.block_size());
+
+    // set the storage for the decoder.
+    decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
 
     // Just for fun - fill the data with random data
     std::generate(data_in.begin(), data_in.end(), rand);
@@ -81,7 +80,7 @@ int main(void)
             // Calculate the offset to the next symbol to insert
             uint8_t* symbol = data_in.data() + (rank * encoder.symbol_size());
 
-            encoder.set_symbol(rank, symbol, encoder.symbol_size());
+            encoder.set_const_symbol(rank, symbol, encoder.symbol_size());
         }
 
         uint32_t bytes_used = encoder.write_payload(payload.data());
@@ -123,10 +122,9 @@ int main(void)
                     decoded[i] = true;
 
                     uint32_t offset = i * encoder.symbol_size();
-                    uint8_t* target = data_out.data() + offset;
 
-                    // Copy out the individual symbol from the decoder
-                    decoder.copy_from_symbol(i, target, encoder.symbol_size());
+                    // Get the individual symbol from the decoder's memory
+                    uint8_t* target = data_out.data() + offset;
 
                     // Verify the symbol against the original data
                     auto start = data_in.begin() + offset;
@@ -145,8 +143,6 @@ int main(void)
             }
         }
     }
-
-    decoder.copy_from_symbols(data_out.data(), encoder.block_size());
 
     // Check if we properly decoded the data
     if (std::equal(data_out.begin(), data_out.end(), data_in.begin()))

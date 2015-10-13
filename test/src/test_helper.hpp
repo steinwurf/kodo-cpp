@@ -16,7 +16,7 @@
 namespace kodocpp
 {
     using test_function_type = std::function<
-        void(uint32_t, uint32_t, kodo_code_type, kodo_finite_field, bool)>;
+        void(uint32_t, uint32_t, kodo_code_type, kodo_finite_field)>;
 
     uint32_t rand_nonzero(uint32_t max_value);
 
@@ -25,19 +25,19 @@ namespace kodocpp
     uint32_t rand_symbol_size(uint32_t max_symbol_size = 1600);
 
     void test_combinations(test_function_type test_function,
-        uint32_t max_symbols, uint32_t max_symbol_size, bool trace_enabled);
+        uint32_t max_symbols, uint32_t max_symbol_size);
 
     void test_basic_api(uint32_t max_symbols, uint32_t max_symbol_size,
         kodo_code_type code_type, kodo_finite_field finite_field);
 
     void test_coder(coder& coder, uint32_t symbols, uint32_t symbol_size,
-        kodo_code_type code_type, bool trace_enabled);
+        kodo_code_type code_type);
 
     template<class Factory>
     void test_coder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
-        kodo_code_type code_type, kodo_finite_field field, bool trace)
+        kodo_code_type code_type, kodo_finite_field field)
     {
-        Factory factory(code_type, field, max_symbols, max_symbol_size, trace);
+        Factory factory(code_type, field, max_symbols, max_symbol_size);
 
         // Test the max_* properties
         EXPECT_EQ(max_symbols, factory.max_symbols());

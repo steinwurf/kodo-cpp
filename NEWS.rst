@@ -6,7 +6,13 @@ of every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Major: Use kodo-c 7
+* Major: Upgrade to waf-tools 3
+* Minor: Upgrade to gtest 3
+* Major: Coders are now only available using shallow storage
+  - see examples for how to use.
+* Major: Tracing is now always available.
+* Major: renamed ``set_symbols`` to ``set_const_symbols``.
 
 3.3.0
 -----

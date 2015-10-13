@@ -23,18 +23,18 @@ namespace kodocpp
             coder(coder_instance,
                 [](kodo_coder_t coder)
                 {
-                    if (coder != 0) kodo_delete_encoder(coder);
+                    if (coder != 0) kodo_delete_coder(coder);
                 })
         { }
 
-        void set_symbols(uint8_t* data, uint32_t size)
+        void set_const_symbols(uint8_t* data, uint32_t size)
         {
-            kodo_set_symbols(m_coder.get(), data, size);
+            kodo_set_const_symbols(m_coder.get(), data, size);
         }
 
-        void set_symbol(uint32_t index, uint8_t* data, uint32_t size)
+        void set_const_symbol(uint32_t index, uint8_t* data, uint32_t size)
         {
-            kodo_set_symbol(m_coder.get(), index, data, size);
+            kodo_set_const_symbol(m_coder.get(), index, data, size);
         }
 
         bool has_set_systematic_off() const

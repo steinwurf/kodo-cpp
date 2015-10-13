@@ -61,21 +61,6 @@ namespace kodocpp
             return kodo_is_symbol_pivot(m_coder.get(), index) != 0;
         }
 
-        bool has_set_trace_callback() const
-        {
-            return kodo_has_set_trace_callback(m_coder.get()) != 0;
-        }
-
-        bool has_set_trace_stdout() const
-        {
-            return kodo_has_set_trace_stdout(m_coder.get()) != 0;
-        }
-
-        bool has_set_trace_off() const
-        {
-            return kodo_has_set_trace_off(m_coder.get()) != 0;
-        }
-
         void set_trace_callback(callback_type callback)
         {
             // This function object will be allocated on the heap, and its

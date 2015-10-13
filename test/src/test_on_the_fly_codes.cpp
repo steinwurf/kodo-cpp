@@ -21,5 +21,4 @@ TEST(test_on_the_fly_codes, invoke_api)
     test_basic_api(max_symbols, max_symbol_size, code_type, kodo_binary);
     test_basic_api(max_symbols, max_symbol_size, code_type, kodo_binary4);
     test_basic_api(max_symbols, max_symbol_size, code_type, kodo_binary8);
-    test_basic_api(max_symbols, max_symbol_size, code_type, kodo_binary16);
 }

@@ -38,7 +38,7 @@ namespace kodocpp
     }
 
     void test_combinations(test_function_type test_function,
-        uint32_t max_symbols, uint32_t max_symbol_size, bool trace_enabled)
+        uint32_t max_symbols, uint32_t max_symbol_size)
     {
         SCOPED_TRACE(testing::Message() << "symbols = " << max_symbols);
         SCOPED_TRACE(testing::Message() << "symbol_size = " << max_symbol_size);
@@ -64,16 +64,14 @@ namespace kodocpp
         {
             kodo_binary,
             kodo_binary4,
-            kodo_binary8,
-            kodo_binary16
+            kodo_binary8
         };
 
         std::vector<std::string> field_names =
         {
             "kodo_binary",
             "kodo_binary4",
-            "kodo_binary8",
-            "kodo_binary16"
+            "kodo_binary8"
         };
 
         for (uint32_t i = 0; i < code_types.size(); ++i)
@@ -87,7 +85,7 @@ namespace kodocpp
                                                 << field_names[j]);
 
                 test_function(max_symbols, max_symbol_size, code_types[i],
-                              fields[j], trace_enabled);
+                              fields[j]);
             }
         }
     }
@@ -98,11 +96,9 @@ namespace kodocpp
                            kodo_finite_field finite_field,
                            uint32_t& trace_counter)
     {
-        bool trace_flag = true;
-
         // Initilization of encoder and decoder
         encoder_factory encoder_factory(code_type, finite_field, max_symbols,
-                                        max_symbol_size, trace_flag);
+            max_symbol_size);
 
         encoder encoder = encoder_factory.build();
 
@@ -126,7 +122,6 @@ namespace kodocpp
 
         using namespace std::placeholders;
 
-        EXPECT_TRUE(encoder.has_set_trace_callback());
         encoder.set_trace_callback(
             std::bind<void>(callback, std::ref(trace_counter), _1, _2));
 
@@ -162,10 +157,9 @@ namespace kodocpp
                            kodo_finite_field finite_field,
                            uint32_t& trace_counter)
     {
-        bool trace_flag = true;
 
         decoder_factory decoder_factory(code_type, finite_field, max_symbols,
-                                        max_symbol_size, trace_flag);
+            max_symbol_size);
 
         decoder decoder = decoder_factory.build();
 
@@ -186,8 +180,6 @@ namespace kodocpp
         };
 
         using namespace std::placeholders;
-
-        EXPECT_TRUE(decoder.has_set_trace_callback());
 
         decoder.set_trace_callback(
             std::bind<void>(callback, std::ref(trace_counter), _1, _2));
@@ -231,6 +223,9 @@ namespace kodocpp
         std::vector<uint8_t> data_in(encoder.block_size());
         std::vector<uint8_t> data_out(decoder.block_size());
 
+        // Set the storage for the decoder.
+        decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
+
         // Just for fun - fill the data with random data
         std::generate(data_in.begin(), data_in.end(), rand);
 
@@ -238,7 +233,7 @@ namespace kodocpp
         // to produce encoded symbols from it
         if (code_type != kodo_on_the_fly)
         {
-            encoder.set_symbols(data_in.data(), encoder.block_size());
+            encoder.set_const_symbols(data_in.data(), encoder.block_size());
         }
 
         // Test feedback if we are testing sliding window
@@ -275,7 +270,7 @@ namespace kodocpp
                     // Calculate the offset to the next symbol to insert
                     uint8_t* symbol = data_in.data() + (rank * symbol_size);
 
-                    encoder.set_symbol(rank, symbol, symbol_size);
+                    encoder.set_const_symbol(rank, symbol, symbol_size);
                 }
             }
 
@@ -312,20 +307,17 @@ namespace kodocpp
 
                         uint32_t offset = i * max_symbol_size;
                         uint8_t* original = data_in.data() + offset;
-                        uint8_t* target = data_out.data() + offset;
 
-                        // Copy the decoded symbol and verify it against the
+                        // Get the decoded symbol and verify it against the
                         // original data
-                        decoder.copy_from_symbol(i, target, max_symbol_size);
-                        EXPECT_EQ(memcmp(original, target, max_symbol_size), 0);
+                        uint8_t* decoded_symbol = data_out.data() + offset;
+                        EXPECT_EQ(memcmp(
+                            original, decoded_symbol, max_symbol_size), 0);
                     }
                 }
             }
         }
         EXPECT_TRUE(decoder.is_complete());
-
-        // The decoder is complete, now copy the symbols from the decoder
-        decoder.copy_from_symbols(data_out.data(), decoder.block_size());
 
         // Check if we properly decoded the data
         EXPECT_EQ(data_in, data_out);
@@ -335,7 +327,7 @@ namespace kodocpp
     }
 
     void test_coder(coder& coder, uint32_t symbols, uint32_t symbol_size,
-        kodo_code_type code_type, bool trace_enabled)
+        kodo_code_type code_type)
     {
         EXPECT_EQ(symbols, coder.symbols());
         EXPECT_EQ(symbol_size, coder.symbol_size());
@@ -354,13 +346,7 @@ namespace kodocpp
             EXPECT_GT(coder.feedback_size(), 0U);
         }
 
-        EXPECT_EQ(trace_enabled, coder.has_set_trace_stdout());
-        EXPECT_EQ(trace_enabled, coder.has_set_trace_callback());
-        EXPECT_EQ(trace_enabled, coder.has_set_trace_off());
-        if (trace_enabled)
-        {
-            coder.set_trace_stdout();
-            coder.set_trace_off();
-        }
+        coder.set_trace_stdout();
+        coder.set_trace_off();
     }
 }
