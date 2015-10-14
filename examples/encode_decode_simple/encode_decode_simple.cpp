@@ -25,8 +25,6 @@ int main(void)
     uint32_t max_symbols = 10;
     uint32_t max_symbol_size = 100;
 
-    bool trace_enabled = true;
-
     //Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
         kodo_full_vector,

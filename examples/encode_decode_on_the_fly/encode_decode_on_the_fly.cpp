@@ -123,9 +123,6 @@ int main(void)
 
                     uint32_t offset = i * encoder.symbol_size();
 
-                    // Get the individual symbol from the decoder's memory
-                    uint8_t* target = data_out.data() + offset;
-
                     // Verify the symbol against the original data
                     auto start = data_in.begin() + offset;
                     auto end = start + encoder.symbol_size();
