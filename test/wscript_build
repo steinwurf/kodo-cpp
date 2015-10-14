@@ -3,17 +3,14 @@
 
 search_path = []
 
+# The kodo-c shared library will be copied to the same folder as the test
+# binary when the test is executed by wurf_runner
 if not bld.is_mkspec_platform('windows'):
     search_path = ['.']
-
-# Before we can access the 'kodoc' task generator by name, we need to call
-# the 'post' method of this task generator in the kodo-c wscript
-shared_lib = bld.get_tgen_by_name('kodoc').link_task.outputs[0]
 
 bld.program(
     features='cxx test',
     source=['kodocpp_tests.cpp'] + bld.path.ant_glob('src/*.cpp'),
     target='../kodocpp_tests',
-    test_files=shared_lib,
     rpath=search_path,
     use=['kodocpp_includes', 'gtest'])

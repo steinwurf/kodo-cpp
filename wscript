@@ -50,12 +50,13 @@ def build(bld):
         'DEFINES_STEINWURF_VERSION',
         'STEINWURF_KODOCPP_VERSION="{}"'.format(VERSION))
 
-    # Build the kodocpp includes
+    # Define the kodocpp includes that use the kodo-c shared library
     bld(name='kodocpp_includes',
         includes='src',
         export_includes='src',
         use=['kodoc'])
 
+    # Define the kodocpp static includes that use the kodo-c static library
     bld(name='kodocpp_static_includes',
         includes='src',
         export_includes='src',
@@ -66,7 +67,6 @@ def build(bld):
         # Only build test when executed from the
         # top-level wscript i.e. not when included as a dependency
         # in a recurse call
-
         bld.recurse('test')
         bld.recurse('examples/encode_decode_simple')
         bld.recurse('examples/encode_decode_on_the_fly')
