@@ -38,7 +38,7 @@ namespace kodocpp
     }
 
     void test_combinations(test_function_type test_function,
-        uint32_t max_symbols, uint32_t max_symbol_size)
+                           uint32_t max_symbols, uint32_t max_symbol_size)
     {
         SCOPED_TRACE(testing::Message() << "symbols = " << max_symbols);
         SCOPED_TRACE(testing::Message() << "symbol_size = " << max_symbol_size);
@@ -122,6 +122,7 @@ namespace kodocpp
 
         using namespace std::placeholders;
 
+        EXPECT_TRUE(encoder.has_set_trace_callback());
         encoder.set_trace_callback(
             std::bind<void>(callback, std::ref(trace_counter), _1, _2));
 
@@ -157,7 +158,6 @@ namespace kodocpp
                            kodo_finite_field finite_field,
                            uint32_t& trace_counter)
     {
-
         decoder_factory decoder_factory(code_type, finite_field, max_symbols,
             max_symbol_size);
 
@@ -180,6 +180,8 @@ namespace kodocpp
         };
 
         using namespace std::placeholders;
+
+        EXPECT_TRUE(decoder.has_set_trace_callback());
 
         decoder.set_trace_callback(
             std::bind<void>(callback, std::ref(trace_counter), _1, _2));
@@ -327,7 +329,7 @@ namespace kodocpp
     }
 
     void test_coder(coder& coder, uint32_t symbols, uint32_t symbol_size,
-        kodo_code_type code_type)
+                    kodo_code_type code_type)
     {
         EXPECT_EQ(symbols, coder.symbols());
         EXPECT_EQ(symbol_size, coder.symbol_size());
@@ -335,16 +337,19 @@ namespace kodocpp
         EXPECT_GT(coder.payload_size(), symbol_size);
         EXPECT_EQ(0U, coder.rank());
 
-        if (code_type == kodo_full_vector ||
-            code_type == kodo_on_the_fly)
-        {
-            EXPECT_FALSE(coder.has_feedback_size());
-        }
-        else if (code_type == kodo_sliding_window)
+        if (code_type == kodo_sliding_window)
         {
             EXPECT_TRUE(coder.has_feedback_size());
             EXPECT_GT(coder.feedback_size(), 0U);
         }
+        else
+        {
+            EXPECT_FALSE(coder.has_feedback_size());
+        }
+
+        EXPECT_TRUE(coder.has_set_trace_stdout());
+        EXPECT_TRUE(coder.has_set_trace_callback());
+        EXPECT_TRUE(coder.has_set_trace_off());
 
         coder.set_trace_stdout();
         coder.set_trace_off();
