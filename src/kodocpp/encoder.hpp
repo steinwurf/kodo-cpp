@@ -20,8 +20,7 @@ namespace kodocpp
     public:
 
         encoder(kodo_coder_t coder_instance = 0) :
-            coder(coder_instance,
-                [](kodo_coder_t coder)
+            coder(coder_instance, [](kodo_coder_t coder)
                 {
                     if (coder != 0) kodo_delete_coder(coder);
                 })
@@ -60,6 +59,16 @@ namespace kodocpp
         void read_feedback(uint8_t* feedback)
         {
             kodo_read_feedback(m_coder.get(), feedback);
+        }
+
+        double density()
+        {
+            return kodo_density(m_coder.get());
+        }
+
+        void set_density(double density)
+        {
+            kodo_set_density(m_coder.get(), density);
         }
 
         bool pseudo_systematic() const

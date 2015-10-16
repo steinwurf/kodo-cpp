@@ -20,8 +20,7 @@ namespace kodocpp
     public:
 
         decoder(kodo_coder_t coder_instance = 0) :
-            coder(coder_instance,
-                [](kodo_coder_t coder)
+            coder(coder_instance, [](kodo_coder_t coder)
                 {
                     if (coder != 0) kodo_delete_coder(coder);
                 })

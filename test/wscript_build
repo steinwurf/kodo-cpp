@@ -3,6 +3,8 @@
 
 search_path = []
 
+# The kodo-c shared library will be copied to the same folder as the test
+# binary when the test is executed by wurf_runner
 if not bld.is_mkspec_platform('windows'):
     search_path = ['.']
 

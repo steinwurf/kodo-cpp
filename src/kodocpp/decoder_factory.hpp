@@ -26,10 +26,10 @@ namespace kodocpp
         decoder_factory(kodo_code_type code, kodo_finite_field field,
             uint32_t max_symbols, uint32_t max_symbol_size) :
             factory(kodo_new_decoder_factory(code, field, max_symbols,
-                max_symbol_size), [](kodo_factory_t factory)
-                {
-                    kodo_delete_factory(factory);
-                })
+                    max_symbol_size), [](kodo_factory_t factory)
+                    {
+                        kodo_delete_factory(factory);
+                    })
         { }
 
         coder_type build()
