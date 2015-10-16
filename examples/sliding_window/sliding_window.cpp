@@ -48,10 +48,6 @@ int main(void)
 
     kodocpp::decoder decoder = decoder_factory.build();
 
-    // Set the storage for the decoder.
-    std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
-
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network
     std::vector<uint8_t> payload(encoder.payload_size());
@@ -64,13 +60,20 @@ int main(void)
     // Just for fun - fill the data with random data
     std::generate(data_in.begin(), data_in.end(), rand);
 
+    // Set the storage for the decoder
+    std::vector<uint8_t> data_out(decoder.block_size());
+    decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
+
     std::vector<uint8_t> feedback(encoder.feedback_size());
 
     // Install a custom trace callback function
     auto callback = [](const std::string& zone, const std::string& data)
     {
         std::set<std::string> filters =
-            { "decoder_state", "input_symbol_coefficients" };
+        {
+            "decoder_state", "symbol_coefficients_before_read_symbol",
+            "symbol_index_before_read_uncoded_symbol"
+        };
 
         if (filters.count(zone))
         {

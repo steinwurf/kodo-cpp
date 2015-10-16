@@ -54,13 +54,13 @@ int main(void)
     // with the same size as the encoder's block size (the max.
     // amount a single encoder can encode)
     std::vector<uint8_t> data_in(encoder.block_size());
-    std::vector<uint8_t> data_out(encoder.block_size());
-
-    // set the storage for the decoder.
-    decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
 
     // Just for fun - fill the data with random data
     std::generate(data_in.begin(), data_in.end(), rand);
+
+    // Set the storage for the decoder
+    std::vector<uint8_t> data_out(encoder.block_size());
+    decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
 
     // Keeps track of which symbols have been decoded
     std::vector<bool> decoded(max_symbols, false);

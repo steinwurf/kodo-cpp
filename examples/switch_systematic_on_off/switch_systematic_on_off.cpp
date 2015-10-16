@@ -47,10 +47,6 @@ int main(void)
 
     kodocpp::decoder decoder = decoder_factory.build();
 
-    // Set the storage for the decoder.
-    std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
-
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network
     std::vector<uint8_t> payload(encoder.payload_size());
@@ -64,6 +60,10 @@ int main(void)
     std::generate(data_in.begin(), data_in.end(), rand);
 
     encoder.set_const_symbols(data_in.data(), encoder.block_size());
+
+    // Set the storage for the decoder
+    std::vector<uint8_t> data_out(decoder.block_size());
+    decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
 
     std::cout << "Start encoding / decoding" << std::endl;
     while (!decoder.is_complete())
