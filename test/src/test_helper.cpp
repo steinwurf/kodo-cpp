@@ -48,6 +48,8 @@ namespace kodocpp
             kodo_full_vector,
             kodo_on_the_fly,
             kodo_sliding_window,
+            kodo_seed,
+            kodo_sparse_seed,
             kodo_perpetual
         };
 
@@ -57,6 +59,8 @@ namespace kodocpp
             "kodo_full_vector",
             "kodo_on_the_fly",
             "kodo_sliding_window",
+            "kodo_seed",
+            "kodo_sparse_seed",
             "kodo_perpetual"
         };
 
@@ -125,6 +129,14 @@ namespace kodocpp
         EXPECT_TRUE(encoder.has_set_trace_callback());
         encoder.set_trace_callback(
             std::bind<void>(callback, std::ref(trace_counter), _1, _2));
+
+        if (code_type == kodo_sparse_full_vector ||
+            code_type == kodo_sparse_seed)
+        {
+            // Set the coding vector density on the encoder
+            encoder.set_density(0.2);
+            EXPECT_EQ(0.2, encoder.density());
+        }
 
         // Test perpetual specific functions
         if (code_type == kodo_perpetual)

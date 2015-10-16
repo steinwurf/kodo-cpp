@@ -61,6 +61,16 @@ namespace kodocpp
             kodo_read_feedback(m_coder.get(), feedback);
         }
 
+        double density()
+        {
+            return kodo_density(m_coder.get());
+        }
+
+        void set_density(double density)
+        {
+            kodo_set_density(m_coder.get(), density);
+        }
+
         bool pseudo_systematic() const
         {
             return kodo_pseudo_systematic(m_coder.get()) != 0;
