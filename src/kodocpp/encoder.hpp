@@ -60,7 +60,7 @@ namespace kodocpp
             kodo_read_feedback(m_coder.get(), feedback);
         }
 
-        double density()
+        double density() const
         {
             return kodo_density(m_coder.get());
         }

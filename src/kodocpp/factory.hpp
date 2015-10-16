@@ -20,7 +20,7 @@ namespace kodocpp
 
         // Make sure that this base class cannot be instantiated
         factory(kodo_factory_t factory,
-            std::function<void(kodo_factory_t)> deleter) :
+                std::function<void(kodo_factory_t)> deleter) :
             m_factory(factory, deleter)
         { }
 
@@ -54,6 +54,16 @@ namespace kodocpp
         uint32_t max_payload_size() const
         {
             return kodo_factory_max_payload_size(m_factory.get());
+        }
+
+        uint32_t max_expansion() const
+        {
+            return kodo_factory_max_expansion(m_factory.get());
+        }
+
+        void set_expansion(uint32_t expansion)
+        {
+            kodo_factory_set_expansion(m_factory.get(), expansion);
         }
 
     protected:

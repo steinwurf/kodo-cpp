@@ -50,7 +50,8 @@ namespace kodocpp
             kodo_sliding_window,
             kodo_seed,
             kodo_sparse_seed,
-            kodo_perpetual
+            kodo_perpetual,
+            kodo_fulcrum
         };
 
         std::vector<std::string> code_type_names =
@@ -60,7 +61,8 @@ namespace kodocpp
             "kodo_sliding_window",
             "kodo_seed",
             "kodo_sparse_seed",
-            "kodo_perpetual"
+            "kodo_perpetual",
+            "kodo_fulcrum"
         };
 
         std::vector<kodo_finite_field> fields =

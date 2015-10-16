@@ -6,13 +6,17 @@ of every change, see the Git log.
 
 Latest
 ------
-* Major: Use kodo-c 7
+* Major: Upgrade to kodo-c 7
 * Major: Upgrade to waf-tools 3
 * Minor: Upgrade to gtest 3
-* Major: Coders are now only available using shallow storage
-  - see examples for how to use.
+* Major: Coders are now only available using shallow storage.
 * Major: Tracing is now always available.
-* Major: renamed ``set_symbols`` to ``set_const_symbols``.
+* Major: Renamed ``set_symbols`` to ``set_const_symbols`` for encoders.
+* Major: Renamed ``set_symbols`` to ``set_mutable_symbols`` for decoders.
+* Major: Removed ``copy_from_symbol`` and ``copy_from_symbols`` since they
+  are not used with shallow storage.
+* Minor: Added basic API for the fulcrum codec.
+* Minor: Added unit tests for all codecs.
 
 3.3.0
 -----
