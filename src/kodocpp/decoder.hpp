@@ -11,7 +11,6 @@
 #include <kodoc/kodoc.h>
 
 #include "coder.hpp"
-#include <iostream>
 
 namespace kodocpp
 {

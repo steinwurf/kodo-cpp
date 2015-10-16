@@ -24,12 +24,12 @@ namespace kodocpp
     public:
 
         encoder_factory(kodo_code_type code, kodo_finite_field field,
-            uint32_t max_symbols, uint32_t max_symbol_size) :
+                        uint32_t max_symbols, uint32_t max_symbol_size) :
             factory(kodo_new_encoder_factory(code, field, max_symbols,
                     max_symbol_size), [](kodo_factory_t factory)
-            {
-                kodo_delete_factory(factory);
-            })
+                    {
+                        kodo_delete_factory(factory);
+                    })
         { }
 
         coder_type build()
