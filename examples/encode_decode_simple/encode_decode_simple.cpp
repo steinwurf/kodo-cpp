@@ -25,15 +25,12 @@ int main(void)
     uint32_t max_symbols = 10;
     uint32_t max_symbol_size = 100;
 
-    bool trace_enabled = true;
-
     //Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
         kodo_full_vector,
         kodo_binary8,
         max_symbols,
-        max_symbol_size,
-        trace_enabled);
+        max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
@@ -41,8 +38,7 @@ int main(void)
         kodo_full_vector,
         kodo_binary8,
         max_symbols,
-        max_symbol_size,
-        trace_enabled);
+        max_symbol_size);
 
     kodocpp::decoder decoder = decoder_factory.build();
 
@@ -60,7 +56,11 @@ int main(void)
 
     // Assign the data buffer to the encoder so that we may start
     // to produce encoded symbols from it
-    encoder.set_symbols(data_in.data(), encoder.block_size());
+    encoder.set_const_symbols(data_in.data(), encoder.block_size());
+
+    // Set the storage for the decoder
+    std::vector<uint8_t> data_out(decoder.block_size());
+    decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
 
     while (!decoder.is_complete())
     {
@@ -70,10 +70,6 @@ int main(void)
         // Pass that packet to the decoder
         decoder.read_payload(payload.data());
     }
-
-     // The decoder is complete, now copy the symbols from the decoder
-    std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.copy_from_symbols(data_out.data(), decoder.block_size());
 
     // Check if we properly decoded the data
     if (std::equal(data_out.begin(), data_out.end(), data_in.begin()))

@@ -24,13 +24,12 @@ namespace kodocpp
     public:
 
         decoder_factory(kodo_code_type code, kodo_finite_field field,
-            uint32_t max_symbols, uint32_t max_symbol_size,
-            bool trace_enabled = false) :
+                        uint32_t max_symbols, uint32_t max_symbol_size) :
             factory(kodo_new_decoder_factory(code, field, max_symbols,
-                max_symbol_size, trace_enabled), [](kodo_factory_t factory)
-                {
-                    kodo_delete_decoder_factory(factory);
-                })
+                    max_symbol_size), [](kodo_factory_t factory)
+                    {
+                        kodo_delete_factory(factory);
+                    })
         { }
 
         coder_type build()

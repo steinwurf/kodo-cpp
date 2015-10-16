@@ -16,18 +16,16 @@ namespace kodocpp
 namespace
 {
     void test_encoder(uint32_t max_symbols, uint32_t max_symbol_size,
-        kodo_code_type code_type, kodo_finite_field finite_field,
-        bool trace)
+        kodo_code_type code_type, kodo_finite_field finite_field)
     {
         encoder_factory encoder_factory(
             code_type,
             finite_field,
             max_symbols,
-            max_symbol_size,
-            trace);
+            max_symbol_size);
 
         encoder encoder = encoder_factory.build();
-        test_coder(encoder, max_symbols, max_symbol_size, code_type, trace);
+        test_coder(encoder, max_symbols, max_symbol_size, code_type);
 
         // Encoder methods
         if (encoder.has_set_systematic_off())
@@ -49,7 +47,7 @@ TEST(test_encoder, invoke_api)
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_combinations(test_encoder, max_symbols, max_symbol_size, false);
+    test_combinations(test_encoder, max_symbols, max_symbol_size);
 
-    test_combinations(test_encoder, max_symbols, max_symbol_size, true);
+    test_combinations(test_encoder, max_symbols, max_symbol_size);
 }

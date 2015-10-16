@@ -27,15 +27,12 @@ int main(void)
     uint32_t max_symbols = 6;
     uint32_t max_symbol_size = 32;
 
-    bool trace_mode = true;
-
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
         kodo_full_vector,
         kodo_binary8,
         max_symbols,
-        max_symbol_size,
-        trace_mode);
+        max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
@@ -43,8 +40,7 @@ int main(void)
         kodo_full_vector,
         kodo_binary8,
         max_symbols,
-        max_symbol_size,
-        trace_mode);
+        max_symbol_size);
 
     kodocpp::decoder decoder = decoder_factory.build();
 
@@ -60,31 +56,32 @@ int main(void)
     // Just for fun - fill the data with random data
     std::generate(data_in.begin(), data_in.end(), rand);
 
+    // Set the storage for the decoder
+    std::vector<uint8_t> data_out(decoder.block_size());
+    decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
+
     // Install the default trace function for encoder (writes to stdout)
-    if (encoder.has_set_trace_stdout())
-    {
-        encoder.set_trace_stdout();
-    }
+    encoder.set_trace_stdout();
 
-    // Install a custom trace function for the decoder if tracing is enabled
-    if (decoder.has_set_trace_callback())
+    // Install a custom trace function for the decoder
+    auto callback = [](const std::string& zone, const std::string& data)
     {
-        auto callback = [](const std::string& zone, const std::string& data)
+        std::set<std::string> filters =
         {
-            std::set<std::string> filters =
-                { "decoder_state", "input_symbol_coefficients" };
-
-            if (filters.count(zone))
-            {
-                std::cout << zone << ":" << std::endl;
-                std::cout << data << std::endl;
-            }
+            "decoder_state", "symbol_coefficients_before_read_symbol",
+            "symbol_index_before_read_uncoded_symbol"
         };
 
-        decoder.set_trace_callback(callback);
-    }
+        if (filters.count(zone))
+        {
+            std::cout << zone << ":" << std::endl;
+            std::cout << data << std::endl;
+        }
+    };
 
-    encoder.set_symbols(data_in.data(), encoder.block_size());
+    decoder.set_trace_callback(callback);
+
+    encoder.set_const_symbols(data_in.data(), encoder.block_size());
 
     while (!decoder.is_complete())
     {
@@ -98,9 +95,6 @@ int main(void)
 
         decoder.read_payload(payload.data());
     }
-
-    std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.copy_from_symbols(data_out.data(), decoder.block_size());
 
     // Check if we properly decoded the data
     if (std::equal(data_out.begin(), data_out.end(), data_in.begin()))

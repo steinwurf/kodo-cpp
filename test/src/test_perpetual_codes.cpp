@@ -9,17 +9,12 @@
 
 #include "test_helper.hpp"
 
-TEST(test_perpetual, invoke_api)
+TEST(test_perpetual_codes, basic_api)
 {
     using namespace kodocpp;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    kodo_code_type code_type = kodo_perpetual;
-
-    test_basic_api(max_symbols, max_symbol_size, code_type, kodo_binary);
-    test_basic_api(max_symbols, max_symbol_size, code_type, kodo_binary4);
-    test_basic_api(max_symbols, max_symbol_size, code_type, kodo_binary8);
-    test_basic_api(max_symbols, max_symbol_size, code_type, kodo_binary16);
+    test_basic_api(kodo_perpetual, max_symbols, max_symbol_size);
 }

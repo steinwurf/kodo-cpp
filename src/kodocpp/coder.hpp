@@ -121,6 +121,11 @@ namespace kodocpp
             return kodo_write_payload(m_coder.get(), data);
         }
 
+        uint8_t expansion() const
+        {
+            return kodo_expansion(m_coder.get());
+        }
+
     protected:
 
         std::shared_ptr<kodo_coder> m_coder;

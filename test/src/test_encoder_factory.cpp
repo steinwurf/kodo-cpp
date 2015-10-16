@@ -20,5 +20,5 @@ TEST(test_encoder_factory, invoke_api)
     uint32_t max_symbol_size = rand_symbol_size() + 4;
 
     test_combinations(test_coder_factory<encoder_factory>, max_symbols,
-                      max_symbol_size, false);
+                      max_symbol_size);
 }

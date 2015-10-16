@@ -11,7 +11,6 @@
 #include <kodoc/kodoc.h>
 
 #include "coder.hpp"
-#include <iostream>
 
 namespace kodocpp
 {
@@ -20,21 +19,20 @@ namespace kodocpp
     public:
 
         encoder(kodo_coder_t coder_instance = 0) :
-            coder(coder_instance,
-                [](kodo_coder_t coder)
+            coder(coder_instance, [](kodo_coder_t coder)
                 {
-                    if (coder != 0) kodo_delete_encoder(coder);
+                    if (coder != 0) kodo_delete_coder(coder);
                 })
         { }
 
-        void set_symbols(uint8_t* data, uint32_t size)
+        void set_const_symbols(uint8_t* data, uint32_t size)
         {
-            kodo_set_symbols(m_coder.get(), data, size);
+            kodo_set_const_symbols(m_coder.get(), data, size);
         }
 
-        void set_symbol(uint32_t index, uint8_t* data, uint32_t size)
+        void set_const_symbol(uint32_t index, uint8_t* data, uint32_t size)
         {
-            kodo_set_symbol(m_coder.get(), index, data, size);
+            kodo_set_const_symbol(m_coder.get(), index, data, size);
         }
 
         bool has_set_systematic_off() const
@@ -60,6 +58,16 @@ namespace kodocpp
         void read_feedback(uint8_t* feedback)
         {
             kodo_read_feedback(m_coder.get(), feedback);
+        }
+
+        double density() const
+        {
+            return kodo_density(m_coder.get());
+        }
+
+        void set_density(double density)
+        {
+            kodo_set_density(m_coder.get(), density);
         }
 
         bool pseudo_systematic() const

@@ -1,19 +1,28 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
+# The search path is relevant for the shared library
 search_path = []
 
+# The kodo-c shared library will be copied to the same folder as the test
+# binary when the test is executed by wurf_runner
 if not bld.is_mkspec_platform('windows'):
     search_path = ['.']
 
-# Before we can access the 'kodoc' task generator by name, we need to call
-# the 'post' method of this task generator in the kodo-c wscript
-shared_lib = bld.get_tgen_by_name('kodoc').link_task.outputs[0]
-
+# First, we test with the kodo-c static library (to make debugging easier)
 bld.program(
     features='cxx test',
     source=['kodocpp_tests.cpp'] + bld.path.ant_glob('src/*.cpp'),
-    target='../kodocpp_tests',
-    test_files=shared_lib,
-    rpath=search_path,
-    use=['kodocpp_includes', 'gtest'])
+    target='../kodocpp_static_tests',
+    use=['kodocpp_static_includes', 'gtest'])
+
+# Second, We test with the kodo-c shared library (which won't work on
+# Android and iOS)
+if bld.get_mkspec_platform() not in ['android', 'ios']:
+
+    bld.program(
+        features='cxx test',
+        source=['kodocpp_tests.cpp'] + bld.path.ant_glob('src/*.cpp'),
+        target='../kodocpp_tests',
+        rpath=search_path,
+        use=['kodocpp_includes', 'gtest'])

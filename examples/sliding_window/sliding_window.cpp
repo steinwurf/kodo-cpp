@@ -31,26 +31,20 @@ int main(void)
     uint32_t max_symbols = 6;
     uint32_t max_symbol_size = 100;
 
-    bool trace_enabled = false;
-
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
         kodo_sliding_window,
         kodo_binary8,
         max_symbols,
-        max_symbol_size,
-        trace_enabled);
+        max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
-
-    trace_enabled = true;
 
     kodocpp::decoder_factory decoder_factory(
         kodo_sliding_window,
         kodo_binary8,
         max_symbols,
-        max_symbol_size,
-        trace_enabled);
+        max_symbol_size);
 
     kodocpp::decoder decoder = decoder_factory.build();
 
@@ -66,25 +60,29 @@ int main(void)
     // Just for fun - fill the data with random data
     std::generate(data_in.begin(), data_in.end(), rand);
 
+    // Set the storage for the decoder
+    std::vector<uint8_t> data_out(decoder.block_size());
+    decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
+
     std::vector<uint8_t> feedback(encoder.feedback_size());
 
-    if (decoder.has_set_trace_callback())
+    // Install a custom trace callback function
+    auto callback = [](const std::string& zone, const std::string& data)
     {
-        // Install a custom trace callback function
-        auto callback = [](const std::string& zone, const std::string& data)
+        std::set<std::string> filters =
         {
-            std::set<std::string> filters =
-                { "decoder_state", "input_symbol_coefficients" };
-
-            if (filters.count(zone))
-            {
-                std::cout << zone << ":" << std::endl;
-                std::cout << data << std::endl;
-            }
+            "decoder_state", "symbol_coefficients_before_read_symbol",
+            "symbol_index_before_read_uncoded_symbol"
         };
 
-        decoder.set_trace_callback(callback);
-    }
+        if (filters.count(zone))
+        {
+            std::cout << zone << ":" << std::endl;
+            std::cout << data << std::endl;
+        }
+    };
+
+    decoder.set_trace_callback(callback);
 
     while (!decoder.is_complete())
     {
@@ -98,7 +96,7 @@ int main(void)
             //Calculate the offset to the next symbol to instert
             uint8_t* symbol = data_in.data() + (rank * encoder.symbol_size());
 
-            encoder.set_symbol(rank, symbol, encoder.symbol_size());
+            encoder.set_const_symbol(rank, symbol, encoder.symbol_size());
 
             std::cout << "Symbol " << rank << " added to the encoder"
                       << std::endl;
@@ -142,9 +140,6 @@ int main(void)
         std::cout << "Received feedback from decoder" << std::endl << std::endl;
         encoder.read_feedback(feedback.data());
     }
-
-    std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.copy_from_symbols(data_out.data(), decoder.block_size());
 
     // Check if we properly decoded the data
     if (std::equal(data_out.begin(), data_out.end(), data_in.begin()))

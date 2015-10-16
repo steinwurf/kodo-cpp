@@ -11,7 +11,6 @@
 #include <kodoc/kodoc.h>
 
 #include "coder.hpp"
-#include <iostream>
 
 namespace kodocpp
 {
@@ -20,12 +19,21 @@ namespace kodocpp
     public:
 
         decoder(kodo_coder_t coder_instance = 0) :
-            coder(coder_instance,
-                [](kodo_coder_t coder)
+            coder(coder_instance, [](kodo_coder_t coder)
                 {
-                    if (coder != 0) kodo_delete_decoder(coder);
+                    if (coder != 0) kodo_delete_coder(coder);
                 })
         { }
+
+        void set_mutable_symbols(uint8_t* data, uint32_t size)
+        {
+            kodo_set_mutable_symbols(m_coder.get(), data, size);
+        }
+
+        void set_mutable_symbol(uint32_t index, uint8_t* data, uint32_t size)
+        {
+            kodo_set_mutable_symbol(m_coder.get(), index, data, size);
+        }
 
         void read_payload(uint8_t* data)
         {
@@ -35,17 +43,6 @@ namespace kodocpp
         bool is_complete() const
         {
             return kodo_is_complete(m_coder.get()) != 0;
-        }
-
-        void copy_from_symbols(uint8_t* data, uint32_t size) const
-        {
-            kodo_copy_from_symbols(m_coder.get(), data, size);
-        }
-
-        void copy_from_symbol(uint32_t index, uint8_t* data,
-            uint32_t size) const
-        {
-            kodo_copy_from_symbol(m_coder.get(), index, data, size);
         }
 
         bool has_partial_decoding_tracker() const
