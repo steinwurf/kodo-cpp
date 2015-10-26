@@ -6,6 +6,10 @@ of every change, see the Git log.
 
 Latest
 ------
+* tbd
+
+4.0.0
+-----
 * Major: Upgrade to kodo-c 7
 * Major: Upgrade to waf-tools 3
 * Minor: Upgrade to gtest 3

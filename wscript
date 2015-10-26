@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 APPNAME = 'kodo-cpp'
-VERSION = '3.3.0'
+VERSION = '4.0.0'
 
 import waflib.extras.wurf_options
 
