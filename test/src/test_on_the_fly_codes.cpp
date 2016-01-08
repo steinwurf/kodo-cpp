@@ -13,6 +13,9 @@ TEST(test_on_the_fly_codes, invoke_api)
 {
     using namespace kodocpp;
 
+    if (has_codec(kodoc_on_the_fly) == false)
+        return;
+
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 

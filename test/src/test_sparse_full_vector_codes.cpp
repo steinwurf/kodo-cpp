@@ -9,15 +9,16 @@
 
 #include "test_helper.hpp"
 
-TEST(test_perpetual_codes, basic_api)
+TEST(test_sparse_full_vector_codes, basic_api)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_perpetual) == false)
+    if (has_codec(kodoc_sparse_full_vector) == false)
         return;
 
-    uint32_t max_symbols = rand_symbols();
+    // Make sure that the decoding can complete with a lower density
+    uint32_t max_symbols = rand_symbols() + 10;
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodoc_perpetual, max_symbols, max_symbol_size);
+    test_basic_api(kodoc_sparse_full_vector, max_symbols, max_symbol_size);
 }

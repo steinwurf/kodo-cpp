@@ -23,15 +23,25 @@ namespace kodocpp
 
     public:
 
-        encoder_factory(kodoc_codec code, kodoc_finite_field field,
+        /// Constructs a new encoder factory (for shallow storage encoders)
+        /// @param codec This parameter determines the encoding algorithms used.
+        /// @param finite_field The finite field that should be used by the
+        ///        encoder.
+        /// @param max_symbols The maximum number of symbols supported by
+        ///        encoders built with this factory.
+        /// @param max_symbol_size The maximum symbol size in bytes supported
+        ///        by encoders built using the returned factory.
+        encoder_factory(kodoc_codec codec, kodoc_finite_field field,
                         uint32_t max_symbols, uint32_t max_symbol_size) :
-            factory(kodoc_new_encoder_factory(code, field, max_symbols,
+            factory(kodoc_new_encoder_factory(codec, field, max_symbols,
                     max_symbol_size), [](kodoc_factory_t factory)
                     {
                         kodoc_delete_factory(factory);
                     })
         { }
 
+        /// Builds a new encoder with the factory using the specified parameters
+        /// @return The new encoder
         coder_type build()
         {
             kodoc_coder_t coder = kodoc_factory_build_coder(m_factory.get());

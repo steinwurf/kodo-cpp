@@ -17,7 +17,7 @@ namespace kodocpp
 {
     class coder
     {
-    private:
+    public:
 
         using callback_type =
             std::function<void(const std::string&, const std::string&)>;
@@ -31,41 +31,112 @@ namespace kodocpp
 
     public:
 
-        uint32_t block_size() const
-        {
-            return kodoc_block_size(m_coder.get());
-        }
+        //------------------------------------------------------------------
+        // PAYLOAD API
+        //------------------------------------------------------------------
 
+        /// Returns the payload size of an encoder/decoder, which is the
+        /// maximum size of a generated payload.
+        /// @return The required payload buffer size in bytes
         uint32_t payload_size() const
         {
             return kodoc_payload_size(m_coder.get());
         }
 
-        uint32_t rank() const
+        /// Writes a systematic/coded symbol into the provided payload buffer.
+        /// @param payload The buffer which should contain the (re/en)coded
+        ///        symbol.
+        /// @return The total bytes used from the payload buffer
+        uint32_t write_payload(uint8_t* payload)
         {
-            return kodoc_rank(m_coder.get());
+            return kodoc_write_payload(m_coder.get(), payload);
         }
 
+        /// Checks whether the coder supports the write_payload() function.
+        /// @return true if write_payload is supported
+        bool has_write_payload(kodoc_coder_t coder)
+        {
+            return kodoc_has_write_payload(m_coder.get()) != 0;
+        }
+
+        //------------------------------------------------------------------
+        // SYMBOL STORAGE API
+        //------------------------------------------------------------------
+
+        /// Returns the block size of an encoder/decoder.
+        /// @return The block size, i.e. the total size in bytes
+        ///         that this coder operates on.
+        uint32_t block_size() const
+        {
+            return kodoc_block_size(m_coder.get());
+        }
+
+        /// Returns the symbol size of an encoder/decoder.
+        /// @return The size of a symbol in bytes
         uint32_t symbol_size() const
         {
             return kodoc_symbol_size(m_coder.get());
         }
 
+        /// Returns the number of symbols in a block (i.e. the generation size).
+        /// @return The number of symbols
         uint32_t symbols() const
         {
             return kodoc_symbols(m_coder.get());
         }
 
-        bool is_symbol_pivot(uint32_t index) const
+        //------------------------------------------------------------------
+        // CODEC API
+        //------------------------------------------------------------------
+
+        /// The rank of a decoder indicates how many symbols have been decoded
+        /// or partially decoded. The rank of an encoder indicates how many
+        /// symbols are available for encoding.
+        /// @return The rank of the decoder or encoder
+        uint32_t rank() const
         {
-            return kodoc_is_symbol_pivot(m_coder.get(), index) != 0;
+            return kodoc_rank(m_coder.get());
         }
 
-        bool has_set_trace_interface() const
+        /// Checks whether the encoder or decoder can use/provide feedback
+        /// information. The encoder can disregard some symbols if the
+        /// feedback from decoder indicates that those symbols were already
+        /// decoded.
+        /// @return true if feedback is supported
+        bool has_feedback_size() const
+        {
+            return kodoc_has_feedback_size(m_coder.get()) != 0;
+        }
+
+        /// Returns the feedback size of an encoder/decoder.
+        /// @return The size of the required feedback buffer in bytes
+        uint32_t feedback_size() const
+        {
+            return kodoc_feedback_size(m_coder.get());
+        }
+
+        //------------------------------------------------------------------
+        // TRACE API
+        //------------------------------------------------------------------
+
+        /// Returns whether an encoder or decoder supports the trace interface
+        /// @return true if tracing is supported
+        bool has_trace_interface() const
         {
             return kodoc_has_trace_interface(m_coder.get()) != 0;
         }
 
+        /// Enables the trace function of the encoder/decoder, which prints
+        /// to the standard output.
+        void set_trace_stdout()
+        {
+            kodoc_set_trace_stdout(m_coder.get());
+        }
+
+        /// Registers a custom callback that will get the trace output of an
+        /// encoder or decoder.
+        /// @param callback The callback function that should process
+        ///        the trace output
         void set_trace_callback(callback_type callback)
         {
             // This function object will be allocated on the heap, and its
@@ -86,34 +157,36 @@ namespace kodocpp
                 m_coder.get(), c_callback, m_callback.get());
         }
 
-        void set_trace_stdout()
-        {
-            kodoc_set_trace_stdout(m_coder.get());
-        }
-
+        /// Disables the trace function of the encoder/decoder.
         void set_trace_off()
         {
             kodoc_set_trace_off(m_coder.get());
         }
 
-        bool has_feedback_size() const
+        /// Sets the zone prefix that should be used for the trace output of
+        /// a particular encoder/decoder instance. The zone prefix can help to
+        /// differentiate the output that is coming from various coder
+        /// instances.
+        /// @param prefix The zone prefix for the trace output
+        void set_zone_prefix(const std::string& prefix)
         {
-            return kodoc_has_feedback_size(m_coder.get()) != 0;
+            kodoc_set_zone_prefix(m_coder.get(), prefix.c_str());
         }
 
-        uint32_t feedback_size() const
-        {
-            return kodoc_feedback_size(m_coder.get());
-        }
+        //------------------------------------------------------------------
+        // FULCRUM CODER API
+        //------------------------------------------------------------------
 
-        uint32_t write_payload(uint8_t* data)
-        {
-            return kodoc_write_payload(m_coder.get(), data);
-        }
-
-        uint8_t expansion() const
+        /// Get the number of expansion symbols on a fulcrum coder
+        uint32_t expansion() const
         {
             return kodoc_expansion(m_coder.get());
+        }
+
+        /// Get the number of inner symbols on a fulcrum coder
+        uint32_t inner_symbols() const
+        {
+            return kodoc_inner_symbols(m_coder.get());
         }
 
     protected:

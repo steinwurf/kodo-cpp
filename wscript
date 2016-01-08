@@ -26,7 +26,7 @@ def resolve(ctx):
     ctx.add_dependency(resolve.ResolveVersion(
         name='kodo-c',
         git_repository='github.com/steinwurf/kodo-c.git',
-        major=7))
+        major=8))
 
     # Internal dependencies
     if ctx.is_toplevel():
@@ -73,3 +73,18 @@ def build(bld):
         bld.recurse('examples/sliding_window')
         bld.recurse('examples/switch_systematic_on_off')
         bld.recurse('examples/use_trace_layers')
+
+        # Install the kodocpp headers and kodoc.h to the 'include' folder
+        if bld.has_tool_option('install_path'):
+            install_path = bld.get_tool_option('install_path')
+            install_path = os.path.abspath(os.path.expanduser(install_path))
+            include_path = os.path.join(install_path, 'include')
+
+            start_dir = bld.path.find_dir('src')
+            bld.install_files(include_path, start_dir.ant_glob('**/*.hpp'),
+                              cwd=start_dir, relative_trick=True)
+
+            start_dir = os.path.join(bld.dependency_path('kodo-c'), 'src')
+            start_dir = bld.root.find_dir(start_dir)
+            bld.install_files(include_path, ['kodoc/kodoc.h'],
+                              cwd=start_dir, relative_trick=True)

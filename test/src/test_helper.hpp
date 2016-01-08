@@ -7,11 +7,11 @@
 
 #include <kodocpp/kodocpp.hpp>
 
-#include <gtest/gtest.h>
-
-#include <functional>
 #include <cstdint>
 #include <vector>
+#include <functional>
+
+#include <gtest/gtest.h>
 
 namespace kodocpp
 {

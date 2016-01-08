@@ -37,7 +37,7 @@ namespace kodocpp
         return rand_nonzero(elements) * granularity;
     }
 
-    void test_combinations(test_function_type test_function,
+    void test_combinations(test_function_type coder_test,
                            uint32_t max_symbols, uint32_t max_symbol_size)
     {
         SCOPED_TRACE(testing::Message() << "symbols = " << max_symbols);
@@ -48,10 +48,12 @@ namespace kodocpp
             kodoc_full_vector,
             kodoc_on_the_fly,
             kodoc_sliding_window,
+            kodoc_sparse_full_vector,
             kodoc_seed,
             kodoc_sparse_seed,
             kodoc_perpetual,
-            kodoc_fulcrum
+            kodoc_fulcrum,
+            kodoc_reed_solomon
         };
 
         std::vector<std::string> codec_names =
@@ -59,38 +61,38 @@ namespace kodocpp
             "kodoc_full_vector",
             "kodoc_on_the_fly",
             "kodoc_sliding_window",
+            "kodoc_sparse_full_vector",
             "kodoc_seed",
             "kodoc_sparse_seed",
             "kodoc_perpetual",
-            "kodoc_fulcrum"
-        };
-
-        std::vector<kodoc_finite_field> fields =
-        {
-            kodoc_binary,
-            kodoc_binary4,
-            kodoc_binary8
-        };
-
-        std::vector<std::string> field_names =
-        {
-            "kodoc_binary",
-            "kodoc_binary4",
-            "kodoc_binary8"
+            "kodoc_fulcrum",
+            "kodoc_reed_solomon"
         };
 
         for (uint32_t i = 0; i < codecs.size(); ++i)
         {
-            SCOPED_TRACE(testing::Message() << "codec = "
-                                            << codec_names[i]);
+            SCOPED_TRACE(testing::Message() << "codec = " << codec_names[i]);
 
-            for (uint32_t j = 0; j < fields.size(); ++j)
+            kodoc_codec codec = codecs[i];
+
+            if (has_codec(codec) == false)
+                continue;
+
+            if (codec != kodoc_reed_solomon)
             {
-                SCOPED_TRACE(testing::Message() << "field = "
-                                                << field_names[j]);
+                SCOPED_TRACE(testing::Message() << "field = binary");
+                coder_test(max_symbols, max_symbol_size, codec, kodoc_binary);
+            }
 
-                test_function(max_symbols, max_symbol_size, codecs[i],
-                              fields[j]);
+            if (codec != kodoc_reed_solomon)
+            {
+                SCOPED_TRACE(testing::Message() << "field = binary4");
+                coder_test(max_symbols, max_symbol_size, codec, kodoc_binary4);
+            }
+
+            {
+                SCOPED_TRACE(testing::Message() << "field = binary8");
+                coder_test(max_symbols, max_symbol_size, codec, kodoc_binary8);
             }
         }
     }
@@ -114,10 +116,10 @@ namespace kodocpp
             EXPECT_FALSE(coder.has_feedback_size());
         }
 
-        EXPECT_TRUE(coder.has_set_trace_interface());
-
+        EXPECT_TRUE(coder.has_trace_interface());
         coder.set_trace_stdout();
         coder.set_trace_off();
+        coder.set_zone_prefix("prefix");
     }
 
     /// Create and configure encoder instance
@@ -152,7 +154,7 @@ namespace kodocpp
 
         using namespace std::placeholders;
 
-        EXPECT_TRUE(encoder.has_set_trace_interface());
+        EXPECT_TRUE(encoder.has_trace_interface());
         encoder.set_trace_callback(
             std::bind<void>(callback, std::ref(trace_counter), _1, _2));
 
@@ -219,7 +221,7 @@ namespace kodocpp
 
         using namespace std::placeholders;
 
-        EXPECT_TRUE(decoder.has_set_trace_interface());
+        EXPECT_TRUE(decoder.has_trace_interface());
         decoder.set_trace_callback(
             std::bind<void>(callback, std::ref(trace_counter), _1, _2));
 
@@ -373,12 +375,14 @@ namespace kodocpp
         SCOPED_TRACE(testing::Message() << "symbols = " << symbols);
         SCOPED_TRACE(testing::Message() << "symbol_size = " << symbol_size);
 
+        if (encoder_type != kodoc_reed_solomon)
         {
             SCOPED_TRACE(testing::Message() << "field = binary");
             run_test_basic_api(encoder_type, decoder_type, kodoc_binary,
                                symbols, symbol_size);
         }
 
+        if (encoder_type != kodoc_reed_solomon)
         {
             SCOPED_TRACE(testing::Message() << "field = binary4");
             run_test_basic_api(encoder_type, decoder_type, kodoc_binary4,
