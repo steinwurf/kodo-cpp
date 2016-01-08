@@ -16,5 +16,5 @@ TEST(test_perpetual_codes, basic_api)
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodo_perpetual, max_symbols, max_symbol_size);
+    test_basic_api(kodoc_perpetual, max_symbols, max_symbol_size);
 }

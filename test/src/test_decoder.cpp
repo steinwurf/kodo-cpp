@@ -13,41 +13,38 @@
 
 namespace kodocpp
 {
-namespace
-{
-    void test_decoder(uint32_t max_symbols, uint32_t max_symbol_size,
-        kodo_code_type code_type, kodo_finite_field finite_field)
+    static void test_decoder(uint32_t max_symbols, uint32_t max_symbol_size,
+        kodoc_codec codec, kodoc_finite_field finite_field)
     {
         decoder_factory decoder_factory(
-            code_type,
+            codec,
             finite_field,
             max_symbols,
             max_symbol_size);
 
         decoder decoder = decoder_factory.build();
-        test_coder(decoder, max_symbols, max_symbol_size, code_type);
+        test_coder(decoder, max_symbols, max_symbol_size, codec);
 
         // Decoder methods
         EXPECT_GE(0U, decoder.symbols_uncoded());
-        EXPECT_GE(0U, decoder.symbols_seen());
+        EXPECT_GE(0U, decoder.symbols_partially_decoded());
 
-        if (code_type == kodo_on_the_fly ||
-            code_type == kodo_sliding_window)
+        if (codec == kodoc_on_the_fly ||
+            codec == kodoc_sliding_window)
         {
-            EXPECT_TRUE(decoder.has_partial_decoding_tracker());
-            EXPECT_FALSE(decoder.is_partial_complete());
+            EXPECT_TRUE(decoder.has_partial_decoding_interface());
+            EXPECT_FALSE(decoder.is_partially_complete());
             for (uint32_t i = 0; i < decoder.symbols(); ++i)
             {
                 EXPECT_FALSE(decoder.is_symbol_pivot(i));
             }
         }
-        else if (code_type == kodo_full_vector ||
-                 code_type == kodo_perpetual)
+        else if (codec == kodoc_full_vector ||
+                 codec == kodoc_perpetual)
         {
-            EXPECT_FALSE(decoder.has_partial_decoding_tracker());
+            EXPECT_FALSE(decoder.has_partial_decoding_interface());
         }
     }
-}
 }
 
 TEST(test_decoder, invoke_api)
@@ -56,8 +53,6 @@ TEST(test_decoder, invoke_api)
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
-
-    test_combinations(test_decoder, max_symbols, max_symbol_size);
 
     test_combinations(test_decoder, max_symbols, max_symbol_size);
 }

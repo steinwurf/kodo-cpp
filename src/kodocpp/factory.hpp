@@ -19,8 +19,8 @@ namespace kodocpp
     protected:
 
         // Make sure that this base class cannot be instantiated
-        factory(kodo_factory_t factory,
-                std::function<void(kodo_factory_t)> deleter) :
+        factory(kodoc_factory_t factory,
+                std::function<void(kodoc_factory_t)> deleter) :
             m_factory(factory, deleter)
         { }
 
@@ -28,46 +28,46 @@ namespace kodocpp
 
         void set_symbols(uint32_t symbols)
         {
-            kodo_factory_set_symbols(m_factory.get(), symbols);
+            kodoc_factory_set_symbols(m_factory.get(), symbols);
         }
 
         void set_symbol_size(uint32_t symbol_size)
         {
-            kodo_factory_set_symbol_size(m_factory.get(), symbol_size);
+            kodoc_factory_set_symbol_size(m_factory.get(), symbol_size);
         }
 
         uint32_t max_symbols() const
         {
-            return kodo_factory_max_symbols(m_factory.get());
+            return kodoc_factory_max_symbols(m_factory.get());
         }
 
         uint32_t max_symbol_size() const
         {
-            return kodo_factory_max_symbol_size(m_factory.get());
+            return kodoc_factory_max_symbol_size(m_factory.get());
         }
 
         uint32_t max_block_size() const
         {
-            return kodo_factory_max_block_size(m_factory.get());
+            return kodoc_factory_max_block_size(m_factory.get());
         }
 
         uint32_t max_payload_size() const
         {
-            return kodo_factory_max_payload_size(m_factory.get());
+            return kodoc_factory_max_payload_size(m_factory.get());
         }
 
         uint32_t max_expansion() const
         {
-            return kodo_factory_max_expansion(m_factory.get());
+            return kodoc_factory_max_expansion(m_factory.get());
         }
 
         void set_expansion(uint32_t expansion)
         {
-            kodo_factory_set_expansion(m_factory.get(), expansion);
+            kodoc_factory_set_expansion(m_factory.get(), expansion);
         }
 
     protected:
 
-        std::shared_ptr<kodo_factory> m_factory;
+        std::shared_ptr<kodoc_factory> m_factory;
     };
 }

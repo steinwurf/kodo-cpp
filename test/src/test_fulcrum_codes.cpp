@@ -16,7 +16,7 @@ TEST(test_fulcrum_codes, basic_api)
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodo_fulcrum, max_symbols, max_symbol_size);
+    test_basic_api(kodoc_fulcrum, max_symbols, max_symbol_size);
 }
 
 template<class Factory>
@@ -27,7 +27,7 @@ static void test_fulcrum_api()
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    Factory factory(kodo_fulcrum, kodo_binary8, max_symbols, max_symbol_size);
+    Factory factory(kodoc_fulcrum, kodoc_binary8, max_symbols, max_symbol_size);
 
     uint32_t max_expansion = factory.max_expansion();
     EXPECT_EQ(10U, max_expansion);

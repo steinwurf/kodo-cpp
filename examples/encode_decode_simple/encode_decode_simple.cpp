@@ -27,16 +27,16 @@ int main(void)
 
     //Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodo_full_vector,
-        kodo_binary8,
+        kodoc_full_vector,
+        kodoc_binary8,
         max_symbols,
         max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
-        kodo_full_vector,
-        kodo_binary8,
+        kodoc_full_vector,
+        kodoc_binary8,
         max_symbols,
         max_symbol_size);
 

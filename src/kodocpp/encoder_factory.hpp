@@ -23,18 +23,18 @@ namespace kodocpp
 
     public:
 
-        encoder_factory(kodo_code_type code, kodo_finite_field field,
+        encoder_factory(kodoc_codec code, kodoc_finite_field field,
                         uint32_t max_symbols, uint32_t max_symbol_size) :
-            factory(kodo_new_encoder_factory(code, field, max_symbols,
-                    max_symbol_size), [](kodo_factory_t factory)
+            factory(kodoc_new_encoder_factory(code, field, max_symbols,
+                    max_symbol_size), [](kodoc_factory_t factory)
                     {
-                        kodo_delete_factory(factory);
+                        kodoc_delete_factory(factory);
                     })
         { }
 
         coder_type build()
         {
-            kodo_coder_t coder = kodo_factory_new_encoder(m_factory.get());
+            kodoc_coder_t coder = kodoc_factory_build_coder(m_factory.get());
             return coder_type(coder);
         }
     };

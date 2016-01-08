@@ -31,16 +31,16 @@ int main(void)
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodo_on_the_fly,
-        kodo_binary8,
+        kodoc_on_the_fly,
+        kodoc_binary8,
         max_symbols,
         max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
-        kodo_on_the_fly,
-        kodo_binary8,
+        kodoc_on_the_fly,
+        kodoc_binary8,
         max_symbols,
         max_symbol_size);
 
@@ -105,8 +105,8 @@ int main(void)
         // Check if the decoder is partially complete
         // The decoder has to support partial decoding tracker for
         // on-the-fly decoding
-        if (decoder.has_partial_decoding_tracker() &&
-            decoder.is_partial_complete())
+        if (decoder.has_partial_decoding_interface() &&
+            decoder.is_partially_complete())
         {
             for (uint32_t i = 0; i < decoder.symbols(); ++i)
             {

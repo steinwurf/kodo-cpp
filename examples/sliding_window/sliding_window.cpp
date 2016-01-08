@@ -33,16 +33,16 @@ int main(void)
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodo_sliding_window,
-        kodo_binary8,
+        kodoc_sliding_window,
+        kodoc_binary8,
         max_symbols,
         max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
-        kodo_sliding_window,
-        kodo_binary8,
+        kodoc_sliding_window,
+        kodoc_binary8,
         max_symbols,
         max_symbol_size);
 
@@ -129,7 +129,7 @@ int main(void)
 
         std::cout << "Decoder symbols uncoded: " << decoder.symbols_uncoded()
                   << std::endl;
-        std::cout << "Decoder symbols seen: " << decoder.symbols_seen()
+        std::cout << "Decoder symbols seen: " << decoder.symbols_partially_decoded()
                   << std::endl;
 
         // Transmit the feedback

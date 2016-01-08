@@ -16,5 +16,5 @@ TEST(test_sliding_window_codes, invoke_api)
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodo_sliding_window, max_symbols, max_symbol_size);
+    test_basic_api(kodoc_sliding_window, max_symbols, max_symbol_size);
 }

@@ -25,7 +25,7 @@ namespace kodocpp
     protected:
 
         // Make sure that this base class cannot be instantiated
-        coder(kodo_coder_t coder, std::function<void(kodo_coder_t)> deleter) :
+        coder(kodoc_coder_t coder, std::function<void(kodoc_coder_t)> deleter) :
             m_coder(coder, deleter)
         { }
 
@@ -33,53 +33,43 @@ namespace kodocpp
 
         uint32_t block_size() const
         {
-            return kodo_block_size(m_coder.get());
+            return kodoc_block_size(m_coder.get());
         }
 
         uint32_t payload_size() const
         {
-            return kodo_payload_size(m_coder.get());
+            return kodoc_payload_size(m_coder.get());
         }
 
         uint32_t rank() const
         {
-            return kodo_rank(m_coder.get());
+            return kodoc_rank(m_coder.get());
         }
 
         uint32_t symbol_size() const
         {
-            return kodo_symbol_size(m_coder.get());
+            return kodoc_symbol_size(m_coder.get());
         }
 
         uint32_t symbols() const
         {
-            return kodo_symbols(m_coder.get());
+            return kodoc_symbols(m_coder.get());
         }
 
         bool is_symbol_pivot(uint32_t index) const
         {
-            return kodo_is_symbol_pivot(m_coder.get(), index) != 0;
+            return kodoc_is_symbol_pivot(m_coder.get(), index) != 0;
         }
 
-        bool has_set_trace_callback() const
+        bool has_set_trace_interface() const
         {
-            return kodo_has_set_trace_callback(m_coder.get()) != 0;
-        }
-
-        bool has_set_trace_stdout() const
-        {
-            return kodo_has_set_trace_stdout(m_coder.get()) != 0;
-        }
-
-        bool has_set_trace_off() const
-        {
-            return kodo_has_set_trace_off(m_coder.get()) != 0;
+            return kodoc_has_trace_interface(m_coder.get()) != 0;
         }
 
         void set_trace_callback(callback_type callback)
         {
             // This function object will be allocated on the heap, and its
-            // address remain valid until the shared pointer is destroyed.
+            // address will remain valid until the shared pointer is destroyed.
             // Therefore it is safe to use this callback even after the coder
             // object is copied and destroyed (i.e. its this pointer becomes
             // invalid).
@@ -92,43 +82,43 @@ namespace kodocpp
                 heap_callback(zone, data);
             };
 
-            kodo_set_trace_callback(m_coder.get(), c_callback,
-                                    m_callback.get());
+            kodoc_set_trace_callback(
+                m_coder.get(), c_callback, m_callback.get());
         }
 
         void set_trace_stdout()
         {
-            kodo_set_trace_stdout(m_coder.get());
+            kodoc_set_trace_stdout(m_coder.get());
         }
 
         void set_trace_off()
         {
-            kodo_set_trace_off(m_coder.get());
+            kodoc_set_trace_off(m_coder.get());
         }
 
         bool has_feedback_size() const
         {
-            return kodo_has_feedback_size(m_coder.get()) != 0;
+            return kodoc_has_feedback_size(m_coder.get()) != 0;
         }
 
         uint32_t feedback_size() const
         {
-            return kodo_feedback_size(m_coder.get());
+            return kodoc_feedback_size(m_coder.get());
         }
 
         uint32_t write_payload(uint8_t* data)
         {
-            return kodo_write_payload(m_coder.get(), data);
+            return kodoc_write_payload(m_coder.get(), data);
         }
 
         uint8_t expansion() const
         {
-            return kodo_expansion(m_coder.get());
+            return kodoc_expansion(m_coder.get());
         }
 
     protected:
 
-        std::shared_ptr<kodo_coder> m_coder;
+        std::shared_ptr<kodoc_coder> m_coder;
 
     private:
 

@@ -18,96 +18,96 @@ namespace kodocpp
     {
     public:
 
-        encoder(kodo_coder_t coder_instance = 0) :
-            coder(coder_instance, [](kodo_coder_t coder)
+        encoder(kodoc_coder_t coder_instance = 0) :
+            coder(coder_instance, [](kodoc_coder_t coder)
                 {
-                    if (coder != 0) kodo_delete_coder(coder);
+                    if (coder != 0) kodoc_delete_coder(coder);
                 })
         { }
 
         void set_const_symbols(uint8_t* data, uint32_t size)
         {
-            kodo_set_const_symbols(m_coder.get(), data, size);
+            kodoc_set_const_symbols(m_coder.get(), data, size);
         }
 
         void set_const_symbol(uint32_t index, uint8_t* data, uint32_t size)
         {
-            kodo_set_const_symbol(m_coder.get(), index, data, size);
+            kodoc_set_const_symbol(m_coder.get(), index, data, size);
         }
 
-        bool has_set_systematic_off() const
+        bool has_set_systematic_interface() const
         {
-            return kodo_has_set_systematic_off(m_coder.get()) != 0;
+            return kodoc_has_systematic_interface(m_coder.get()) != 0;
         }
 
         bool is_systematic_on() const
         {
-            return kodo_is_systematic_on(m_coder.get()) != 0;
+            return kodoc_is_systematic_on(m_coder.get()) != 0;
         }
 
         void set_systematic_on()
         {
-            kodo_set_systematic_on(m_coder.get());
+            kodoc_set_systematic_on(m_coder.get());
         }
 
         void set_systematic_off()
         {
-            kodo_set_systematic_off(m_coder.get());
+            kodoc_set_systematic_off(m_coder.get());
         }
 
         void read_feedback(uint8_t* feedback)
         {
-            kodo_read_feedback(m_coder.get(), feedback);
+            kodoc_read_feedback(m_coder.get(), feedback);
         }
 
         double density() const
         {
-            return kodo_density(m_coder.get());
+            return kodoc_density(m_coder.get());
         }
 
         void set_density(double density)
         {
-            kodo_set_density(m_coder.get(), density);
+            kodoc_set_density(m_coder.get(), density);
         }
 
         bool pseudo_systematic() const
         {
-            return kodo_pseudo_systematic(m_coder.get()) != 0;
+            return kodoc_pseudo_systematic(m_coder.get()) != 0;
         }
 
         void set_pseudo_systematic(bool pseudo_systematic)
         {
-            kodo_set_pseudo_systematic(m_coder.get(), pseudo_systematic);
+            kodoc_set_pseudo_systematic(m_coder.get(), pseudo_systematic);
         }
 
         bool pre_charging() const
         {
-            return kodo_pre_charging(m_coder.get()) != 0;
+            return kodoc_pre_charging(m_coder.get()) != 0;
         }
 
         void set_pre_charging(bool pre_charging)
         {
-            kodo_set_pre_charging(m_coder.get(), pre_charging);
+            kodoc_set_pre_charging(m_coder.get(), pre_charging);
         }
 
         uint32_t width() const
         {
-            return kodo_width(m_coder.get());
+            return kodoc_width(m_coder.get());
         }
 
         void set_width(uint32_t width)
         {
-            kodo_set_width(m_coder.get(), width);
+            kodoc_set_width(m_coder.get(), width);
         }
 
         double width_ratio() const
         {
-            return kodo_width_ratio(m_coder.get());
+            return kodoc_width_ratio(m_coder.get());
         }
 
         void set_width_ratio(double width_ratio)
         {
-            kodo_set_width_ratio(m_coder.get(), width_ratio);
+            kodoc_set_width_ratio(m_coder.get(), width_ratio);
         }
     };
 }

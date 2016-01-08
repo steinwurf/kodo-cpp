@@ -16,5 +16,5 @@ TEST(test_on_the_fly_codes, invoke_api)
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-   test_basic_api(kodo_on_the_fly, max_symbols, max_symbol_size);
+   test_basic_api(kodoc_on_the_fly, max_symbols, max_symbol_size);
 }

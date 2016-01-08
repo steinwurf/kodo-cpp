@@ -17,5 +17,5 @@ TEST(test_sparse_seed_codes, basic_api)
     uint32_t max_symbols = rand_symbols() + 10;
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodo_sparse_seed, max_symbols, max_symbol_size);
+    test_basic_api(kodoc_sparse_seed, max_symbols, max_symbol_size);
 }
