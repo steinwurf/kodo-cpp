@@ -142,7 +142,7 @@ namespace kodocpp
 
         /// Returns the number of missing symbols.
         /// @return The number of missing symbols at the decoder
-        uint32_t symbols_missing(kodoc_coder_t decoder)
+        uint32_t symbols_missing()
         {
             return kodoc_symbols_missing(m_coder.get());
         }

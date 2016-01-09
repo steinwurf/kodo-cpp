@@ -333,6 +333,8 @@ namespace kodocpp
             EXPECT_GE(encoder.rank(), decoder.rank());
             EXPECT_GE(decoder.rank(), decoder.symbols_uncoded());
             EXPECT_GE(decoder.rank(), decoder.symbols_partially_decoded());
+            EXPECT_EQ(decoder.symbols() - decoder.rank(),
+                      decoder.symbols_missing());
 
             // Check if the decoder is partially complete
             // The decoder has to support partial decoding tracker for
@@ -342,10 +344,15 @@ namespace kodocpp
             {
                 for (uint32_t i = 0; i < decoder.symbols(); ++i)
                 {
+                    // Go through all symbols that are already decoded
                     if (decoder.is_symbol_uncoded(i))
                     {
                         // All uncoded symbols must have a pivot
                         EXPECT_TRUE(decoder.is_symbol_pivot(i));
+                        // The uncoded symbols cannot be missing
+                        EXPECT_FALSE(decoder.is_symbol_missing(i));
+                        // The uncoded symbols cannot be partially decoded
+                        EXPECT_FALSE(decoder.is_symbol_partially_decoded(i));
 
                         uint32_t offset = i * max_symbol_size;
                         uint8_t* original = data_in.data() + offset;

@@ -26,6 +26,17 @@ namespace kodocpp
         test_coder(decoder, max_symbols, max_symbol_size, codec);
 
         // Decoder methods
+        // Some codecs do not provide write_payload, i.e. recoding
+        if (codec == kodoc_seed || codec == kodoc_sparse_seed ||
+            codec == kodoc_fulcrum || codec == kodoc_reed_solomon)
+        {
+            EXPECT_FALSE(decoder.has_write_payload());
+        }
+        else
+        {
+            EXPECT_TRUE(decoder.has_write_payload());
+        }
+
         EXPECT_GE(0U, decoder.symbols_uncoded());
         EXPECT_GE(0U, decoder.symbols_partially_decoded());
 

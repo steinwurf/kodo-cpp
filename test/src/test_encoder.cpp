@@ -26,6 +26,8 @@ namespace kodocpp
         test_coder(encoder, max_symbols, max_symbol_size, codec);
 
         // Encoder methods
+        EXPECT_TRUE(encoder.has_write_payload());
+
         if (encoder.has_set_systematic_interface())
         {
             EXPECT_TRUE(encoder.is_systematic_on());

@@ -19,7 +19,7 @@
 /// @return Non-zero value if the codec is available, otherwise 0
 namespace kodocpp
 {
-    static bool has_codec(int32_t codec)
+    inline bool has_codec(int32_t codec)
     {
         return kodoc_has_codec(codec) != 0;
     }

@@ -54,7 +54,7 @@ namespace kodocpp
 
         /// Checks whether the coder supports the write_payload() function.
         /// @return true if write_payload is supported
-        bool has_write_payload(kodoc_coder_t coder)
+        bool has_write_payload()
         {
             return kodoc_has_write_payload(m_coder.get()) != 0;
         }
