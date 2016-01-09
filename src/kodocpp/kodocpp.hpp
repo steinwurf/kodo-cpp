@@ -12,13 +12,14 @@
 #include "encoder.hpp"
 #include "decoder.hpp"
 
-/// Checks whether a given codec is available in the current configuration.
-/// It is possible to enable or disable specific codecs when configuring kodo-c.
-/// To see the relevant options, execute "python waf --help"
-/// @param codec The codec type that should be checked
-/// @return Non-zero value if the codec is available, otherwise 0
 namespace kodocpp
 {
+    /// Checks whether a given codec is available in the current configuration.
+    /// It is possible to enable or disable specific codecs when configuring
+    /// kodo-cpp.
+    /// To see the relevant options, execute "python waf --help"
+    /// @param codec The codec type that should be checked
+    /// @return true if the codec is available
     inline bool has_codec(int32_t codec)
     {
         return kodoc_has_codec(codec) != 0;

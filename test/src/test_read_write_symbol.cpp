@@ -162,8 +162,5 @@ TEST(test_read_write_symbol, uncoded_symbols)
     if (has_codec(kodoc_full_vector) == false)
         return;
 
-    uint32_t symbols = rand_symbols();
-    uint32_t symbol_size = rand_symbol_size();
-
     test_read_write_symbol(3, 1, kodoc_full_vector, kodoc_binary);
 }
