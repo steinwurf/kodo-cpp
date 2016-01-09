@@ -5,12 +5,12 @@
 
 #include <kodocpp/kodocpp.hpp>
 
-#include <gtest/gtest.h>
-
-#include <algorithm>
 #include <cstdint>
 #include <cstdlib>
+#include <algorithm>
 #include <vector>
+
+#include <gtest/gtest.h>
 
 #include "test_helper.hpp"
 
@@ -129,8 +129,8 @@ namespace kodocpp
                            uint32_t& trace_counter)
     {
         // Initilization of encoder and decoder
-        encoder_factory encoder_factory(codec, finite_field, max_symbols,
-            max_symbol_size);
+        encoder_factory encoder_factory(
+            codec, finite_field, max_symbols, max_symbol_size);
 
         encoder encoder = encoder_factory.build();
 
@@ -198,8 +198,8 @@ namespace kodocpp
                            kodoc_finite_field finite_field,
                            uint32_t& trace_counter)
     {
-        decoder_factory decoder_factory(codec, finite_field, max_symbols,
-            max_symbol_size);
+        decoder_factory decoder_factory(
+            codec, finite_field, max_symbols, max_symbol_size);
 
         decoder decoder = decoder_factory.build();
 
@@ -357,8 +357,8 @@ namespace kodocpp
                         uint32_t offset = i * max_symbol_size;
                         uint8_t* original = data_in.data() + offset;
 
-                        // Get the decoded symbol and verify it against the
-                        // original data
+                        // Get the decoded symbol and compare it to the
+                        // original symbol
                         uint8_t* decoded_symbol = data_out.data() + offset;
                         EXPECT_EQ(memcmp(
                             original, decoded_symbol, max_symbol_size), 0);
