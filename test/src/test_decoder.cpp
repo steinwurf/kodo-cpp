@@ -14,21 +14,21 @@
 namespace kodocpp
 {
     static void test_decoder(uint32_t max_symbols, uint32_t max_symbol_size,
-        codec codec, field field)
+        codec code, field field)
     {
         decoder_factory decoder_factory(
-            codec,
+            code,
             field,
             max_symbols,
             max_symbol_size);
 
         decoder decoder = decoder_factory.build();
-        test_coder(decoder, max_symbols, max_symbol_size, codec);
+        test_coder(decoder, max_symbols, max_symbol_size, code);
 
         // Decoder methods
         // Some codecs do not provide write_payload, i.e. recoding
-        if (codec == codec::seed || codec == codec::sparse_seed ||
-            codec == codec::fulcrum || codec == codec::reed_solomon)
+        if (code == codec::seed || code == codec::sparse_seed ||
+            code == codec::fulcrum || code == codec::reed_solomon)
         {
             EXPECT_FALSE(decoder.has_write_payload());
         }
@@ -40,8 +40,8 @@ namespace kodocpp
         EXPECT_GE(0U, decoder.symbols_uncoded());
         EXPECT_GE(0U, decoder.symbols_partially_decoded());
 
-        if (codec == codec::on_the_fly ||
-            codec == codec::sliding_window)
+        if (code == codec::on_the_fly ||
+            code == codec::sliding_window)
         {
             EXPECT_TRUE(decoder.has_partial_decoding_interface());
             EXPECT_FALSE(decoder.is_partially_complete());
@@ -50,8 +50,8 @@ namespace kodocpp
                 EXPECT_FALSE(decoder.is_symbol_pivot(i));
             }
         }
-        else if (codec == codec::full_vector ||
-                 codec == codec::perpetual)
+        else if (code == codec::full_vector ||
+                 code == codec::perpetual)
         {
             EXPECT_FALSE(decoder.has_partial_decoding_interface());
         }

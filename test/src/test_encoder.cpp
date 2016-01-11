@@ -14,16 +14,16 @@
 namespace kodocpp
 {
     static void test_encoder(uint32_t max_symbols, uint32_t max_symbol_size,
-        codec codec, field field)
+        codec code, field field)
     {
         encoder_factory encoder_factory(
-            codec,
+            code,
             field,
             max_symbols,
             max_symbol_size);
 
         encoder encoder = encoder_factory.build();
-        test_coder(encoder, max_symbols, max_symbol_size, codec);
+        test_coder(encoder, max_symbols, max_symbol_size, code);
 
         // Encoder methods
         EXPECT_TRUE(encoder.has_write_payload());
