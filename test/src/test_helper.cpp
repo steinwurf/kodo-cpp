@@ -73,26 +73,26 @@ namespace kodocpp
         {
             SCOPED_TRACE(testing::Message() << "codec = " << codec_names[i]);
 
-            codec codec = codecs[i];
+            codec code = codecs[i];
 
-            if (has_codec(codec) == false)
+            if (has_codec(code) == false)
                 continue;
 
-            if (codec != codec::reed_solomon)
+            if (code != codec::reed_solomon)
             {
                 SCOPED_TRACE(testing::Message() << "field = binary");
-                coder_test(max_symbols, max_symbol_size, codec, field::binary);
+                coder_test(max_symbols, max_symbol_size, code, field::binary);
             }
 
-            if (codec != codec::reed_solomon)
+            if (code != codec::reed_solomon)
             {
                 SCOPED_TRACE(testing::Message() << "field = binary4");
-                coder_test(max_symbols, max_symbol_size, codec, field::binary4);
+                coder_test(max_symbols, max_symbol_size, code, field::binary4);
             }
 
             {
                 SCOPED_TRACE(testing::Message() << "field = binary8");
-                coder_test(max_symbols, max_symbol_size, codec, field::binary8);
+                coder_test(max_symbols, max_symbol_size, code, field::binary8);
             }
         }
     }
