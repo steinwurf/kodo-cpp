@@ -13,13 +13,13 @@ TEST(test_fulcrum_codes, basic_api)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_fulcrum) == false)
+    if (has_codec(codec::fulcrum) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodoc_fulcrum, max_symbols, max_symbol_size);
+    test_basic_api(codec::fulcrum, max_symbols, max_symbol_size);
 }
 
 template<class Factory>
@@ -52,14 +52,14 @@ TEST(test_fulcrum_codes, fulcrum_encoder_api)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_fulcrum) == false)
+    if (has_codec(codec::fulcrum) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
     encoder_factory factory(
-        kodoc_fulcrum, kodoc_binary8, max_symbols, max_symbol_size);
+        codec::fulcrum, field::binary8, max_symbols, max_symbol_size);
     test_fulcrum_api(factory);
 
     auto coder = factory.build();
@@ -71,13 +71,13 @@ TEST(test_fulcrum_codes, fulcrum_decoder_api)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_fulcrum) == false)
+    if (has_codec(codec::fulcrum) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
     decoder_factory factory(
-        kodoc_fulcrum, kodoc_binary8, max_symbols, max_symbol_size);
+        codec::fulcrum, field::binary8, max_symbols, max_symbol_size);
     test_fulcrum_api(factory);
 }

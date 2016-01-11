@@ -3,19 +3,18 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include <cstdlib>
-#include <ctime>
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <set>
-
-#include <kodocpp/kodocpp.hpp>
-
 /// @example use_trace_layers.cpp
 ///
 /// Simple example showing how to use some of the trace layers defined
 /// in Kodo.
+
+#include <ctime>
+#include <algorithm>
+#include <iostream>
+#include <set>
+#include <vector>
+
+#include <kodocpp/kodocpp.hpp>
 
 int main(void)
 {
@@ -29,16 +28,16 @@ int main(void)
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodoc_full_vector,
-        kodoc_binary8,
+        kodocpp::codec::full_vector,
+        kodocpp::field::binary8,
         max_symbols,
         max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
-        kodoc_full_vector,
-        kodoc_binary8,
+        kodocpp::codec::full_vector,
+        kodocpp::field::binary8,
         max_symbols,
         max_symbol_size);
 

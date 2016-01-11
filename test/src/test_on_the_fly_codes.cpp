@@ -13,11 +13,11 @@ TEST(test_on_the_fly_codes, invoke_api)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_on_the_fly) == false)
+    if (has_codec(codec::on_the_fly) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-   test_basic_api(kodoc_on_the_fly, max_symbols, max_symbol_size);
+   test_basic_api(codec::on_the_fly, max_symbols, max_symbol_size);
 }

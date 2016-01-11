@@ -3,17 +3,16 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include <cstdlib>
+/// @example encode_decode_simple.cpp
+///
+/// Simple example showing how to encode and decode a block of data.
+
 #include <ctime>
 #include <iostream>
 #include <vector>
 #include <algorithm>
 
 #include <kodocpp/kodocpp.hpp>
-
-/// @example encode_decode_simple.cpp
-///
-/// Simple example showing how to encode and decode a block of memory.
 
 int main(void)
 {
@@ -27,16 +26,16 @@ int main(void)
 
     //Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodoc_full_vector,
-        kodoc_binary8,
+        kodocpp::codec::full_vector,
+        kodocpp::field::binary8,
         max_symbols,
         max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
-        kodoc_full_vector,
-        kodoc_binary8,
+        kodocpp::codec::full_vector,
+        kodocpp::field::binary8,
         max_symbols,
         max_symbol_size);
 

@@ -13,11 +13,11 @@ TEST(test_perpetual_codes, basic_api)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_perpetual) == false)
+    if (has_codec(codec::perpetual) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodoc_perpetual, max_symbols, max_symbol_size);
+    test_basic_api(codec::perpetual, max_symbols, max_symbol_size);
 }

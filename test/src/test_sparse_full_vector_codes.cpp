@@ -13,12 +13,12 @@ TEST(test_sparse_full_vector_codes, basic_api)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_sparse_full_vector) == false)
+    if (has_codec(codec::sparse_full_vector) == false)
         return;
 
     // Make sure that the decoding can complete with a lower density
     uint32_t max_symbols = rand_symbols() + 10;
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodoc_sparse_full_vector, max_symbols, max_symbol_size);
+    test_basic_api(codec::sparse_full_vector, max_symbols, max_symbol_size);
 }

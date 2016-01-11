@@ -13,11 +13,11 @@ TEST(test_reed_solomon_codes, basic_api)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_reed_solomon) == false)
+    if (has_codec(codec::reed_solomon) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodoc_reed_solomon, max_symbols, max_symbol_size);
+    test_basic_api(codec::reed_solomon, max_symbols, max_symbol_size);
 }

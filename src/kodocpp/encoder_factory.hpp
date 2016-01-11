@@ -10,6 +10,8 @@
 
 #include <kodoc/kodoc.h>
 
+#include "field.hpp"
+#include "codec.hpp"
 #include "factory.hpp"
 #include "encoder.hpp"
 
@@ -25,16 +27,16 @@ namespace kodocpp
 
         /// Constructs a new encoder factory (for shallow storage encoders)
         /// @param codec This parameter determines the encoding algorithms used.
-        /// @param finite_field The finite field that should be used by the
+        /// @param field The finite field that should be used by the
         ///        encoder.
         /// @param max_symbols The maximum number of symbols supported by
         ///        encoders built with this factory.
         /// @param max_symbol_size The maximum symbol size in bytes supported
         ///        by encoders built using the returned factory.
-        encoder_factory(kodoc_codec codec, kodoc_finite_field field,
+        encoder_factory(codec codec, field field,
                         uint32_t max_symbols, uint32_t max_symbol_size) :
-            factory(kodoc_new_encoder_factory(codec, field, max_symbols,
-                    max_symbol_size), [](kodoc_factory_t factory)
+            factory(kodoc_new_encoder_factory((int32_t)codec, (int32_t)field,
+                    max_symbols, max_symbol_size), [](kodoc_factory_t factory)
                     {
                         kodoc_delete_factory(factory);
                     })

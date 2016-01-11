@@ -15,7 +15,7 @@
 
 static void test_read_write_symbol(
     uint32_t symbols, uint32_t symbol_size,
-    kodoc_codec codec, kodoc_finite_field finite_field)
+    kodocpp::codec codec, kodocpp::field finite_field)
 {
     using namespace kodocpp;
 
@@ -159,8 +159,8 @@ TEST(test_read_write_symbol, uncoded_symbols)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_full_vector) == false)
+    if (has_codec(codec::full_vector) == false)
         return;
 
-    test_read_write_symbol(3, 1, kodoc_full_vector, kodoc_binary);
+    test_read_write_symbol(3, 1, codec::full_vector, field::binary);
 }

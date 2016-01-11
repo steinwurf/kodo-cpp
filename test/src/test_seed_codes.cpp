@@ -13,11 +13,11 @@ TEST(test_seed_codes, basic_api)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_seed) == false)
+    if (has_codec(codec::seed) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodoc_seed, max_symbols, max_symbol_size);
+    test_basic_api(codec::seed, max_symbols, max_symbol_size);
 }

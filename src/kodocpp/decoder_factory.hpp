@@ -10,6 +10,8 @@
 
 #include <kodoc/kodoc.h>
 
+#include "field.hpp"
+#include "codec.hpp"
 #include "factory.hpp"
 #include "decoder.hpp"
 
@@ -25,16 +27,16 @@ namespace kodocpp
 
         /// Constructs a new decoder factory (for shallow storage decoders)
         /// @param codec This parameter determines the decoding algorithms used.
-        /// @param finite_field The finite field that should be used by the
+        /// @param field The finite field that should be used by the
         ///        decoder.
         /// @param max_symbols The maximum number of symbols supported by
         ///        decoders built with this factory.
         /// @param max_symbol_size The maximum symbol size in bytes supported
         ///        by decoders built using the returned factory
-        decoder_factory(kodoc_codec codec, kodoc_finite_field field,
+        decoder_factory(codec codec, field field,
                         uint32_t max_symbols, uint32_t max_symbol_size) :
-            factory(kodoc_new_decoder_factory(codec, field, max_symbols,
-                    max_symbol_size), [](kodoc_factory_t factory)
+            factory(kodoc_new_decoder_factory((int32_t)codec, (int32_t)field,
+                    max_symbols, max_symbol_size), [](kodoc_factory_t factory)
                     {
                         kodoc_delete_factory(factory);
                     })

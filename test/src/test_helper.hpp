@@ -16,7 +16,7 @@
 namespace kodocpp
 {
     using test_function_type = std::function<
-        void(uint32_t, uint32_t, kodoc_codec, kodoc_finite_field)>;
+        void(uint32_t, uint32_t, codec, field)>;
 
     uint32_t rand_nonzero(uint32_t max_value);
 
@@ -28,19 +28,19 @@ namespace kodocpp
                            uint32_t max_symbols, uint32_t max_symbol_size);
 
     void test_coder(coder& coder, uint32_t symbols, uint32_t symbol_size,
-                    kodoc_codec codec);
+                    codec codec);
 
-    void test_basic_api(kodoc_codec encoder_type,
-                        kodoc_codec decoder_type,
+    void test_basic_api(codec encoder_type,
+                        codec decoder_type,
                         uint32_t symbols, uint32_t symbol_size);
 
-    void test_basic_api(kodoc_codec coder_type, uint32_t symbols,
+    void test_basic_api(codec coder_type, uint32_t symbols,
                         uint32_t symbol_size);
 
     template<class Factory>
     static void test_coder_factory(
         uint32_t max_symbols, uint32_t max_symbol_size,
-        kodoc_codec codec, kodoc_finite_field field)
+        codec codec, field field)
     {
         Factory factory(codec, field, max_symbols, max_symbol_size);
 

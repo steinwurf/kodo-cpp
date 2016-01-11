@@ -13,11 +13,11 @@ TEST(test_sliding_window_codes, invoke_api)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_sliding_window) == false)
+    if (has_codec(codec::sliding_window) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(kodoc_sliding_window, max_symbols, max_symbol_size);
+    test_basic_api(codec::sliding_window, max_symbols, max_symbol_size);
 }

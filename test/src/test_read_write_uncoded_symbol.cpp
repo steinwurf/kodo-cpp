@@ -14,7 +14,7 @@
 
 static void test_read_write_uncoded(
     uint32_t symbols, uint32_t symbol_size,
-    kodoc_codec codec, kodoc_finite_field finite_field)
+    kodocpp::codec codec, kodocpp::field finite_field)
 {
     using namespace kodocpp;
 
@@ -116,18 +116,18 @@ TEST(test_read_write_uncoded_symbol, uncoded_symbols)
 {
     using namespace kodocpp;
 
-    if (has_codec(kodoc_full_vector) == false)
+    if (has_codec(codec::full_vector) == false)
         return;
 
     uint32_t symbols = rand_symbols();
     uint32_t symbol_size = rand_symbol_size();
 
     test_read_write_uncoded(
-        symbols, symbol_size, kodoc_full_vector, kodoc_binary);
+        symbols, symbol_size, codec::full_vector, field::binary);
 
     test_read_write_uncoded(
-        symbols, symbol_size, kodoc_full_vector, kodoc_binary4);
+        symbols, symbol_size, codec::full_vector, field::binary4);
 
     test_read_write_uncoded(
-        symbols, symbol_size, kodoc_full_vector, kodoc_binary8);
+        symbols, symbol_size, codec::full_vector, field::binary8);
 }

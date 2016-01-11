@@ -14,11 +14,11 @@
 namespace kodocpp
 {
     static void test_encoder(uint32_t max_symbols, uint32_t max_symbol_size,
-        kodoc_codec codec, kodoc_finite_field finite_field)
+        codec codec, field field)
     {
         encoder_factory encoder_factory(
             codec,
-            finite_field,
+            field,
             max_symbols,
             max_symbol_size);
 

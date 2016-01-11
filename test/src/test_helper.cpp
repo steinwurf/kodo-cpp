@@ -43,62 +43,62 @@ namespace kodocpp
         SCOPED_TRACE(testing::Message() << "symbols = " << max_symbols);
         SCOPED_TRACE(testing::Message() << "symbol_size = " << max_symbol_size);
 
-        std::vector<kodoc_codec> codecs =
+        std::vector<codec> codecs =
         {
-            kodoc_full_vector,
-            kodoc_on_the_fly,
-            kodoc_sliding_window,
-            kodoc_sparse_full_vector,
-            kodoc_seed,
-            kodoc_sparse_seed,
-            kodoc_perpetual,
-            kodoc_fulcrum,
-            kodoc_reed_solomon
+            codec::full_vector,
+            codec::on_the_fly,
+            codec::sliding_window,
+            codec::sparse_full_vector,
+            codec::seed,
+            codec::sparse_seed,
+            codec::perpetual,
+            codec::fulcrum,
+            codec::reed_solomon
         };
 
         std::vector<std::string> codec_names =
         {
-            "kodoc_full_vector",
-            "kodoc_on_the_fly",
-            "kodoc_sliding_window",
-            "kodoc_sparse_full_vector",
-            "kodoc_seed",
-            "kodoc_sparse_seed",
-            "kodoc_perpetual",
-            "kodoc_fulcrum",
-            "kodoc_reed_solomon"
+            "full_vector",
+            "on_the_fly",
+            "sliding_window",
+            "sparse_full_vector",
+            "seed",
+            "sparse_seed",
+            "perpetual",
+            "fulcrum",
+            "reed_solomon"
         };
 
         for (uint32_t i = 0; i < codecs.size(); ++i)
         {
             SCOPED_TRACE(testing::Message() << "codec = " << codec_names[i]);
 
-            kodoc_codec codec = codecs[i];
+            codec codec = codecs[i];
 
             if (has_codec(codec) == false)
                 continue;
 
-            if (codec != kodoc_reed_solomon)
+            if (codec != codec::reed_solomon)
             {
                 SCOPED_TRACE(testing::Message() << "field = binary");
-                coder_test(max_symbols, max_symbol_size, codec, kodoc_binary);
+                coder_test(max_symbols, max_symbol_size, codec, field::binary);
             }
 
-            if (codec != kodoc_reed_solomon)
+            if (codec != codec::reed_solomon)
             {
                 SCOPED_TRACE(testing::Message() << "field = binary4");
-                coder_test(max_symbols, max_symbol_size, codec, kodoc_binary4);
+                coder_test(max_symbols, max_symbol_size, codec, field::binary4);
             }
 
             {
                 SCOPED_TRACE(testing::Message() << "field = binary8");
-                coder_test(max_symbols, max_symbol_size, codec, kodoc_binary8);
+                coder_test(max_symbols, max_symbol_size, codec, field::binary8);
             }
         }
     }
 
     void test_coder(coder& coder, uint32_t symbols, uint32_t symbol_size,
-                    kodoc_codec codec)
+                    codec codec)
     {
         EXPECT_EQ(symbols, coder.symbols());
         EXPECT_EQ(symbol_size, coder.symbol_size());
@@ -106,7 +106,7 @@ namespace kodocpp
         EXPECT_GT(coder.payload_size(), symbol_size);
         EXPECT_EQ(0U, coder.rank());
 
-        if (codec == kodoc_sliding_window)
+        if (codec == codec::sliding_window)
         {
             EXPECT_TRUE(coder.has_feedback_size());
             EXPECT_GT(coder.feedback_size(), 0U);
@@ -124,8 +124,8 @@ namespace kodocpp
 
     /// Create and configure encoder instance
     encoder create_encoder(uint32_t max_symbols, uint32_t max_symbol_size,
-                           kodoc_codec codec,
-                           kodoc_finite_field finite_field,
+                           codec codec,
+                           field finite_field,
                            uint32_t& trace_counter)
     {
         // Initilization of encoder and decoder
@@ -158,8 +158,8 @@ namespace kodocpp
         encoder.set_trace_callback(
             std::bind<void>(callback, std::ref(trace_counter), _1, _2));
 
-        if (codec == kodoc_sparse_full_vector ||
-            codec == kodoc_sparse_seed)
+        if (codec == codec::sparse_full_vector ||
+            codec == codec::sparse_seed)
         {
             // Set the coding vector density on the encoder
             encoder.set_density(0.2);
@@ -167,7 +167,7 @@ namespace kodocpp
         }
 
         // Test perpetual specific functions
-        if (codec == kodoc_perpetual)
+        if (codec == codec::perpetual)
         {
             EXPECT_FALSE(encoder.pseudo_systematic());
             bool pseudo_systematic = true;
@@ -194,8 +194,8 @@ namespace kodocpp
 
     /// Create and configure decoder instance
     decoder create_decoder(uint32_t max_symbols, uint32_t max_symbol_size,
-                           kodoc_codec codec,
-                           kodoc_finite_field finite_field,
+                           codec codec,
+                           field finite_field,
                            uint32_t& trace_counter)
     {
         decoder_factory decoder_factory(
@@ -229,8 +229,8 @@ namespace kodocpp
     }
 
     void run_test_basic_api(
-        kodoc_codec encoder_type, kodoc_codec decoder_type,
-        kodoc_finite_field finite_field,
+        codec encoder_type, codec decoder_type,
+        field finite_field,
         uint32_t max_symbols, uint32_t max_symbol_size)
     {
         uint32_t encoder_trace_count = 0;
@@ -273,14 +273,14 @@ namespace kodocpp
 
         // Assign the data buffer to the encoder so that we may start
         // to produce encoded symbols from it
-        if (encoder_type != kodoc_on_the_fly)
+        if (encoder_type != codec::on_the_fly)
         {
             encoder.set_const_symbols(data_in.data(), encoder.block_size());
         }
 
         // Test feedback if we are testing sliding window
         std::vector<uint8_t> feedback;
-        if (encoder_type == kodoc_sliding_window)
+        if (encoder_type == codec::sliding_window)
         {
             uint32_t feedback_size = 0;
 
@@ -296,7 +296,7 @@ namespace kodocpp
         {
             EXPECT_GE(encoder.rank(), decoder.rank());
 
-            if (encoder_type == kodoc_on_the_fly)
+            if (encoder_type == codec::on_the_fly)
             {
                 // Randomly choose to add a new symbol (with 50% probability)
                 // if the encoder rank is less than the maximum number of
@@ -323,7 +323,7 @@ namespace kodocpp
             // Pass that packet to the decoder
             decoder.read_payload(payload.data());
 
-            if (encoder_type == kodoc_sliding_window)
+            if (encoder_type == codec::sliding_window)
             {
                 decoder.write_feedback(feedback.data());
                 encoder.read_feedback(feedback.data());
@@ -375,35 +375,35 @@ namespace kodocpp
         EXPECT_GT(decoder_trace_count, 0U);
     }
 
-    void test_basic_api(kodoc_codec encoder_type,
-                        kodoc_codec decoder_type,
+    void test_basic_api(codec encoder_type,
+                        codec decoder_type,
                         uint32_t symbols, uint32_t symbol_size)
     {
         SCOPED_TRACE(testing::Message() << "symbols = " << symbols);
         SCOPED_TRACE(testing::Message() << "symbol_size = " << symbol_size);
 
-        if (encoder_type != kodoc_reed_solomon)
+        if (encoder_type != codec::reed_solomon)
         {
             SCOPED_TRACE(testing::Message() << "field = binary");
-            run_test_basic_api(encoder_type, decoder_type, kodoc_binary,
+            run_test_basic_api(encoder_type, decoder_type, field::binary,
                                symbols, symbol_size);
         }
 
-        if (encoder_type != kodoc_reed_solomon)
+        if (encoder_type != codec::reed_solomon)
         {
             SCOPED_TRACE(testing::Message() << "field = binary4");
-            run_test_basic_api(encoder_type, decoder_type, kodoc_binary4,
+            run_test_basic_api(encoder_type, decoder_type, field::binary4,
                                symbols, symbol_size);
         }
 
         {
             SCOPED_TRACE(testing::Message() << "field = binary8");
-            run_test_basic_api(encoder_type, decoder_type, kodoc_binary8,
+            run_test_basic_api(encoder_type, decoder_type, field::binary8,
                                symbols, symbol_size);
         }
     }
 
-    void test_basic_api(kodoc_codec coder_type, uint32_t symbols,
+    void test_basic_api(codec coder_type, uint32_t symbols,
                         uint32_t symbol_size)
     {
         test_basic_api(coder_type, coder_type, symbols, symbol_size);

@@ -3,14 +3,6 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include <cstdlib>
-#include <ctime>
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
-#include <kodocpp/kodocpp.hpp>
-
 /// @example encode_decode_on_the_fly.cpp
 ///
 /// This example shows how to use a storage aware encoder which will
@@ -18,6 +10,13 @@
 /// specified. This can be useful in cases where the symbols that
 /// should be encoded are produced on-the-fly. The decoder will also
 /// allow you to detect whether the symbols have been partially decoded.
+
+#include <ctime>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+#include <kodocpp/kodocpp.hpp>
 
 int main(void)
 {
@@ -31,16 +30,16 @@ int main(void)
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodoc_on_the_fly,
-        kodoc_binary8,
+        kodocpp::codec::on_the_fly,
+        kodocpp::field::binary8,
         max_symbols,
         max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
-        kodoc_on_the_fly,
-        kodoc_binary8,
+        kodocpp::codec::on_the_fly,
+        kodocpp::field::binary8,
         max_symbols,
         max_symbol_size);
 
