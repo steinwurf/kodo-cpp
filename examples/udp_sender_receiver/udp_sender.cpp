@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <ctime>
 #include <algorithm>
 #include <vector>
@@ -51,7 +52,6 @@ int main(int argc, char* argv[])
     int32_t return_code;
     uint32_t i;
 
-    struct sockaddr_in local_address;
     struct sockaddr_in remote_address;
     struct hostent* host;
 
@@ -106,17 +106,12 @@ int main(int argc, char* argv[])
     remote_address.sin_port = htons(atoi(argv[2]));
 
     // Socket creation
-    socket_descriptor = socket(AF_INET, SOCK_DGRAM, 0);
+    socket_descriptor = (int32_t)socket(AF_INET, SOCK_DGRAM, 0);
     if (socket_descriptor < 0)
     {
         printf("%s: cannot open socket \n", argv[0]);
         exit(1);
     }
-
-    // Bind any port
-    local_address.sin_family = AF_INET;
-    local_address.sin_addr.s_addr = htonl(INADDR_ANY);
-    local_address.sin_port = htons(0);
 
     // Variables needed for the coding
     uint32_t symbols = atoi(argv[3]);

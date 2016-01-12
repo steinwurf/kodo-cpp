@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
     }
 
     // Socket creation
-    socket_descriptor = socket(AF_INET, SOCK_DGRAM, 0);
+    socket_descriptor = (int32_t)socket(AF_INET, SOCK_DGRAM, 0);
     if (socket_descriptor < 0)
     {
         printf("%s: cannot open socket \n", argv[0]);
