@@ -90,7 +90,7 @@ namespace kodocpp
         /// Returns whether an encoder has systematic capabilities
         /// @param encoder The encoder
         /// @return true if the encoder supports the systematic mode
-        bool has_set_systematic_interface() const
+        bool has_systematic_interface() const
         {
             return kodoc_has_systematic_interface(m_coder.get()) != 0;
         }

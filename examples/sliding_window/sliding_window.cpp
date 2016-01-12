@@ -12,6 +12,8 @@
 /// such that symbols that have already been received at the decoder
 /// are not included in the encoding again (saving computations).
 
+#include <cstdint>
+#include <cstdlib>
 #include <ctime>
 #include <iostream>
 #include <vector>

@@ -68,10 +68,18 @@ def build(bld):
         # top-level wscript i.e. not when included as a dependency
         # in a recurse call
         bld.recurse('test')
-        bld.recurse('examples/encode_decode_simple')
         bld.recurse('examples/encode_decode_on_the_fly')
+        bld.recurse('examples/encode_decode_simple')
+        bld.recurse('examples/fulcrum')
+        bld.recurse('examples/is_symbol_pivot_counter')
+        bld.recurse('examples/perpetual')
+        bld.recurse('examples/reed_solomon')
         bld.recurse('examples/sliding_window')
+        bld.recurse('examples/sparse_seed')
         bld.recurse('examples/switch_systematic_on_off')
+        bld.recurse('examples/tutorial')
+        bld.recurse('examples/udp_sender_receiver')
+        bld.recurse('examples/uncoded_symbols')
         bld.recurse('examples/use_trace_layers')
 
         # Install the kodocpp headers and kodoc.h to the 'include' folder

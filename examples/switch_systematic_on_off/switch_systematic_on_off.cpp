@@ -12,6 +12,8 @@
 /// symbols which has not previously been sent uncoded. Kodo allows this
 /// feature to be optionally turn of or off.
 
+#include <cstdint>
+#include <cstdlib>
 #include <ctime>
 #include <iostream>
 #include <vector>
@@ -68,7 +70,7 @@ int main(void)
     while (!decoder.is_complete())
     {
         //If the chosen codec stack supports systematic coding
-        if (encoder.has_set_systematic_interface())
+        if (encoder.has_systematic_interface())
         {
             // with 50% probability toggle systematic
             if ((rand() % 2) == 0)

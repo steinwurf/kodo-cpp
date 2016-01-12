@@ -28,7 +28,7 @@ namespace kodocpp
         // Encoder methods
         EXPECT_TRUE(encoder.has_write_payload());
 
-        if (encoder.has_set_systematic_interface())
+        if (encoder.has_systematic_interface())
         {
             EXPECT_TRUE(encoder.is_systematic_on());
             encoder.set_systematic_off();

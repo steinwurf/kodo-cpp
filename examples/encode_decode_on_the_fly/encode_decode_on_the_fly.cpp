@@ -11,6 +11,8 @@
 /// should be encoded are produced on-the-fly. The decoder will also
 /// allow you to detect whether the symbols have been partially decoded.
 
+#include <cstdint>
+#include <cstdlib>
 #include <ctime>
 #include <iostream>
 #include <vector>
@@ -77,8 +79,7 @@ int main(void)
             uint32_t rank = encoder.rank();
 
             // Calculate the offset to the next symbol to insert
-            uint8_t* symbol = data_in.data() + (rank * encoder.symbol_size());
-
+            uint8_t* symbol = data_in.data() + rank * encoder.symbol_size();
             encoder.set_const_symbol(rank, symbol, encoder.symbol_size());
         }
 
