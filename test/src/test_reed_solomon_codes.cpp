@@ -1,4 +1,4 @@
-// Copyright Steinwurf ApS 2015.
+// Copyright Steinwurf ApS 2016.
 // Distributed under the "STEINWURF RESEARCH LICENSE 1.0".
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
@@ -9,15 +9,15 @@
 
 #include "test_helper.hpp"
 
-TEST(test_sliding_window_codes, invoke_api)
+TEST(test_reed_solomon_codes, basic_api)
 {
     using namespace kodocpp;
 
-    if (has_codec(codec::sliding_window) == false)
+    if (has_codec(codec::reed_solomon) == false)
         return;
 
     uint32_t max_symbols = rand_symbols();
     uint32_t max_symbol_size = rand_symbol_size();
 
-    test_basic_api(codec::sliding_window, max_symbols, max_symbol_size);
+    test_basic_api(codec::reed_solomon, max_symbols, max_symbol_size);
 }

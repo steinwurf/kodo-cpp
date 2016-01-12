@@ -7,16 +7,16 @@
 
 #include <kodocpp/kodocpp.hpp>
 
-#include <gtest/gtest.h>
-
-#include <functional>
 #include <cstdint>
 #include <vector>
+#include <functional>
+
+#include <gtest/gtest.h>
 
 namespace kodocpp
 {
     using test_function_type = std::function<
-        void(uint32_t, uint32_t, kodo_code_type, kodo_finite_field)>;
+        void(uint32_t, uint32_t, codec, field)>;
 
     uint32_t rand_nonzero(uint32_t max_value);
 
@@ -28,20 +28,21 @@ namespace kodocpp
                            uint32_t max_symbols, uint32_t max_symbol_size);
 
     void test_coder(coder& coder, uint32_t symbols, uint32_t symbol_size,
-                    kodo_code_type code_type);
+                    codec codec);
 
-    void test_basic_api(kodo_code_type encoder_type,
-                        kodo_code_type decoder_type,
+    void test_basic_api(codec encoder_type,
+                        codec decoder_type,
                         uint32_t symbols, uint32_t symbol_size);
 
-    void test_basic_api(kodo_code_type coder_type, uint32_t symbols,
+    void test_basic_api(codec coder_type, uint32_t symbols,
                         uint32_t symbol_size);
 
     template<class Factory>
-    void test_coder_factory(uint32_t max_symbols, uint32_t max_symbol_size,
-        kodo_code_type code_type, kodo_finite_field field)
+    static void test_coder_factory(
+        uint32_t max_symbols, uint32_t max_symbol_size,
+        codec codec, field field)
     {
-        Factory factory(code_type, field, max_symbols, max_symbol_size);
+        Factory factory(codec, field, max_symbols, max_symbol_size);
 
         // Test the max_* properties
         EXPECT_EQ(max_symbols, factory.max_symbols());

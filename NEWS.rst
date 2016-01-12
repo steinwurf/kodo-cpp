@@ -6,7 +6,9 @@ of every change, see the Git log.
 
 Latest
 ------
-* tbd
+* Major: Switched to the ``kodocpp::codec`` and ``kodocpp::field`` enum classes
+  to enhance the type safety in the API.
+* Major: Upgrade to kodo-c 8
 
 4.0.0
 -----

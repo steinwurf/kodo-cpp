@@ -3,15 +3,6 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include <cstdlib>
-#include <ctime>
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <set>
-
-#include <kodocpp/kodocpp.hpp>
-
 /// @example sliding_window.cpp
 ///
 /// This example shows how to use the sliding window encoder and decoder
@@ -20,6 +11,16 @@
 /// start. In addition, it uses feedback between the decoder and encoder
 /// such that symbols that have already been received at the decoder
 /// are not included in the encoding again (saving computations).
+
+#include <cstdint>
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <set>
+
+#include <kodocpp/kodocpp.hpp>
 
 int main(void)
 {
@@ -33,16 +34,16 @@ int main(void)
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodo_sliding_window,
-        kodo_binary8,
+        kodocpp::codec::sliding_window,
+        kodocpp::field::binary8,
         max_symbols,
         max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
-        kodo_sliding_window,
-        kodo_binary8,
+        kodocpp::codec::sliding_window,
+        kodocpp::field::binary8,
         max_symbols,
         max_symbol_size);
 
@@ -129,8 +130,8 @@ int main(void)
 
         std::cout << "Decoder symbols uncoded: " << decoder.symbols_uncoded()
                   << std::endl;
-        std::cout << "Decoder symbols seen: " << decoder.symbols_seen()
-                  << std::endl;
+        std::cout << "Decoder symbols seen: "
+                  << decoder.symbols_partially_decoded() << std::endl;
 
         // Transmit the feedback
         decoder.write_feedback(feedback.data());

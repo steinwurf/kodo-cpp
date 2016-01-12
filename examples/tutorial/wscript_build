@@ -1,0 +1,24 @@
+#! /usr/bin/env python
+# encoding: utf-8
+
+bld.program(features='cxx',
+            source=['basic.cpp'],
+            target='basic',
+            use=['kodocpp_static_includes'])
+
+bld.program(features='cxx',
+            source=['add_loss.cpp'],
+            target='add_loss',
+            use=['kodocpp_static_includes'])
+
+bld.program(features='cxx',
+            source=['turn_systematic_off.cpp'],
+            target='turn_systematic_off',
+            use=['kodocpp_static_includes'])
+
+bld.program(features='cxx',
+            source=['recoding.cpp'],
+            target='recoding',
+            use=['kodocpp_static_includes'])
+
+

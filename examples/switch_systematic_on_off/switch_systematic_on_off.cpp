@@ -3,14 +3,6 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-#include <cstdlib>
-#include <ctime>
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
-#include <kodocpp/kodocpp.hpp>
-
 /// @example switch_systematic_on_off.cpp
 ///
 /// This example shows how to enable or disable systematic coding for
@@ -19,6 +11,15 @@
 /// encoder and a decoder. This is achieved by initially sending all
 /// symbols which has not previously been sent uncoded. Kodo allows this
 /// feature to be optionally turn of or off.
+
+#include <cstdint>
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+#include <kodocpp/kodocpp.hpp>
 
 int main(void)
 {
@@ -32,16 +33,16 @@ int main(void)
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
-        kodo_full_vector,
-        kodo_binary8,
+        kodocpp::codec::full_vector,
+        kodocpp::field::binary8,
         max_symbols,
         max_symbol_size);
 
     kodocpp::encoder encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
-        kodo_full_vector,
-        kodo_binary8,
+        kodocpp::codec::full_vector,
+        kodocpp::field::binary8,
         max_symbols,
         max_symbol_size);
 
@@ -69,7 +70,7 @@ int main(void)
     while (!decoder.is_complete())
     {
         //If the chosen codec stack supports systematic coding
-        if (encoder.has_set_systematic_off())
+        if (encoder.has_systematic_interface())
         {
             // with 50% probability toggle systematic
             if ((rand() % 2) == 0)
