@@ -13,9 +13,10 @@ and other linear block codes. Kodo relies on our
 `Fifi <http://github.com/steinwurf/fifi>`_ library which supports multiple
 finite fields with different sizes.
 
-The kodo-c library exposes a simple C Application Programming Interface (API)
-which allows the programmer to use Kodo without any concern for the underlying
-C++ implementation details.
+The kodo-cpp library exposes a simple C++ Application Programming Interface
+(API) which allows the programmer to use Kodo without any concern for the
+underlying implementation details. kodo-cpp actually uses the C API provided by
+the kodo-c library which was designed for portability and interoperability.
 
 Kodo supports various network coding codecs e.g. standard Random Linear Network
 Coding (RLNC), systematic RLNC, sparse RLNC. Each algorithm offers unique
