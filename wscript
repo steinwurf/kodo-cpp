@@ -1,10 +1,11 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
+import os
+import waflib.extras.wurf_options
+
 APPNAME = 'kodo-cpp'
 VERSION = '4.0.0'
-
-import waflib.extras.wurf_options
 
 
 def options(opt):
