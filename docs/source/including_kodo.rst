@@ -1,7 +1,7 @@
 .. including_kodo:
 
-Including Kodo in Your Application
-==================================
+Including kodo-cpp in Your Application
+======================================
 
 This guide shows how to include the kodo-cpp library in your application.
 
@@ -15,30 +15,31 @@ you can choose between the shared library and the static library.
 Shared Library
 --------------
 
-In many cases, it is easier to include kodo-cpp as a *shared* library in
+In many cases, it is easier to include the *shared* library in
 your application. With the following command, you can copy the compiled
 shared library to the target folder specified by the ``install_path`` option.
 In this example, we will create the ``shared_test`` folder for this purpose::
 
     python waf install --install_shared_libs --install_path="./shared_test"
 
-The kodo-cpp shared library is called ``libkodoc.so`` on Linux, ``kodoc.dll`` on
-Windows and ``libkodoc.dylib`` on Mac OSX. You can link with this shared
-library using your own build system. You also need to include ``kodoc.h``
-in your code. This header file is installed to the ``include`` folder within
-the specified ``install_path``.
+Actually, kodo-cpp uses the kodo-c shared library that is called ``libkodoc.so``
+on Linux, ``kodoc.dll`` on Windows and ``libkodoc.dylib`` on Mac OSX. You can
+link with this shared library using your own build system. You also need to
+include the ``kodocpp.hpp`` header in your code. This header file depends on
+other headers from kodo-cpp and on ``kodoc.h`` from kodo-c. All the necessary
+header files are installed to the ``include`` folder within the specified
+``install_path``.
 
-Now we copy an existing kodo-cpp example (encode_decode_simple) to the
+Now we copy an existing kodo-cpp example (sparse_seed) to the
 ``shared_test`` folder and we compile it to a binary called ``myapp``::
 
-    cp examples/encode_decode_simple/encode_decode_simple.c shared_test/myapp.c
+    cp examples/sparse_seed/sparse_seed.cpp shared_test/myapp.cpp
     cd shared_test
 
-The following command demonstrates the necessary flags for the gcc/g++ compiler
+The following command demonstrates the necessary flags for the g++ compiler
 (other compilers require similar settings)::
 
-    gcc myapp.c -o myapp -I./include -L. -Wl,-Bdynamic -lkodoc -lstdc++ \
-    -Wl,-rpath .
+    g++ myapp.cpp -o myapp -I./include -L. -Wl,-Bdynamic -lkodoc -Wl,-rpath .
 
 In practice, you should set the ``-I`` and ``-L`` flags to the path where you
 installed the shared library.
@@ -63,26 +64,28 @@ the target folder which will be ``static_test`` in this example)::
 
     python waf install --install_static_libs --install_path="./static_test"
 
-The kodo-cpp static library is called ``libkodoc_static.a`` on Linux and Mac and
-``kodoc_static.lib`` on Windows. The install command also installs the static
-libraries from the kodo-cpp dependencies (you will need the ``fifi``and ``cpuid``
-libraries as well).
+Actually, kodo-cpp is a header-only wrapper for the kodo-c static library that
+is called ``libkodoc_static.a`` on Linux and Mac and ``kodoc_static.lib`` on
+Windows. The install command also installs the static libraries from the
+kodo-cpp dependencies (you will need the ``fifi``and ``cpuid`` libraries as well
+to link your application).
 
 You can link with these static libraries using your own build system. Of course,
-you will need to include ``kodoc.h`` in your code (which is installed to the
-``include`` folder within the specified ``install_path``).
+you will need to include ``kodocpp.hpp`` in your code that depends on other
+header files. All the necessary header files are installed to the ``include``
+folder within the specified ``install_path``.
 
-Now we copy an existing kodo-cpp example (encode_decode_simple) to the
+Now we copy an existing kodo-cpp example (sparse_seed) to the
 ``static_test`` folder and we compile it to a binary called ``myapp``::
 
-    cp examples/encode_decode_simple/encode_decode_simple.c static_test/myapp.c
+    cp examples/sparse_seed/sparse_seed.cpp shared_test/myapp.cpp
     cd static_test
 
 The following command demonstrates the necessary flags for the gcc/g++ compiler
 (other compilers require similar settings)::
 
-    gcc myapp.c -o myapp -I./include -Wl,-Bstatic -L. -lkodoc_static -lfifi \
-    -lcpuid -Wl,-Bdynamic -lm -lstdc++
+    g++ myapp.cpp -o myapp -I./include -Wl,-Bstatic -L. -lkodoc_static -lfifi \
+    -lcpuid -Wl,-Bdynamic
 
 In practice, you should set the ``-I`` and ``-L`` flags to the path where you
 installed the static libraries.
@@ -91,12 +94,3 @@ Now you should be able to run the new binary (note that this binary will
 be quite large, since it includes all the static libraries)::
 
     ./myapp
-
-It is important to note that you need to link with the C++ standard library
-(by using ``-lstdc++`` above), because the kodo-cpp library actually wraps a
-C++ library (kodo) that uses the C++ standard library. However, you can omit
-this flag if you link your application with g++ instead of gcc (g++
-automatically includes the stdc++)::
-
-    g++ myapp.c -o myapp -I./include -Wl,-Bstatic -L. -lkodoc_static -lfifi \
-    -lcpuid -Wl,-Bdynamic
