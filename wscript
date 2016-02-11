@@ -5,7 +5,7 @@ import os
 import waflib.extras.wurf_options
 
 APPNAME = 'kodo-cpp'
-VERSION = '4.0.0'
+VERSION = '5.0.0'
 
 
 def options(opt):
