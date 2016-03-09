@@ -56,10 +56,12 @@ int main()
     uint32_t dropped_count = 0;
 
     //! [0]
-    // We switch any systematic operations off so the encoder produces
-    // coded symbols from the beginning
-    //if (encoder.is_systematic_on())
-    if (encoder.has_systematic_interface())
+    // We switch any systematic operations off, so the encoder produces
+    // coded symbols from the beginning.
+    // Note that some codecs might not have a systematic mode, so it is a
+    // good idea to check this capability with has_systematic_interface()
+    // before calling is_systematic_on() and set_systematic_off()
+    if (encoder.has_systematic_interface() && encoder.is_systematic_on())
     {
         encoder.set_systematic_off();
     }
