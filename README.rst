@@ -32,8 +32,8 @@ us at our developer mailing list (hosted at Google Groups):
 Documentation
 -------------
 
-To get started, read the kodo-cpp manual here:
-http://kodo-cpp.readthedocs.org
+To get started, see the manual here:
+http://docs.steinwurf.com
 
 Quick Start
 -----------
