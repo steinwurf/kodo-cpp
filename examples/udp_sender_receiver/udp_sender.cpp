@@ -26,7 +26,6 @@
 #endif
 
 #include <sys/types.h>
-#include <sys/timeb.h>
 
 #include <kodocpp/kodocpp.hpp>
 
@@ -56,9 +55,6 @@ int main(int argc, char* argv[])
     struct hostent* host;
 
     uint32_t delay = 0; // Delay between packets
-    struct timeb start_time;
-    struct timeb end_time;
-
 
     // Initialize winsock if on Windows
 #ifdef _WIN32
@@ -142,7 +138,6 @@ int main(int argc, char* argv[])
     std::generate(data_in.begin(), data_in.end(), rand);
 
     // Send data
-    ftime(&start_time);
     for (i = 0; i < packets; ++i)
     {
         // Add a new symbol if the encoder rank is less than the maximum number
@@ -174,13 +169,6 @@ int main(int argc, char* argv[])
 
         sleep_here(delay);
     }
-
-    ftime(&end_time);
-
-    time_t delta = (end_time.time * 1000 + end_time.millitm) -
-                    (start_time.time * 1000 + start_time.millitm);
-
-    printf("Time needed: %d ms\n", (int32_t)delta);
 
     return 0;
 }
