@@ -19,10 +19,8 @@ namespace kodocpp
     public:
 
         decoder(kodoc_coder_t coder_instance = 0) :
-            coder(coder_instance, [](kodoc_coder_t coder)
-                {
-                    if (coder != 0) kodoc_delete_coder(coder);
-                })
+            coder(coder_instance,
+                  [](kodoc_coder_t coder) { if (coder) kodoc_delete_coder(coder); })
         { }
 
         //------------------------------------------------------------------
@@ -118,7 +116,7 @@ namespace kodocpp
         /// Indicates whether a symbol is missing at a decoder.
         /// @param index Index of the symbol whose state should be checked
         /// @return true if the symbol is missing
-        bool is_symbol_missing( uint32_t index)
+        bool is_symbol_missing(uint32_t index)
         {
             return kodoc_is_symbol_missing(m_coder.get(), index) != 0;
         }

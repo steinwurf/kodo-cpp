@@ -19,10 +19,8 @@ namespace kodocpp
     public:
 
         encoder(kodoc_coder_t coder_instance = 0) :
-            coder(coder_instance, [](kodoc_coder_t coder)
-                {
-                    if (coder != 0) kodoc_delete_coder(coder);
-                })
+            coder(coder_instance,
+                  [](kodoc_coder_t coder) { if (coder) kodoc_delete_coder(coder); })
         { }
 
         //------------------------------------------------------------------

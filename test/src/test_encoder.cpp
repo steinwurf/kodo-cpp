@@ -14,7 +14,7 @@
 namespace kodocpp
 {
     static void test_encoder(uint32_t max_symbols, uint32_t max_symbol_size,
-        codec code, field field)
+                             codec code, field field)
     {
         encoder_factory encoder_factory(
             code,

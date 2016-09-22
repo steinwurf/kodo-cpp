@@ -30,17 +30,17 @@
 #include <kodocpp/kodocpp.hpp>
 
 #ifdef _WIN32
-    #include <windows.h>
+#include <windows.h>
 
-    void sleep_here(uint32_t milliseconds)
-    {
-        Sleep(milliseconds);
-    }
+void sleep_here(uint32_t milliseconds)
+{
+    Sleep(milliseconds);
+}
 #else
-    void sleep_here(uint32_t milliseconds)
-    {
-        usleep(milliseconds * 1000); // takes microseconds
-    }
+void sleep_here(uint32_t milliseconds)
+{
+    usleep(milliseconds * 1000); // takes microseconds
+}
 #endif
 
 

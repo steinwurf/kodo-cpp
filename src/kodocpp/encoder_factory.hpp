@@ -35,11 +35,9 @@ namespace kodocpp
         ///        by encoders built using the returned factory.
         encoder_factory(codec codec, field field,
                         uint32_t max_symbols, uint32_t max_symbol_size) :
-            factory(kodoc_new_encoder_factory((int32_t)codec, (int32_t)field,
-                    max_symbols, max_symbol_size), [](kodoc_factory_t factory)
-                    {
-                        kodoc_delete_factory(factory);
-                    })
+            factory(kodoc_new_encoder_factory(
+                (int32_t)codec, (int32_t)field, max_symbols, max_symbol_size),
+                [](kodoc_factory_t factory) { kodoc_delete_factory(factory); })
         { }
 
         /// Builds a new encoder with the factory using the specified parameters

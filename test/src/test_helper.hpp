@@ -16,7 +16,7 @@
 namespace kodocpp
 {
     using test_function_type = std::function<
-        void(uint32_t, uint32_t, codec, field)>;
+                               void(uint32_t, uint32_t, codec, field)>;
 
     uint32_t rand_nonzero(uint32_t max_value);
 
