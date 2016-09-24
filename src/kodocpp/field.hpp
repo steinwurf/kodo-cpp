@@ -11,11 +11,11 @@
 
 namespace kodocpp
 {
-    /// Enum class specifying the available finite fields
-    enum class field: int32_t
-    {
-        binary = kodoc_binary,
-        binary4 = kodoc_binary4,
-        binary8 = kodoc_binary8
-    };
+/// Enum class specifying the available finite fields
+enum class field: int32_t
+{
+    binary = kodoc_binary,
+    binary4 = kodoc_binary4,
+    binary8 = kodoc_binary8
+};
 }

@@ -109,7 +109,7 @@ int main()
     decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
 
 
-   // Install a custom trace function for the decoder
+    // Install a custom trace function for the decoder
     auto callback = [](const std::string& zone, const std::string& data)
     {
         std::set<std::string> filters =
