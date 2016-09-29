@@ -44,30 +44,30 @@ void test_combinations(test_function_type coder_test,
     SCOPED_TRACE(testing::Message() << "symbol_size = " << max_symbol_size);
 
     std::vector<codec> codecs =
-    {
-        codec::full_vector,
-        codec::on_the_fly,
-        codec::sliding_window,
-        codec::sparse_full_vector,
-        codec::seed,
-        codec::sparse_seed,
-        codec::perpetual,
-        codec::fulcrum,
-        codec::reed_solomon
-    };
+        {
+            codec::full_vector,
+            codec::on_the_fly,
+            codec::sliding_window,
+            codec::sparse_full_vector,
+            codec::seed,
+            codec::sparse_seed,
+            codec::perpetual,
+            codec::fulcrum,
+            codec::reed_solomon
+        };
 
     std::vector<std::string> codec_names =
-    {
-        "full_vector",
-        "on_the_fly",
-        "sliding_window",
-        "sparse_full_vector",
-        "seed",
-        "sparse_seed",
-        "perpetual",
-        "fulcrum",
-        "reed_solomon"
-    };
+        {
+            "full_vector",
+            "on_the_fly",
+            "sliding_window",
+            "sparse_full_vector",
+            "seed",
+            "sparse_seed",
+            "perpetual",
+            "fulcrum",
+            "reed_solomon"
+        };
 
     for (uint32_t i = 0; i < codecs.size(); ++i)
     {

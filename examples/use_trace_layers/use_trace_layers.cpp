@@ -67,10 +67,10 @@ int main(void)
     auto callback = [](const std::string& zone, const std::string& data)
     {
         std::set<std::string> filters =
-        {
-            "decoder_state", "symbol_coefficients_before_read_symbol",
-            "symbol_index_before_read_uncoded_symbol"
-        };
+            {
+                "decoder_state", "symbol_coefficients_before_read_symbol",
+                "symbol_index_before_read_uncoded_symbol"
+            };
 
         if (filters.count(zone))
         {

@@ -94,11 +94,11 @@ static void test_coder_factory(
 
     // Test store in vector
     std::vector<typename Factory::coder_type> coder_vector =
-    {
-        factory.build(),
-        factory.build(),
-        factory.build()
-    };
+        {
+            factory.build(),
+            factory.build(),
+            factory.build()
+        };
 
     coder_vector.push_back(factory.build());
 
