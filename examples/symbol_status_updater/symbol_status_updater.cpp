@@ -23,25 +23,39 @@ int main(void)
 
     // Set the number of symbols (i.e. the generation size in RLNC
     // terminology) and the size of a symbol in bytes
-    uint32_t max_symbols = 10;
-    uint32_t max_symbol_size = 100;
+    uint32_t max_symbols = 50;
+    uint32_t max_symbol_size = 160;
+
+    // To show the effect of the symbol status updater we need to use a lower
+    // sized field - the lower the better.
+    auto field = kodocpp::field::binary;
 
     // Initilization of encoder and decoder
     kodocpp::encoder_factory encoder_factory(
         kodocpp::codec::full_vector,
-        kodocpp::field::binary8,
+        field,
         max_symbols,
         max_symbol_size);
 
-    kodocpp::encoder encoder = encoder_factory.build();
+    auto encoder = encoder_factory.build();
 
     kodocpp::decoder_factory decoder_factory(
         kodocpp::codec::full_vector,
-        kodocpp::field::binary8,
+        field,
         max_symbols,
         max_symbol_size);
 
-    kodocpp::decoder decoder = decoder_factory.build();
+    // create two decoders, one which has the status updater turned on, and one
+    // which has it off.
+    auto decoder1 = decoder_factory.build();
+    auto decoder2 = decoder_factory.build();
+
+    decoder2.set_status_updater_on();
+
+    std::cout << "decoder 1 status updater: "
+              << decoder1.is_status_updater_enabled() << std::endl;
+    std::cout << "decoder 2 status updater: "
+              << decoder2.is_status_updater_enabled() << std::endl;
 
     // Allocate some storage for a "payload" the payload is what we would
     // eventually send over a network
@@ -59,21 +73,33 @@ int main(void)
     // to produce encoded symbols from it
     encoder.set_const_symbols(data_in.data(), encoder.block_size());
 
-    // Set the storage for the decoder
-    std::vector<uint8_t> data_out(decoder.block_size());
-    decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
+    // Skip the systematic phase as the effect of the symbol status decoder is
+    // only visible when reading coded packets.
+    encoder.set_systematic_off();
 
-    while (!decoder.is_complete())
+    // Set the storage for the decoder
+    std::vector<uint8_t> data_out1(decoder1.block_size());
+    decoder1.set_mutable_symbols(data_out1.data(), decoder1.block_size());
+
+    std::vector<uint8_t> data_out2(decoder2.block_size());
+    decoder2.set_mutable_symbols(data_out2.data(), decoder2.block_size());
+
+    while (!decoder1.is_complete())
     {
         // Encode the packet into the payload buffer
         encoder.write_payload(payload.data());
 
         // Pass that packet to the decoder
-        decoder.read_payload(payload.data());
+        auto payload_copy = payload;
+        decoder1.read_payload(payload.data());
+        decoder2.read_payload(payload_copy.data());
+        std::cout << "decoder 1: " << decoder1.symbols_uncoded() << std::endl;
+        std::cout << "decoder 2: " << decoder2.symbols_uncoded() << std::endl;
+        std::cout << "-----------------" << std::endl;
     }
 
     // Check if we properly decoded the data
-    if (data_out == data_in)
+    if (data_out1 == data_in && data_out2 == data_in)
     {
         std::cout << "Data decoded correctly" << std::endl;
     }

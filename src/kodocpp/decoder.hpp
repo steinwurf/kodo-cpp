@@ -159,6 +159,41 @@ public:
         return kodoc_symbols_uncoded(m_coder.get());
     }
 
+    /// Returns whether an decoder implements the
+    /// symbol_decoding_status_updater_interface.
+    /// @return True if the decoder implements the
+    ///         symbol_decoding_status_updater_interface, otherwise false
+    bool has_symbol_decoding_status_updater_interface() const
+    {
+        auto coder = m_coder.get();
+        return kodoc_has_symbol_decoding_status_updater_interface(coder) != 0;
+    }
+
+    /// Sets the status updater on.
+    void set_status_updater_on()
+    {
+        kodoc_set_status_updater_on(m_coder.get());
+    }
+
+    /// Sets the status updater off.
+    void set_status_updater_off()
+    {
+        kodoc_set_status_updater_off(m_coder.get());
+    }
+
+    /// Updates the symbol status so that all uncoded symbols, label partially.
+    void update_symbol_status()
+    {
+        kodoc_update_symbol_status(m_coder.get());
+    }
+
+    /// Returns whether the symbol status updater is enabled or not.
+    /// @return True if the symbol status updater is enabled, otherwise false
+    bool is_status_updater_enabled()
+    {
+        return kodoc_is_status_updater_enabled(m_coder.get()) != 0;
+    }
+
     /// Reads and decodes an encoded symbol according to the provided
     /// coding coefficients.
     /// @param symbol_data The encoded symbol
