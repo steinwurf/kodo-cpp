@@ -3,9 +3,9 @@
 // See accompanying file LICENSE.rst or
 // http://www.steinwurf.com/licensing
 
-/// @example encode_decode_simple.cpp
+/// @example symbol_status_updater.cpp
 ///
-/// Simple example showing how to encode and decode a block of data.
+/// Simple example showing the result of enabling the symbol status updater.
 
 #include <cstdint>
 #include <cstdlib>
