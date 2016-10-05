@@ -85,6 +85,13 @@ public:
         return kodoc_symbols(m_coder.get());
     }
 
+    /// Returns the size of coefficient vector.
+    /// @return The size of coefficient vector
+    uint32_t coefficient_vector_size() const
+    {
+        return kodoc_coefficient_vector_size(m_coder.get());
+    }
+
     //------------------------------------------------------------------
     // CODEC API
     //------------------------------------------------------------------

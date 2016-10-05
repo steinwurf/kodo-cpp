@@ -27,7 +27,7 @@ def resolve(ctx):
     ctx.add_dependency(resolve.ResolveVersion(
         name='kodo-c',
         git_repository='github.com/steinwurf/kodo-c.git',
-        major=9))
+        major=10))
 
     # Internal dependencies
     if ctx.is_toplevel():
@@ -78,6 +78,7 @@ def build(bld):
         bld.recurse('examples/sliding_window')
         bld.recurse('examples/sparse_seed')
         bld.recurse('examples/switch_systematic_on_off')
+        bld.recurse('examples/symbol_status_updater')
         bld.recurse('examples/tutorial')
         bld.recurse('examples/udp_sender_receiver')
         bld.recurse('examples/uncoded_symbols')
