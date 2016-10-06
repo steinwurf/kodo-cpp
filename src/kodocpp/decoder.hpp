@@ -130,7 +130,10 @@ public:
     }
 
     /// Indicates whether a symbol is available in an uncoded (i.e. fully
-    /// decoded) form at the decoder.
+    /// decoded) form at the decoder. To guarantee that the returned value is
+    /// correct, the status updater had to be on (set_status_updater_on()) when
+    /// a symbol was read, or the method update_symbol_status() had to be
+    /// previously called.
     /// @param index Index of the symbol whose state should be checked
     /// @return true if the symbol is uncoded
     bool is_symbol_uncoded(uint32_t index) const
@@ -152,7 +155,10 @@ public:
         return kodoc_symbols_partially_decoded(m_coder.get());
     }
 
-    /// Returns the number of uncoded (i.e. fully decoded) symbols.
+    /// Returns the number of uncoded (i.e. fully decoded) symbols. To guarantee
+    /// that the returned value is correct, the status updater had to be on
+    /// (set_status_updater_on()) when a symbol was read, or the method
+    /// update_symbol_status() had to be previously called.
     /// @return The number of uncoded symbols at the decoder
     uint32_t symbols_uncoded() const
     {
