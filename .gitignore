@@ -14,22 +14,18 @@
 # Python
 *.pyc
 
-# Binaries compiled by make
-/makefile/encode_decode_on_the_fly
-/makefile/encode_decode_simple
-/makefile/udp_receiver
-/makefile/udp_sender
-
 # Compiled Doxygen documentation
 /doxygen/html
 
-# For projects that use Waf for building: http://code.google.com/p/waf/
+# Waf files
 waf-*
+waf3-*
 .waf-*
+.waf3-*
 .lock-*
 build
-bundle_dependencies
-last_config.sh
+resolve_symlinks
+resolved_dependencies
 
 # Gnu Global tag files
 GPATH
@@ -42,15 +38,13 @@ GTAGS
 *.#*
 *~
 
-# compiled documentation
-*.pdf
-
 #Eclipse ignore
 .cproject
-.project
+*.project
 .metadata
 local.properties
 .classpath
+.settings/
 
 # Visual Studio ignore
 *.bat
@@ -61,5 +55,6 @@ local.properties
 *.sdf
 *.opensdf
 *.log
+*.txt
+*.vcxproj*
 VSProjects
-
