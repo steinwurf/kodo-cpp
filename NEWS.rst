@@ -8,6 +8,10 @@ Latest
 ------
 * tbd
 
+8.0.0
+-----
+* Major: Upgrade to kodo-c 12
+
 7.0.1
 -----
 * Patch: Fixed the installation of kodoc.h

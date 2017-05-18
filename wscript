@@ -4,7 +4,7 @@
 import os
 
 APPNAME = 'kodo-cpp'
-VERSION = '7.0.1'
+VERSION = '8.0.0'
 
 
 def build(bld):
