@@ -60,7 +60,7 @@ int main(void)
     std::generate(data_in.begin(), data_in.end(), rand);
 
     // Set the storage for the decoder
-    std::vector<uint8_t> data_out(encoder.block_size());
+    std::vector<uint8_t> data_out(decoder.block_size());
     decoder.set_mutable_symbols(data_out.data(), decoder.block_size());
 
     // Keeps track of which symbols have been decoded
