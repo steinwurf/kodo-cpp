@@ -8,6 +8,6 @@ if not bld.is_mkspec_platform('windows'):
 
 bld.program(features='cxx',
             source='use_trace_layers.cpp',
-            target='../../use_trace_layers',
+            target='use_trace_layers',
             rpath=search_path,
             use=['kodocpp_includes'])

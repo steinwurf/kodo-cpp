@@ -8,6 +8,6 @@ if not bld.is_mkspec_platform('windows'):
 
 bld.program(features='cxx',
             source='symbol_status_updater.cpp',
-            target='../../symbol_status_updater',
+            target='symbol_status_updater',
             rpath=search_path,
             use=['kodocpp_includes'])
