@@ -8,6 +8,6 @@ if not bld.is_mkspec_platform('windows'):
 
 bld.program(features='cxx',
             source='sliding_window.cpp',
-            target='sliding_window',
+            target='../../sliding_window',
             rpath=search_path,
             use=['kodocpp_includes'])

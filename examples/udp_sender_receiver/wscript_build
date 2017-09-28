@@ -14,14 +14,14 @@ if bld.is_mkspec_platform('windows'):
 
 bld.program(features='cxx',
             source='udp_sender.cpp',
-            target='udp_sender',
+            target='../../udp_sender',
             lib=static_libs,
             rpath=search_path,
             use=['kodocpp_includes'])
 
 bld.program(features='cxx',
             source='udp_receiver.cpp',
-            target='udp_receiver',
+            target='../../udp_receiver',
             lib=static_libs,
             rpath=search_path,
             use=['kodocpp_includes'])
