@@ -8,6 +8,6 @@ if not bld.is_mkspec_platform('windows'):
 
 bld.program(features='cxx',
             source='is_symbol_pivot_counter.cpp',
-            target='is_symbol_pivot_counter',
+            target='../../is_symbol_pivot_counter',
             rpath=search_path,
             use=['kodocpp_includes'])

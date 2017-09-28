@@ -8,6 +8,6 @@ if not bld.is_mkspec_platform('windows'):
 
 bld.program(features='cxx',
             source='sparse_seed.cpp',
-            target='sparse_seed',
+            target='../../sparse_seed',
             rpath=search_path,
             use=['kodocpp_includes'])

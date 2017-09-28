@@ -8,6 +8,6 @@ if not bld.is_mkspec_platform('windows'):
 
 bld.program(features='cxx',
             source='reed_solomon.cpp',
-            target='reed_solomon',
+            target='../../reed_solomon',
             rpath=search_path,
             use=['kodocpp_includes'])
