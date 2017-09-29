@@ -1,13 +1,7 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-search_path = []
-
-if not bld.is_mkspec_platform('windows'):
-    search_path = ['.']
-
 bld.program(features='cxx',
             source='use_trace_layers.cpp',
-            target='../../use_trace_layers',
-            rpath=search_path,
-            use=['kodocpp_includes'])
+            target='use_trace_layers',
+            use=['kodocpp_static_includes'])

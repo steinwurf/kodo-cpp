@@ -1,27 +1,19 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-search_path = []
-
-if not bld.is_mkspec_platform('windows'):
-    search_path = ['.']
-
 static_libs = []
 
 if bld.is_mkspec_platform('windows'):
     static_libs = ['Ws2_32']
 
-
 bld.program(features='cxx',
             source='udp_sender.cpp',
-            target='../../udp_sender',
+            target='udp_sender',
             lib=static_libs,
-            rpath=search_path,
-            use=['kodocpp_includes'])
+            use=['kodocpp_static_includes'])
 
 bld.program(features='cxx',
             source='udp_receiver.cpp',
-            target='../../udp_receiver',
+            target='udp_receiver',
             lib=static_libs,
-            rpath=search_path,
-            use=['kodocpp_includes'])
+            use=['kodocpp_static_includes'])

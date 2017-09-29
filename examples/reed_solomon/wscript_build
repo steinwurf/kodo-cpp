@@ -1,13 +1,7 @@
 #! /usr/bin/env python
 # encoding: utf-8
 
-search_path = []
-
-if not bld.is_mkspec_platform('windows'):
-    search_path = ['.']
-
 bld.program(features='cxx',
             source='reed_solomon.cpp',
-            target='../../reed_solomon',
-            rpath=search_path,
-            use=['kodocpp_includes'])
+            target='reed_solomon',
+            use=['kodocpp_static_includes'])
